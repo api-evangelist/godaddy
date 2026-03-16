@@ -1,0 +1,48 @@
+aid: godaddy
+name: GoDaddy
+description: >-
+  GoDaddy is a domain registrar and web hosting company offering APIs for domain
+  registration, DNS management, website hosting, certificates, and more.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API
+  - Domains
+  - Hosting
+  - DNS
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: godaddy:godaddy
+    name: GoDaddy API
+    description: >-
+      GoDaddy's REST API allows you to purchase and manage domains, DNS records,
+      certificates, and hosting products programmatically.
+    humanURL: https://developer.godaddy.com/
+    baseURL: https://api.godaddy.com
+    tags:
+      - Domains
+      - DNS
+      - Hosting
+    properties:
+      - type: Documentation
+        url: https://developer.godaddy.com/doc
+      - type: Getting Started
+        url: https://developer.godaddy.com/getstarted
+common:
+  - type: Website
+    url: https://www.godaddy.com/
+  - type: Documentation
+    url: https://developer.godaddy.com/doc
+  - type: Getting Started
+    url: https://developer.godaddy.com/getstarted
+  - type: Terms of Service
+    url: https://www.godaddy.com/legal/agreements/developer-api-terms
+  - type: Support
+    url: https://developer.godaddy.com/support
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
