@@ -6,10 +6,9 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - API
+  - DNS
   - Domains
   - Hosting
-  - DNS
 url: >-
   https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -24,8 +23,8 @@ apis:
     humanURL: https://developer.godaddy.com/
     baseURL: https://api.godaddy.com
     tags:
-      - Domains
       - DNS
+      - Domains
       - Hosting
     properties:
       - type: Documentation
