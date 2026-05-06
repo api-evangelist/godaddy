@@ -4,127 +4,49 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: GoDaddy
 providerId: godaddy
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - Aftermarket
-  - Certificates
-  - DNS
-  - Domains
-  - Hosting
-  - Registrar
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the GoDaddy API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  - Domains
+  - DNS
+  - Registrar
+description: GoDaddy enforces a uniform rate limit of 60 requests per minute on each API endpoint. Two
+  environments are exposed - OTE for testing (api.ote-godaddy.com) and Production (api.godaddy.com). Certain
+  product endpoints additionally require account eligibility thresholds (50+ domains for Availability;
+  1+ domain or active Discount Domain Club Pro Plan for Management/DNS).
+sources:
+  - https://developer.godaddy.com/getstarted
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
+  - name: Per-endpoint rate limit
     scope: api-key
     metric: requests_per_minute
-    limit: 10
-    burst: 20
+    limit: 60
     timeFrame: minute
-    applies:
-      - GoDaddy Domains API
-      - GoDaddy Certificates API
-      - GoDaddy Shoppers API
-      - GoDaddy Subscriptions API
-      - GoDaddy Orders API
-      - GoDaddy Aftermarket API
-      - GoDaddy Abuse API
-      - GoDaddy Agreements API
-      - GoDaddy Countries API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - GoDaddy Domains API
-      - GoDaddy Certificates API
-      - GoDaddy Shoppers API
-      - GoDaddy Subscriptions API
-      - GoDaddy Orders API
-      - GoDaddy Aftermarket API
-      - GoDaddy Abuse API
-      - GoDaddy Agreements API
-      - GoDaddy Countries API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - GoDaddy Domains API
-      - GoDaddy Certificates API
-      - GoDaddy Shoppers API
-      - GoDaddy Subscriptions API
-      - GoDaddy Orders API
-      - GoDaddy Aftermarket API
-      - GoDaddy Abuse API
-      - GoDaddy Agreements API
-      - GoDaddy Countries API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - GoDaddy Domains API
-      - GoDaddy Certificates API
-      - GoDaddy Shoppers API
-      - GoDaddy Subscriptions API
-      - GoDaddy Orders API
-      - GoDaddy Aftermarket API
-      - GoDaddy Abuse API
-      - GoDaddy Agreements API
-      - GoDaddy Countries API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - GoDaddy Domains API
-      - GoDaddy Certificates API
-      - GoDaddy Shoppers API
-      - GoDaddy Subscriptions API
-      - GoDaddy Orders API
-      - GoDaddy Aftermarket API
-      - GoDaddy Abuse API
-      - GoDaddy Agreements API
-      - GoDaddy Countries API
+    notes: Applies independently to each endpoint, not aggregated across the API.
+  - name: Availability API eligibility
+    scope: account
+    metric: account_threshold
+    limit: 50 domains in account
+    notes: Production access to the Domain Availability endpoint requires the account to hold at least
+      50 domains.
+  - name: Management / DNS API eligibility
+    scope: account
+    metric: account_threshold
+    limit: 1+ domain or active Discount Domain Club Domain Pro Plan
+    notes: Production access requires either active domains or a Domain Pro Plan.
 policies:
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: On 429 responses, back off and retry with jitter. Per-endpoint scoping means hot endpoints
+      can throttle independently.
+  - name: OTE vs Production
+    description: Use api.ote-godaddy.com for development and testing. OTE shares the documented per-minute
+      cap.
+  - name: Funding requirement
+    description: Purchase endpoints require a 'Good as Gold' funded account; orders fail without funded
+      balance.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
