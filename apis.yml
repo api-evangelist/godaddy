@@ -166,9 +166,9 @@ common:
     url: https://www.godaddy.com/
   - type: Documentation
     url: https://developer.godaddy.com/doc
-  - type: Getting Started
+  - type: GettingStarted
     url: https://developer.godaddy.com/getstarted
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://www.godaddy.com/legal/agreements/developer-api-terms
   - type: Support
     url: https://developer.godaddy.com/support
