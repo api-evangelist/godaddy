@@ -1,0 +1,1393 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Domains API — v1
+  description: 'Domains API — v1. 25 operations. Lead operation: Retrieve a list of Domains for the specified Shopper. Self-contained
+    Naftiko capability covering one Godaddy business surface.'
+  tags:
+  - Godaddy
+  - v1
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GODADDY_API_KEY: GODADDY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: domains-v1
+    baseUri: https://api.ote-godaddy.com
+    description: Domains API — v1 business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-domains
+      path: /v1/domains
+      operations:
+      - name: list
+        method: GET
+        description: Retrieve a list of Domains for the specified Shopper
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: Shopper ID whose domains are to be retrieved
+        - name: statuses
+          in: query
+          type: array
+          description: Only include results with `status` value in the specified set
+        - name: statusGroups
+          in: query
+          type: array
+          description: Only include results with `status` value in any of the specified groups
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of domains to return
+        - name: marker
+          in: query
+          type: string
+          description: Marker Domain to use as the offset in results
+        - name: includes
+          in: query
+          type: array
+          description: Optional details to be included in the response
+        - name: modifiedDate
+          in: query
+          type: string
+          description: Only include results that have been modified since the specified date
+    - name: v1-domains-agreements
+      path: /v1/domains/agreements
+      operations:
+      - name: getagreement
+        method: GET
+        description: Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Market-Id
+          in: header
+          type: string
+          description: Unique identifier of the Market used to retrieve/translate Legal Agreements
+        - name: tlds
+          in: query
+          type: array
+          description: list of TLDs whose legal agreements are to be retrieved
+          required: true
+        - name: privacy
+          in: query
+          type: boolean
+          description: Whether or not privacy has been requested
+          required: true
+        - name: forTransfer
+          in: query
+          type: boolean
+          description: Whether or not domain tranfer has been requested
+    - name: v1-domains-available
+      path: /v1/domains/available
+      operations:
+      - name: available
+        method: GET
+        description: Determine whether or not the specified domain is available for purchase
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: domain
+          in: query
+          type: string
+          description: Domain name whose availability is to be checked
+          required: true
+        - name: checkType
+          in: query
+          type: string
+          description: Optimize for time ('FAST') or accuracy ('FULL')
+        - name: forTransfer
+          in: query
+          type: boolean
+          description: Whether or not to include domains available for transfer. If set to True, checkType is ignored
+      - name: availablebulk
+        method: POST
+        description: Determine whether or not the specified domains are available for purchase
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: domains
+          in: body
+          type: array
+          description: Domain names for which to check availability
+          required: true
+        - name: checkType
+          in: query
+          type: string
+          description: Optimize for time ('FAST') or accuracy ('FULL')
+    - name: v1-domains-contacts-validate
+      path: /v1/domains/contacts/validate
+      operations:
+      - name: contactsvalidate
+        method: POST
+        description: Validate the request body using the Domain Contact Validation Schema for specified domains.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Private-Label-Id
+          in: header
+          type: integer
+          description: PrivateLabelId to operate as, if different from JWT
+        - name: marketId
+          in: query
+          type: string
+          description: MarketId in which the request is being made, and for which responses should be localized
+        - name: body
+          in: body
+          type: string
+          description: An instance document expected for domains contacts validation
+          required: true
+    - name: v1-domains-purchase
+      path: /v1/domains/purchase
+      operations:
+      - name: purchase
+        method: POST
+        description: Purchase and register the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: The Shopper for whom the domain should be purchased
+        - name: body
+          in: body
+          type: string
+          description: An instance document expected to match the JSON schema returned by `./schema/{tld}`
+          required: true
+    - name: v1-domains-purchase-schema-tld
+      path: /v1/domains/purchase/schema/{tld}
+      operations:
+      - name: schema
+        method: GET
+        description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: tld
+          in: path
+          type: string
+          description: The Top-Level Domain whose schema should be retrieved
+          required: true
+    - name: v1-domains-purchase-validate
+      path: /v1/domains/purchase/validate
+      operations:
+      - name: validate
+        method: POST
+        description: Validate the request body using the Domain Purchase Schema for the specified TLD
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: string
+          description: An instance document expected to match the JSON schema returned by `./schema/{tld}`
+          required: true
+    - name: v1-domains-suggest
+      path: /v1/domains/suggest
+      operations:
+      - name: suggest
+        method: GET
+        description: Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: Shopper ID for which the suggestions are being generated
+        - name: query
+          in: query
+          type: string
+          description: Domain name or set of keywords for which alternative domain names will be suggested
+        - name: country
+          in: query
+          type: string
+          description: Two-letter ISO country code to be used as a hint for target region<br/><br/>
+        - name: city
+          in: query
+          type: string
+          description: Name of city to be used as a hint for target region
+        - name: sources
+          in: query
+          type: array
+          description: Sources to be queried<br/><br/><ul>
+        - name: tlds
+          in: query
+          type: array
+          description: Top-level domains to be included in suggestions<br/><br/>
+        - name: lengthMax
+          in: query
+          type: integer
+          description: Maximum length of second-level domain
+        - name: lengthMin
+          in: query
+          type: integer
+          description: Minimum length of second-level domain
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of suggestions to return
+        - name: waitMs
+          in: query
+          type: integer
+          description: Maximum amount of time, in milliseconds, to wait for responses
+    - name: v1-domains-tlds
+      path: /v1/domains/tlds
+      operations:
+      - name: tlds
+        method: GET
+        description: Retrieves a list of TLDs supported and enabled for sale
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-domains-domain
+      path: /v1/domains/{domain}
+      operations:
+      - name: cancel
+        method: DELETE
+        description: Cancel a purchased domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: domain
+          in: path
+          type: string
+          description: Domain to cancel
+          required: true
+      - name: get
+        method: GET
+        description: Retrieve details for the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: Shopper ID expected to own the specified domain
+        - name: domain
+          in: path
+          type: string
+          description: Domain name whose details are to be retrieved
+          required: true
+      - name: update
+        method: PATCH
+        description: Update details for the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose details are to be updated
+          required: true
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper for whom Domain is to be updated. NOTE: This is only required if you are a Reseller managing
+            a domain purchased outside the scope of your reseller accou'
+        - name: body
+          in: body
+          type: string
+          description: Changes to apply to existing Domain
+          required: true
+    - name: v1-domains-domain-contacts
+      path: /v1/domains/{domain}/contacts
+      operations:
+      - name: updatecontacts
+        method: PATCH
+        description: Update domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper for whom domain contacts are to be updated. NOTE: This is only required if you are a Reseller
+            managing a domain purchased outside the scope of your rese'
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose Contacts are to be updated.
+          required: true
+        - name: contacts
+          in: body
+          type: string
+          description: Changes to apply to existing Contacts
+          required: true
+    - name: v1-domains-domain-privacy
+      path: /v1/domains/{domain}/privacy
+      operations:
+      - name: cancelprivacy
+        method: DELETE
+        description: Submit a privacy cancellation request for the given domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: Shopper ID of the owner of the domain
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose privacy is to be cancelled
+          required: true
+    - name: v1-domains-domain-privacy-purchase
+      path: /v1/domains/{domain}/privacy/purchase
+      operations:
+      - name: purchaseprivacy
+        method: POST
+        description: Purchase privacy for a specified domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: Shopper ID of the owner of the domain
+        - name: domain
+          in: path
+          type: string
+          description: Domain for which to purchase privacy
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Options for purchasing privacy
+          required: true
+    - name: v1-domains-domain-records
+      path: /v1/domains/{domain}/records
+      operations:
+      - name: recordadd
+        method: PATCH
+        description: Add the specified DNS Records to the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be augmented
+          required: true
+        - name: records
+          in: body
+          type: string
+          description: DNS Records to add to whatever currently exists
+          required: true
+      - name: recordreplace
+        method: PUT
+        description: Replace all DNS Records for the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be replaced
+          required: true
+        - name: records
+          in: body
+          type: array
+          description: DNS Records to replace whatever currently exists
+          required: true
+    - name: v1-domains-domain-records-type
+      path: /v1/domains/{domain}/records/{type}
+      operations:
+      - name: recordreplacetype
+        method: PUT
+        description: Replace all DNS Records for the specified Domain with the specified Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be replaced
+          required: true
+        - name: type
+          in: path
+          type: string
+          description: DNS Record Type for which DNS Records are to be replaced
+          required: true
+        - name: records
+          in: body
+          type: array
+          description: DNS Records to replace whatever currently exists
+          required: true
+    - name: v1-domains-domain-records-type-name
+      path: /v1/domains/{domain}/records/{type}/{name}
+      operations:
+      - name: recordget
+        method: GET
+        description: Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be retrieved
+          required: true
+        - name: type
+          in: path
+          type: string
+          description: DNS Record Type for which DNS Records are to be retrieved
+          required: true
+        - name: name
+          in: path
+          type: string
+          description: DNS Record Name for which DNS Records are to be retrieved
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: Number of results to skip for pagination
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return
+      - name: recordreplacetypename
+        method: PUT
+        description: Replace all DNS Records for the specified Domain with the specified Type and Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be replaced
+          required: true
+        - name: type
+          in: path
+          type: string
+          description: DNS Record Type for which DNS Records are to be replaced
+          required: true
+        - name: name
+          in: path
+          type: string
+          description: DNS Record Name for which DNS Records are to be replaced
+          required: true
+        - name: records
+          in: body
+          type: array
+          description: DNS Records to replace whatever currently exists
+          required: true
+      - name: recorddeletetypename
+        method: DELETE
+        description: Delete all DNS Records for the specified Domain with the specified Type and Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper ID which owns the domain. NOTE: This is only required if you are a Reseller managing a domain
+            purchased outside the scope of your reseller account. For '
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose DNS Records are to be deleted
+          required: true
+        - name: type
+          in: path
+          type: string
+          description: DNS Record Type for which DNS Records are to be deleted
+          required: true
+        - name: name
+          in: path
+          type: string
+          description: DNS Record Name for which DNS Records are to be deleted
+          required: true
+    - name: v1-domains-domain-renew
+      path: /v1/domains/{domain}/renew
+      operations:
+      - name: renew
+        method: POST
+        description: Renew the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper for whom Domain is to be renewed. NOTE: This is only required if you are a Reseller managing
+            a domain purchased outside the scope of your reseller accou'
+        - name: domain
+          in: path
+          type: string
+          description: Domain to renew
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Options for renewing existing Domain
+    - name: v1-domains-domain-transfer
+      path: /v1/domains/{domain}/transfer
+      operations:
+      - name: transferin
+        method: POST
+        description: Purchase and start or restart transfer process
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: The Shopper to whom the domain should be transfered
+        - name: domain
+          in: path
+          type: string
+          description: Domain to transfer in
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Details for domain transfer purchase
+          required: true
+    - name: v1-domains-domain-verifyRegistrantEmail
+      path: /v1/domains/{domain}/verifyRegistrantEmail
+      operations:
+      - name: verifyemail
+        method: POST
+        description: Re-send Contact E-mail Verification for specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Shopper-Id
+          in: header
+          type: string
+          description: 'Shopper for whom domain contact e-mail should be verified. NOTE: This is only required if you are
+            a Reseller managing a domain purchased outside the scope of yo'
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose Contact E-mail should be verified.
+          required: true
+  exposes:
+  - type: rest
+    namespace: domains-v1-rest
+    port: 8080
+    description: REST adapter for Domains API — v1. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/v1/domains
+      name: v1-domains
+      description: REST surface for v1-domains.
+      operations:
+      - method: GET
+        name: list
+        description: Retrieve a list of Domains for the specified Shopper
+        call: domains-v1.list
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          statuses: rest.statuses
+          statusGroups: rest.statusGroups
+          limit: rest.limit
+          marker: rest.marker
+          includes: rest.includes
+          modifiedDate: rest.modifiedDate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/agreements
+      name: v1-domains-agreements
+      description: REST surface for v1-domains-agreements.
+      operations:
+      - method: GET
+        name: getagreement
+        description: Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons
+        call: domains-v1.getagreement
+        with:
+          X-Market-Id: rest.X-Market-Id
+          tlds: rest.tlds
+          privacy: rest.privacy
+          forTransfer: rest.forTransfer
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/available
+      name: v1-domains-available
+      description: REST surface for v1-domains-available.
+      operations:
+      - method: GET
+        name: available
+        description: Determine whether or not the specified domain is available for purchase
+        call: domains-v1.available
+        with:
+          domain: rest.domain
+          checkType: rest.checkType
+          forTransfer: rest.forTransfer
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: availablebulk
+        description: Determine whether or not the specified domains are available for purchase
+        call: domains-v1.availablebulk
+        with:
+          domains: rest.domains
+          checkType: rest.checkType
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/contacts/validate
+      name: v1-domains-contacts-validate
+      description: REST surface for v1-domains-contacts-validate.
+      operations:
+      - method: POST
+        name: contactsvalidate
+        description: Validate the request body using the Domain Contact Validation Schema for specified domains.
+        call: domains-v1.contactsvalidate
+        with:
+          X-Private-Label-Id: rest.X-Private-Label-Id
+          marketId: rest.marketId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/purchase
+      name: v1-domains-purchase
+      description: REST surface for v1-domains-purchase.
+      operations:
+      - method: POST
+        name: purchase
+        description: Purchase and register the specified Domain
+        call: domains-v1.purchase
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/purchase/schema/{tld}
+      name: v1-domains-purchase-schema-tld
+      description: REST surface for v1-domains-purchase-schema-tld.
+      operations:
+      - method: GET
+        name: schema
+        description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+        call: domains-v1.schema
+        with:
+          tld: rest.tld
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/purchase/validate
+      name: v1-domains-purchase-validate
+      description: REST surface for v1-domains-purchase-validate.
+      operations:
+      - method: POST
+        name: validate
+        description: Validate the request body using the Domain Purchase Schema for the specified TLD
+        call: domains-v1.validate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/suggest
+      name: v1-domains-suggest
+      description: REST surface for v1-domains-suggest.
+      operations:
+      - method: GET
+        name: suggest
+        description: Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history
+        call: domains-v1.suggest
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          query: rest.query
+          country: rest.country
+          city: rest.city
+          sources: rest.sources
+          tlds: rest.tlds
+          lengthMax: rest.lengthMax
+          lengthMin: rest.lengthMin
+          limit: rest.limit
+          waitMs: rest.waitMs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/tlds
+      name: v1-domains-tlds
+      description: REST surface for v1-domains-tlds.
+      operations:
+      - method: GET
+        name: tlds
+        description: Retrieves a list of TLDs supported and enabled for sale
+        call: domains-v1.tlds
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}
+      name: v1-domains-domain
+      description: REST surface for v1-domains-domain.
+      operations:
+      - method: DELETE
+        name: cancel
+        description: Cancel a purchased domain
+        call: domains-v1.cancel
+        with:
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: get
+        description: Retrieve details for the specified Domain
+        call: domains-v1.get
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: update
+        description: Update details for the specified Domain
+        call: domains-v1.update
+        with:
+          domain: rest.domain
+          X-Shopper-Id: rest.X-Shopper-Id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/contacts
+      name: v1-domains-domain-contacts
+      description: REST surface for v1-domains-domain-contacts.
+      operations:
+      - method: PATCH
+        name: updatecontacts
+        description: Update domain
+        call: domains-v1.updatecontacts
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          contacts: rest.contacts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/privacy
+      name: v1-domains-domain-privacy
+      description: REST surface for v1-domains-domain-privacy.
+      operations:
+      - method: DELETE
+        name: cancelprivacy
+        description: Submit a privacy cancellation request for the given domain
+        call: domains-v1.cancelprivacy
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/privacy/purchase
+      name: v1-domains-domain-privacy-purchase
+      description: REST surface for v1-domains-domain-privacy-purchase.
+      operations:
+      - method: POST
+        name: purchaseprivacy
+        description: Purchase privacy for a specified domain
+        call: domains-v1.purchaseprivacy
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/records
+      name: v1-domains-domain-records
+      description: REST surface for v1-domains-domain-records.
+      operations:
+      - method: PATCH
+        name: recordadd
+        description: Add the specified DNS Records to the specified Domain
+        call: domains-v1.recordadd
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          records: rest.records
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: recordreplace
+        description: Replace all DNS Records for the specified Domain
+        call: domains-v1.recordreplace
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          records: rest.records
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/records/{type}
+      name: v1-domains-domain-records-type
+      description: REST surface for v1-domains-domain-records-type.
+      operations:
+      - method: PUT
+        name: recordreplacetype
+        description: Replace all DNS Records for the specified Domain with the specified Type
+        call: domains-v1.recordreplacetype
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          type: rest.type
+          records: rest.records
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/records/{type}/{name}
+      name: v1-domains-domain-records-type-name
+      description: REST surface for v1-domains-domain-records-type-name.
+      operations:
+      - method: GET
+        name: recordget
+        description: Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name
+        call: domains-v1.recordget
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          type: rest.type
+          name: rest.name
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: recordreplacetypename
+        description: Replace all DNS Records for the specified Domain with the specified Type and Name
+        call: domains-v1.recordreplacetypename
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          type: rest.type
+          name: rest.name
+          records: rest.records
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: recorddeletetypename
+        description: Delete all DNS Records for the specified Domain with the specified Type and Name
+        call: domains-v1.recorddeletetypename
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          type: rest.type
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/renew
+      name: v1-domains-domain-renew
+      description: REST surface for v1-domains-domain-renew.
+      operations:
+      - method: POST
+        name: renew
+        description: Renew the specified Domain
+        call: domains-v1.renew
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/transfer
+      name: v1-domains-domain-transfer
+      description: REST surface for v1-domains-domain-transfer.
+      operations:
+      - method: POST
+        name: transferin
+        description: Purchase and start or restart transfer process
+        call: domains-v1.transferin
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/domains/{domain}/verifyregistrantemail
+      name: v1-domains-domain-verifyregistrantemail
+      description: REST surface for v1-domains-domain-verifyRegistrantEmail.
+      operations:
+      - method: POST
+        name: verifyemail
+        description: Re-send Contact E-mail Verification for specified Domain
+        call: domains-v1.verifyemail
+        with:
+          X-Shopper-Id: rest.X-Shopper-Id
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: domains-v1-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Domains API — v1. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: retrieve-list-domains-specified-shopper
+      description: Retrieve a list of Domains for the specified Shopper
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.list
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        statuses: tools.statuses
+        statusGroups: tools.statusGroups
+        limit: tools.limit
+        marker: tools.marker
+        includes: tools.includes
+        modifiedDate: tools.modifiedDate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-legal-agreement-s-required-purchase
+      description: Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.getagreement
+      with:
+        X-Market-Id: tools.X-Market-Id
+        tlds: tools.tlds
+        privacy: tools.privacy
+        forTransfer: tools.forTransfer
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: determine-whether-not-specified-domain
+      description: Determine whether or not the specified domain is available for purchase
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.available
+      with:
+        domain: tools.domain
+        checkType: tools.checkType
+        forTransfer: tools.forTransfer
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: determine-whether-not-specified-domains
+      description: Determine whether or not the specified domains are available for purchase
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.availablebulk
+      with:
+        domains: tools.domains
+        checkType: tools.checkType
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-request-body-using-domain
+      description: Validate the request body using the Domain Contact Validation Schema for specified domains.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: domains-v1.contactsvalidate
+      with:
+        X-Private-Label-Id: tools.X-Private-Label-Id
+        marketId: tools.marketId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-and-register-specified-domain
+      description: Purchase and register the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.purchase
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-schema-be-submitted-when
+      description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.schema
+      with:
+        tld: tools.tld
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-request-body-using-domain-2
+      description: Validate the request body using the Domain Purchase Schema for the specified TLD
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: domains-v1.validate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: suggest-alternate-domain-names-based
+      description: Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.suggest
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        query: tools.query
+        country: tools.country
+        city: tools.city
+        sources: tools.sources
+        tlds: tools.tlds
+        lengthMax: tools.lengthMax
+        lengthMin: tools.lengthMin
+        limit: tools.limit
+        waitMs: tools.waitMs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieves-list-tlds-supported-and
+      description: Retrieves a list of TLDs supported and enabled for sale
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.tlds
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-purchased-domain
+      description: Cancel a purchased domain
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-v1.cancel
+      with:
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-details-specified-domain
+      description: Retrieve details for the specified Domain
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.get
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-details-specified-domain
+      description: Update details for the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.update
+      with:
+        domain: tools.domain
+        X-Shopper-Id: tools.X-Shopper-Id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-domain
+      description: Update domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.updatecontacts
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        contacts: tools.contacts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: submit-privacy-cancellation-request-given
+      description: Submit a privacy cancellation request for the given domain
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-v1.cancelprivacy
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-privacy-specified-domain
+      description: Purchase privacy for a specified domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.purchaseprivacy
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-specified-dns-records-specified
+      description: Add the specified DNS Records to the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.recordadd
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        records: tools.records
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: replace-all-dns-records-specified
+      description: Replace all DNS Records for the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.recordreplace
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        records: tools.records
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: replace-all-dns-records-specified-2
+      description: Replace all DNS Records for the specified Domain with the specified Type
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.recordreplacetype
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        type: tools.type
+        records: tools.records
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-dns-records-specified-domain
+      description: Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-v1.recordget
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        type: tools.type
+        name: tools.name
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: replace-all-dns-records-specified-3
+      description: Replace all DNS Records for the specified Domain with the specified Type and Name
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-v1.recordreplacetypename
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        type: tools.type
+        name: tools.name
+        records: tools.records
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-all-dns-records-specified
+      description: Delete all DNS Records for the specified Domain with the specified Type and Name
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-v1.recorddeletetypename
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        type: tools.type
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: renew-specified-domain
+      description: Renew the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.renew
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-and-start-restart-transfer
+      description: Purchase and start or restart transfer process
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.transferin
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: re-send-contact-e-mail
+      description: Re-send Contact E-mail Verification for specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-v1.verifyemail
+      with:
+        X-Shopper-Id: tools.X-Shopper-Id
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,1809 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Domains API — Domains
+  description: 'Domains API — Domains. 31 operations. Lead operation: Submit a forwarding cancellation request for the given
+    fqdn. Self-contained Naftiko capability covering one Godaddy business surface.'
+  tags:
+  - Godaddy
+  - Domains
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GODADDY_API_KEY: GODADDY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: domains-domains
+    baseUri: https://api.ote-godaddy.com
+    description: Domains API — Domains business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-customers-customerId-domains-forwards-fqdn
+      path: /v2/customers/{customerId}/domains/forwards/{fqdn}
+      operations:
+      - name: domainsforwardsdelete
+        method: DELETE
+        description: Submit a forwarding cancellation request for the given fqdn
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: fqdn
+          in: path
+          type: string
+          description: The fully qualified domain name whose forwarding details are to be deleted.
+          required: true
+      - name: domainsforwardsget
+        method: GET
+        description: Retrieve the forwarding information for the given fqdn
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: fqdn
+          in: path
+          type: string
+          description: The fully qualified domain name whose forwarding details are to be retrieved.
+          required: true
+        - name: includeSubs
+          in: query
+          type: boolean
+          description: Optionally include all sub domains if the fqdn specified is a domain and not a sub domain.
+      - name: domainsforwardsput
+        method: PUT
+        description: Modify the forwarding information for the given fqdn
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: fqdn
+          in: path
+          type: string
+          description: The fully qualified domain name whose forwarding details are to be modified.
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Domain forwarding rule to create or replace on the fqdn
+          required: true
+      - name: domainsforwardspost
+        method: POST
+        description: Create a new forwarding configuration for the given FQDN
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: fqdn
+          in: path
+          type: string
+          description: The fully qualified domain name whose forwarding details are to be modified.
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Domain forwarding rule to create for the specified fqdn
+          required: true
+    - name: v2-customers-customerId-domains-register
+      path: /v2/customers/{customerId}/domains/register
+      operations:
+      - name: post
+        method: POST
+        description: Purchase and register the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: An instance document expected to match the JSON schema returned by `./schema/{tld}`
+          required: true
+    - name: v2-customers-customerId-domains-register-schema-tld
+      path: /v2/customers/{customerId}/domains/register/schema/{tld}
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: tld
+          in: path
+          type: string
+          description: The Top-Level Domain whose schema should be retrieved
+          required: true
+    - name: v2-customers-customerId-domains-register-validate
+      path: /v2/customers/{customerId}/domains/register/validate
+      operations:
+      - name: post
+        method: POST
+        description: Validate the request body using the Domain Registration Schema for the specified TLD
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: An instance document expected to match the JSON schema returned by `./schema/{tld}`
+          required: true
+    - name: v2-customers-customerId-domains-domain
+      path: /v2/customers/{customerId}/domains/{domain}
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve details for the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain name whose details are to be retrieved
+          required: true
+        - name: includes
+          in: query
+          type: array
+          description: Optional details to be included in the response
+    - name: v2-customers-customerId-domains-domain-changeOfRegistrant
+      path: /v2/customers/{customerId}/domains/{domain}/changeOfRegistrant
+      operations:
+      - name: delete
+        method: DELETE
+        description: Cancels a pending change of registrant request for a given domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose change of registrant is to be cancelled
+          required: true
+      - name: get
+        method: GET
+        description: Retrieve change of registrant information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose change of registrant information is to be retrieved
+          required: true
+    - name: v2-customers-customerId-domains-domain-dnssecRecords
+      path: /v2/customers/{customerId}/domains/{domain}/dnssecRecords
+      operations:
+      - name: patch
+        method: PATCH
+        description: Add the specifed DNSSEC records to the domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to add the DNSSEC record for
+          required: true
+        - name: body
+          in: body
+          type: array
+          description: DNSSEC records to add
+          required: true
+      - name: delete
+        method: DELETE
+        description: Remove the specifed DNSSEC record from the domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to delete the DNSSEC record for
+          required: true
+        - name: body
+          in: body
+          type: array
+          description: DNSSEC records to remove
+          required: true
+    - name: v2-customers-customerId-domains-domain-nameServers
+      path: /v2/customers/{customerId}/domains/{domain}/nameServers
+      operations:
+      - name: put
+        method: PUT
+        description: Replaces the existing name servers on the domain.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain whose name servers are to be replaced
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Name server records to replace on the domain
+          required: true
+    - name: v2-customers-customerId-domains-domain-privacy-forwarding
+      path: /v2/customers/{customerId}/domains/{domain}/privacy/forwarding
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve privacy email forwarding settings showing where emails are delivered
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain name whose details are to be retrieved
+          required: true
+      - name: patch
+        method: PATCH
+        description: Update privacy email forwarding settings to determine how emails are delivered
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain name whose details are to be retrieved
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Update privacy email forwarding settings
+          required: true
+    - name: v2-customers-customerId-domains-domain-redeem
+      path: /v2/customers/{customerId}/domains/{domain}/redeem
+      operations:
+      - name: post
+        method: POST
+        description: Purchase a restore for the given domain to bring it out of redemption
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to request redeem for
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Options for redeeming existing Domain
+    - name: v2-customers-customerId-domains-domain-regenerateAuthCode
+      path: /v2/customers/{customerId}/domains/{domain}/regenerateAuthCode
+      operations:
+      - name: post
+        method: POST
+        description: Regenerate the auth code for the given domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to update authcode for
+          required: true
+    - name: v2-customers-customerId-domains-domain-renew
+      path: /v2/customers/{customerId}/domains/{domain}/renew
+      operations:
+      - name: post
+        method: POST
+        description: Renew the specified Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to be renewed
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Options for renewing existing Domain
+          required: true
+    - name: v2-customers-customerId-domains-domain-transfer
+      path: /v2/customers/{customerId}/domains/{domain}/transfer
+      operations:
+      - name: post
+        method: POST
+        description: Purchase and start or restart transfer process
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to transfer in
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Details for domain transfer purchase
+          required: true
+      - name: get
+        method: GET
+        description: Query the current transfer status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain Name
+          required: true
+    - name: v2-customers-customerId-domains-domain-transfer-validate
+      path: /v2/customers/{customerId}/domains/{domain}/transfer/validate
+      operations:
+      - name: post
+        method: POST
+        description: Validate the request body using the Domain Transfer Schema for the specified TLD
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to transfer in
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: Details for domain transfer purchase
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferInAccept
+      path: /v2/customers/{customerId}/domains/{domain}/transferInAccept
+      operations:
+      - name: post
+        method: POST
+        description: Accepts the transfer in
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to accept the transfer in for
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: An Authorization code for transferring the Domain
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferInCancel
+      path: /v2/customers/{customerId}/domains/{domain}/transferInCancel
+      operations:
+      - name: post
+        method: POST
+        description: Cancels the transfer in
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to cancel the transfer in for
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferInRestart
+      path: /v2/customers/{customerId}/domains/{domain}/transferInRestart
+      operations:
+      - name: post
+        method: POST
+        description: Restarts transfer in request from the beginning
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to restart the transfer in
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferInRetry
+      path: /v2/customers/{customerId}/domains/{domain}/transferInRetry
+      operations:
+      - name: post
+        method: POST
+        description: Retries the current transfer in request with supplied Authorization code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to retry the transfer in
+          required: true
+        - name: body
+          in: body
+          type: string
+          description: An Authorization code for transferring the Domain
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferOut
+      path: /v2/customers/{customerId}/domains/{domain}/transferOut
+      operations:
+      - name: post
+        method: POST
+        description: Initiate transfer out to another registrar for a .uk domain.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to initiate the transfer out for
+          required: true
+        - name: registrar
+          in: query
+          type: string
+          description: Registrar tag to push transfer to
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferOutAccept
+      path: /v2/customers/{customerId}/domains/{domain}/transferOutAccept
+      operations:
+      - name: post
+        method: POST
+        description: Accept transfer out
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to accept the transfer out for
+          required: true
+    - name: v2-customers-customerId-domains-domain-transferOutReject
+      path: /v2/customers/{customerId}/domains/{domain}/transferOutReject
+      operations:
+      - name: post
+        method: POST
+        description: Reject transfer out
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: customerId
+          in: path
+          type: string
+          description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers,
+            you need to specify the Subaccount you''re operating on beh'
+          required: true
+        - name: domain
+          in: path
+          type: string
+          description: Domain to reject the transfer out for
+          required: true
+        - name: reason
+          in: query
+          type: string
+          description: Transfer out reject reason
+    - name: v2-domains-maintenances
+      path: /v2/domains/maintenances
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve a list of upcoming system Maintenances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: status
+          in: query
+          type: string
+          description: 'Only include results with the selected `status` value.  Returns all results if omitted<br/><ul><li><strong
+            style=''margin-left: 12px;''>ACTIVE</strong> - The upco'
+        - name: modifiedAtAfter
+          in: query
+          type: string
+          description: Only include results with `modifiedAt` after the supplied date
+        - name: startsAtAfter
+          in: query
+          type: string
+          description: Only include results with `startsAt` after the supplied date
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of results to return
+    - name: v2-domains-maintenances-maintenanceId
+      path: /v2/domains/maintenances/{maintenanceId}
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve the details for an upcoming system Maintenances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: maintenanceId
+          in: path
+          type: string
+          description: The identifier for the system maintenance
+          required: true
+    - name: v2-domains-usage-yyyymm
+      path: /v2/domains/usage/{yyyymm}
+      operations:
+      - name: get
+        method: GET
+        description: Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three
+          months.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: A client provided identifier for tracking this request.
+        - name: yyyymm
+          in: path
+          type: string
+          description: The year/month timeframe for the request counts (in the format yyyy-mm)
+          required: true
+        - name: includes
+          in: query
+          type: array
+          description: Determines if the detail records (grouped by request path) are included in the response
+  exposes:
+  - type: rest
+    namespace: domains-domains-rest
+    port: 8080
+    description: REST adapter for Domains API — Domains. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v2/customers/{customerid}/domains/forwards/{fqdn}
+      name: v2-customers-customerid-domains-forwards-fqdn
+      description: REST surface for v2-customers-customerId-domains-forwards-fqdn.
+      operations:
+      - method: DELETE
+        name: domainsforwardsdelete
+        description: Submit a forwarding cancellation request for the given fqdn
+        call: domains-domains.domainsforwardsdelete
+        with:
+          customerId: rest.customerId
+          fqdn: rest.fqdn
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: domainsforwardsget
+        description: Retrieve the forwarding information for the given fqdn
+        call: domains-domains.domainsforwardsget
+        with:
+          customerId: rest.customerId
+          fqdn: rest.fqdn
+          includeSubs: rest.includeSubs
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: domainsforwardsput
+        description: Modify the forwarding information for the given fqdn
+        call: domains-domains.domainsforwardsput
+        with:
+          customerId: rest.customerId
+          fqdn: rest.fqdn
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: domainsforwardspost
+        description: Create a new forwarding configuration for the given FQDN
+        call: domains-domains.domainsforwardspost
+        with:
+          customerId: rest.customerId
+          fqdn: rest.fqdn
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/register
+      name: v2-customers-customerid-domains-register
+      description: REST surface for v2-customers-customerId-domains-register.
+      operations:
+      - method: POST
+        name: post
+        description: Purchase and register the specified Domain
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/register/schema/{tld}
+      name: v2-customers-customerid-domains-register-schema-tld
+      description: REST surface for v2-customers-customerId-domains-register-schema-tld.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          tld: rest.tld
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/register/validate
+      name: v2-customers-customerid-domains-register-validate
+      description: REST surface for v2-customers-customerId-domains-register-validate.
+      operations:
+      - method: POST
+        name: post
+        description: Validate the request body using the Domain Registration Schema for the specified TLD
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}
+      name: v2-customers-customerid-domains-domain
+      description: REST surface for v2-customers-customerId-domains-domain.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve details for the specified Domain
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          includes: rest.includes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/changeofregistrant
+      name: v2-customers-customerid-domains-domain-changeofregistrant
+      description: REST surface for v2-customers-customerId-domains-domain-changeOfRegistrant.
+      operations:
+      - method: DELETE
+        name: delete
+        description: Cancels a pending change of registrant request for a given domain
+        call: domains-domains.delete
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: get
+        description: Retrieve change of registrant information
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/dnssecrecords
+      name: v2-customers-customerid-domains-domain-dnssecrecords
+      description: REST surface for v2-customers-customerId-domains-domain-dnssecRecords.
+      operations:
+      - method: PATCH
+        name: patch
+        description: Add the specifed DNSSEC records to the domain
+        call: domains-domains.patch
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete
+        description: Remove the specifed DNSSEC record from the domain
+        call: domains-domains.delete
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/nameservers
+      name: v2-customers-customerid-domains-domain-nameservers
+      description: REST surface for v2-customers-customerId-domains-domain-nameServers.
+      operations:
+      - method: PUT
+        name: put
+        description: Replaces the existing name servers on the domain.
+        call: domains-domains.put
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/privacy/forwarding
+      name: v2-customers-customerid-domains-domain-privacy-forwarding
+      description: REST surface for v2-customers-customerId-domains-domain-privacy-forwarding.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve privacy email forwarding settings showing where emails are delivered
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patch
+        description: Update privacy email forwarding settings to determine how emails are delivered
+        call: domains-domains.patch
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/redeem
+      name: v2-customers-customerid-domains-domain-redeem
+      description: REST surface for v2-customers-customerId-domains-domain-redeem.
+      operations:
+      - method: POST
+        name: post
+        description: Purchase a restore for the given domain to bring it out of redemption
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/regenerateauthcode
+      name: v2-customers-customerid-domains-domain-regenerateauthcode
+      description: REST surface for v2-customers-customerId-domains-domain-regenerateAuthCode.
+      operations:
+      - method: POST
+        name: post
+        description: Regenerate the auth code for the given domain
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/renew
+      name: v2-customers-customerid-domains-domain-renew
+      description: REST surface for v2-customers-customerId-domains-domain-renew.
+      operations:
+      - method: POST
+        name: post
+        description: Renew the specified Domain
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transfer
+      name: v2-customers-customerid-domains-domain-transfer
+      description: REST surface for v2-customers-customerId-domains-domain-transfer.
+      operations:
+      - method: POST
+        name: post
+        description: Purchase and start or restart transfer process
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: get
+        description: Query the current transfer status
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transfer/validate
+      name: v2-customers-customerid-domains-domain-transfer-validate
+      description: REST surface for v2-customers-customerId-domains-domain-transfer-validate.
+      operations:
+      - method: POST
+        name: post
+        description: Validate the request body using the Domain Transfer Schema for the specified TLD
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferinaccept
+      name: v2-customers-customerid-domains-domain-transferinaccept
+      description: REST surface for v2-customers-customerId-domains-domain-transferInAccept.
+      operations:
+      - method: POST
+        name: post
+        description: Accepts the transfer in
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferincancel
+      name: v2-customers-customerid-domains-domain-transferincancel
+      description: REST surface for v2-customers-customerId-domains-domain-transferInCancel.
+      operations:
+      - method: POST
+        name: post
+        description: Cancels the transfer in
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferinrestart
+      name: v2-customers-customerid-domains-domain-transferinrestart
+      description: REST surface for v2-customers-customerId-domains-domain-transferInRestart.
+      operations:
+      - method: POST
+        name: post
+        description: Restarts transfer in request from the beginning
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferinretry
+      name: v2-customers-customerid-domains-domain-transferinretry
+      description: REST surface for v2-customers-customerId-domains-domain-transferInRetry.
+      operations:
+      - method: POST
+        name: post
+        description: Retries the current transfer in request with supplied Authorization code
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferout
+      name: v2-customers-customerid-domains-domain-transferout
+      description: REST surface for v2-customers-customerId-domains-domain-transferOut.
+      operations:
+      - method: POST
+        name: post
+        description: Initiate transfer out to another registrar for a .uk domain.
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          registrar: rest.registrar
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferoutaccept
+      name: v2-customers-customerid-domains-domain-transferoutaccept
+      description: REST surface for v2-customers-customerId-domains-domain-transferOutAccept.
+      operations:
+      - method: POST
+        name: post
+        description: Accept transfer out
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/customers/{customerid}/domains/{domain}/transferoutreject
+      name: v2-customers-customerid-domains-domain-transferoutreject
+      description: REST surface for v2-customers-customerId-domains-domain-transferOutReject.
+      operations:
+      - method: POST
+        name: post
+        description: Reject transfer out
+        call: domains-domains.post
+        with:
+          X-Request-Id: rest.X-Request-Id
+          customerId: rest.customerId
+          domain: rest.domain
+          reason: rest.reason
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/domains/maintenances
+      name: v2-domains-maintenances
+      description: REST surface for v2-domains-maintenances.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve a list of upcoming system Maintenances
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          status: rest.status
+          modifiedAtAfter: rest.modifiedAtAfter
+          startsAtAfter: rest.startsAtAfter
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/domains/maintenances/{maintenanceid}
+      name: v2-domains-maintenances-maintenanceid
+      description: REST surface for v2-domains-maintenances-maintenanceId.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve the details for an upcoming system Maintenances
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          maintenanceId: rest.maintenanceId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/domains/usage/{yyyymm}
+      name: v2-domains-usage-yyyymm
+      description: REST surface for v2-domains-usage-yyyymm.
+      operations:
+      - method: GET
+        name: get
+        description: Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three
+          months.
+        call: domains-domains.get
+        with:
+          X-Request-Id: rest.X-Request-Id
+          yyyymm: rest.yyyymm
+          includes: rest.includes
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: domains-domains-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Domains API — Domains. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: submit-forwarding-cancellation-request-given
+      description: Submit a forwarding cancellation request for the given fqdn
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-domains.domainsforwardsdelete
+      with:
+        customerId: tools.customerId
+        fqdn: tools.fqdn
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-forwarding-information-given-fqdn
+      description: Retrieve the forwarding information for the given fqdn
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.domainsforwardsget
+      with:
+        customerId: tools.customerId
+        fqdn: tools.fqdn
+        includeSubs: tools.includeSubs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: modify-forwarding-information-given-fqdn
+      description: Modify the forwarding information for the given fqdn
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-domains.domainsforwardsput
+      with:
+        customerId: tools.customerId
+        fqdn: tools.fqdn
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-forwarding-configuration-given
+      description: Create a new forwarding configuration for the given FQDN
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.domainsforwardspost
+      with:
+        customerId: tools.customerId
+        fqdn: tools.fqdn
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-and-register-specified-domain
+      description: Purchase and register the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-schema-be-submitted-when
+      description: Retrieve the schema to be submitted when registering a Domain for the specified TLD
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        tld: tools.tld
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-request-body-using-domain
+      description: Validate the request body using the Domain Registration Schema for the specified TLD
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-details-specified-domain
+      description: Retrieve details for the specified Domain
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        includes: tools.includes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancels-pending-change-registrant-request
+      description: Cancels a pending change of registrant request for a given domain
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-domains.delete
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-change-registrant-information
+      description: Retrieve change of registrant information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-specifed-dnssec-records-domain
+      description: Add the specifed DNSSEC records to the domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-domains.patch
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-specifed-dnssec-record-domain
+      description: Remove the specifed DNSSEC record from the domain
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: domains-domains.delete
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: replaces-existing-name-servers-domain
+      description: Replaces the existing name servers on the domain.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-domains.put
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-privacy-email-forwarding-settings
+      description: Retrieve privacy email forwarding settings showing where emails are delivered
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-privacy-email-forwarding-settings
+      description: Update privacy email forwarding settings to determine how emails are delivered
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: domains-domains.patch
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-restore-given-domain-bring
+      description: Purchase a restore for the given domain to bring it out of redemption
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: regenerate-auth-code-given-domain
+      description: Regenerate the auth code for the given domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: renew-specified-domain
+      description: Renew the specified Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: purchase-and-start-restart-transfer
+      description: Purchase and start or restart transfer process
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: query-current-transfer-status
+      description: Query the current transfer status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-request-body-using-domain-2
+      description: Validate the request body using the Domain Transfer Schema for the specified TLD
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: accepts-transfer
+      description: Accepts the transfer in
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancels-transfer
+      description: Cancels the transfer in
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: restarts-transfer-request-beginning
+      description: Restarts transfer in request from the beginning
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retries-current-transfer-request-supplied
+      description: Retries the current transfer in request with supplied Authorization code
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: initiate-transfer-out-another-registrar
+      description: Initiate transfer out to another registrar for a .uk domain.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        registrar: tools.registrar
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: accept-transfer-out
+      description: Accept transfer out
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reject-transfer-out
+      description: Reject transfer out
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: domains-domains.post
+      with:
+        X-Request-Id: tools.X-Request-Id
+        customerId: tools.customerId
+        domain: tools.domain
+        reason: tools.reason
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-list-upcoming-system-maintenances
+      description: Retrieve a list of upcoming system Maintenances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        status: tools.status
+        modifiedAtAfter: tools.modifiedAtAfter
+        startsAtAfter: tools.startsAtAfter
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-details-upcoming-system-maintenances
+      description: Retrieve the details for an upcoming system Maintenances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        maintenanceId: tools.maintenanceId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-api-usage-request-counts
+      description: Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three
+        months.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: domains-domains.get
+      with:
+        X-Request-Id: tools.X-Request-Id
+        yyyymm: tools.yyyymm
+        includes: tools.includes
+      outputParameters:
+      - type: object
+        mapping: $.

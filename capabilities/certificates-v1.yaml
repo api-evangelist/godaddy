@@ -1,0 +1,859 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: godaddy-certificates — v1
+  description: 'godaddy-certificates — v1. 18 operations. Lead operation: Create a pending order for certificate. Self-contained
+    Naftiko capability covering one Godaddy business surface.'
+  tags:
+  - Godaddy
+  - v1
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GODADDY_API_KEY: GODADDY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: certificates-v1
+    baseUri: https://api.ote-godaddy.com
+    description: godaddy-certificates — v1 business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-certificates
+      path: /v1/certificates
+      operations:
+      - name: certificatecreate
+        method: POST
+        description: Create a pending order for certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Market-Id
+          in: header
+          type: string
+          description: Setting locale for communications such as emails and error messages
+        - name: certificateCreate
+          in: body
+          type: string
+          description: The certificate order information
+          required: true
+    - name: v1-certificates-validate
+      path: /v1/certificates/validate
+      operations:
+      - name: certificatevalidate
+        method: POST
+        description: Validate a pending order for certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Market-Id
+          in: header
+          type: string
+          description: Setting locale for communications such as emails and error messages
+        - name: certificateCreate
+          in: body
+          type: string
+          description: The certificate order info
+          required: true
+    - name: v1-certificates-certificateId
+      path: /v1/certificates/{certificateId}
+      operations:
+      - name: certificateget
+        method: GET
+        description: Retrieve certificate details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to lookup
+          required: true
+    - name: v1-certificates-certificateId-actions
+      path: /v1/certificates/{certificateId}/actions
+      operations:
+      - name: certificateactionretrieve
+        method: GET
+        description: Retrieve all certificate actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to register for callback
+          required: true
+    - name: v1-certificates-certificateId-callback
+      path: /v1/certificates/{certificateId}/callback
+      operations:
+      - name: certificatecallbackdelete
+        method: DELETE
+        description: Unregister system callback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to unregister callback
+          required: true
+      - name: certificatecallbackget
+        method: GET
+        description: Retrieve system stateful action callback url
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to register for stateful action callback
+          required: true
+      - name: certificatecallbackreplace
+        method: PUT
+        description: Register of certificate action callback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to register/replace for callback
+          required: true
+        - name: callbackUrl
+          in: query
+          type: string
+          description: Callback url registered/replaced to receive stateful actions
+          required: true
+    - name: v1-certificates-certificateId-cancel
+      path: /v1/certificates/{certificateId}/cancel
+      operations:
+      - name: certificatecancel
+        method: POST
+        description: Cancel a pending certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to cancel
+          required: true
+    - name: v1-certificates-certificateId-download
+      path: /v1/certificates/{certificateId}/download
+      operations:
+      - name: certificatedownload
+        method: GET
+        description: Download certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to download
+          required: true
+    - name: v1-certificates-certificateId-email-history
+      path: /v1/certificates/{certificateId}/email/history
+      operations:
+      - name: certificateemailhistory
+        method: GET
+        description: Retrieve email history
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to retrieve email history
+          required: true
+    - name: v1-certificates-certificateId-email-resend-emailAddress
+      path: /v1/certificates/{certificateId}/email/resend/{emailAddress}
+      operations:
+      - name: certificatealternateemailaddress
+        method: POST
+        description: Add alternate email address
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to resend emails
+          required: true
+        - name: emailAddress
+          in: path
+          type: string
+          description: Specific email address to resend email
+          required: true
+    - name: v1-certificates-certificateId-email-emailId-resend
+      path: /v1/certificates/{certificateId}/email/{emailId}/resend
+      operations:
+      - name: certificateresendemail
+        method: POST
+        description: Resend an email
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to resend email
+          required: true
+        - name: emailId
+          in: path
+          type: string
+          description: Email id for email to resend
+          required: true
+    - name: v1-certificates-certificateId-email-emailId-resend-emailAddress
+      path: /v1/certificates/{certificateId}/email/{emailId}/resend/{emailAddress}
+      operations:
+      - name: certificateresendemailaddress
+        method: POST
+        description: Resend email to email address
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to resend emails
+          required: true
+        - name: emailId
+          in: path
+          type: string
+          description: Email id for email to resend
+          required: true
+        - name: emailAddress
+          in: path
+          type: string
+          description: Specific email address to resend email
+          required: true
+    - name: v1-certificates-certificateId-reissue
+      path: /v1/certificates/{certificateId}/reissue
+      operations:
+      - name: certificatereissue
+        method: POST
+        description: Reissue active certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to reissue
+          required: true
+        - name: reissueCreate
+          in: body
+          type: string
+          description: The reissue request info
+          required: true
+    - name: v1-certificates-certificateId-renew
+      path: /v1/certificates/{certificateId}/renew
+      operations:
+      - name: certificaterenew
+        method: POST
+        description: Renew active certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to renew
+          required: true
+        - name: renewCreate
+          in: body
+          type: string
+          description: The renew request info
+          required: true
+    - name: v1-certificates-certificateId-revoke
+      path: /v1/certificates/{certificateId}/revoke
+      operations:
+      - name: certificaterevoke
+        method: POST
+        description: Revoke active certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to revoke
+          required: true
+        - name: certificateRevoke
+          in: body
+          type: string
+          description: The certificate revocation request
+          required: true
+    - name: v1-certificates-certificateId-siteSeal
+      path: /v1/certificates/{certificateId}/siteSeal
+      operations:
+      - name: certificatesitesealget
+        method: GET
+        description: Get Site seal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id
+          required: true
+        - name: theme
+          in: query
+          type: string
+          description: This value represents the visual theme of the seal. If seal doesn't exist, default values are used
+            if params not present. If seal does exist, default values wil
+        - name: locale
+          in: query
+          type: string
+          description: Determine locale for text displayed in seal image and verification page. If seal doesn't exist, default
+            values are used if params not present. If seal does exis
+    - name: v1-certificates-certificateId-verifyDomainControl
+      path: /v1/certificates/{certificateId}/verifyDomainControl
+      operations:
+      - name: certificateverifydomaincontrol
+        method: POST
+        description: Check Domain Control
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: certificateId
+          in: path
+          type: string
+          description: Certificate id to lookup
+          required: true
+  exposes:
+  - type: rest
+    namespace: certificates-v1-rest
+    port: 8080
+    description: REST adapter for godaddy-certificates — v1. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/certificates
+      name: v1-certificates
+      description: REST surface for v1-certificates.
+      operations:
+      - method: POST
+        name: certificatecreate
+        description: Create a pending order for certificate
+        call: certificates-v1.certificatecreate
+        with:
+          X-Market-Id: rest.X-Market-Id
+          certificateCreate: rest.certificateCreate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/validate
+      name: v1-certificates-validate
+      description: REST surface for v1-certificates-validate.
+      operations:
+      - method: POST
+        name: certificatevalidate
+        description: Validate a pending order for certificate
+        call: certificates-v1.certificatevalidate
+        with:
+          X-Market-Id: rest.X-Market-Id
+          certificateCreate: rest.certificateCreate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}
+      name: v1-certificates-certificateid
+      description: REST surface for v1-certificates-certificateId.
+      operations:
+      - method: GET
+        name: certificateget
+        description: Retrieve certificate details
+        call: certificates-v1.certificateget
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/actions
+      name: v1-certificates-certificateid-actions
+      description: REST surface for v1-certificates-certificateId-actions.
+      operations:
+      - method: GET
+        name: certificateactionretrieve
+        description: Retrieve all certificate actions
+        call: certificates-v1.certificateactionretrieve
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/callback
+      name: v1-certificates-certificateid-callback
+      description: REST surface for v1-certificates-certificateId-callback.
+      operations:
+      - method: DELETE
+        name: certificatecallbackdelete
+        description: Unregister system callback
+        call: certificates-v1.certificatecallbackdelete
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: certificatecallbackget
+        description: Retrieve system stateful action callback url
+        call: certificates-v1.certificatecallbackget
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: certificatecallbackreplace
+        description: Register of certificate action callback
+        call: certificates-v1.certificatecallbackreplace
+        with:
+          certificateId: rest.certificateId
+          callbackUrl: rest.callbackUrl
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/cancel
+      name: v1-certificates-certificateid-cancel
+      description: REST surface for v1-certificates-certificateId-cancel.
+      operations:
+      - method: POST
+        name: certificatecancel
+        description: Cancel a pending certificate
+        call: certificates-v1.certificatecancel
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/download
+      name: v1-certificates-certificateid-download
+      description: REST surface for v1-certificates-certificateId-download.
+      operations:
+      - method: GET
+        name: certificatedownload
+        description: Download certificate
+        call: certificates-v1.certificatedownload
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/email/history
+      name: v1-certificates-certificateid-email-history
+      description: REST surface for v1-certificates-certificateId-email-history.
+      operations:
+      - method: GET
+        name: certificateemailhistory
+        description: Retrieve email history
+        call: certificates-v1.certificateemailhistory
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/email/resend/{emailaddress}
+      name: v1-certificates-certificateid-email-resend-emailaddress
+      description: REST surface for v1-certificates-certificateId-email-resend-emailAddress.
+      operations:
+      - method: POST
+        name: certificatealternateemailaddress
+        description: Add alternate email address
+        call: certificates-v1.certificatealternateemailaddress
+        with:
+          certificateId: rest.certificateId
+          emailAddress: rest.emailAddress
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/email/{emailid}/resend
+      name: v1-certificates-certificateid-email-emailid-resend
+      description: REST surface for v1-certificates-certificateId-email-emailId-resend.
+      operations:
+      - method: POST
+        name: certificateresendemail
+        description: Resend an email
+        call: certificates-v1.certificateresendemail
+        with:
+          certificateId: rest.certificateId
+          emailId: rest.emailId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/email/{emailid}/resend/{emailaddress}
+      name: v1-certificates-certificateid-email-emailid-resend-emailaddress
+      description: REST surface for v1-certificates-certificateId-email-emailId-resend-emailAddress.
+      operations:
+      - method: POST
+        name: certificateresendemailaddress
+        description: Resend email to email address
+        call: certificates-v1.certificateresendemailaddress
+        with:
+          certificateId: rest.certificateId
+          emailId: rest.emailId
+          emailAddress: rest.emailAddress
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/reissue
+      name: v1-certificates-certificateid-reissue
+      description: REST surface for v1-certificates-certificateId-reissue.
+      operations:
+      - method: POST
+        name: certificatereissue
+        description: Reissue active certificate
+        call: certificates-v1.certificatereissue
+        with:
+          certificateId: rest.certificateId
+          reissueCreate: rest.reissueCreate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/renew
+      name: v1-certificates-certificateid-renew
+      description: REST surface for v1-certificates-certificateId-renew.
+      operations:
+      - method: POST
+        name: certificaterenew
+        description: Renew active certificate
+        call: certificates-v1.certificaterenew
+        with:
+          certificateId: rest.certificateId
+          renewCreate: rest.renewCreate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/revoke
+      name: v1-certificates-certificateid-revoke
+      description: REST surface for v1-certificates-certificateId-revoke.
+      operations:
+      - method: POST
+        name: certificaterevoke
+        description: Revoke active certificate
+        call: certificates-v1.certificaterevoke
+        with:
+          certificateId: rest.certificateId
+          certificateRevoke: rest.certificateRevoke
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/siteseal
+      name: v1-certificates-certificateid-siteseal
+      description: REST surface for v1-certificates-certificateId-siteSeal.
+      operations:
+      - method: GET
+        name: certificatesitesealget
+        description: Get Site seal
+        call: certificates-v1.certificatesitesealget
+        with:
+          certificateId: rest.certificateId
+          theme: rest.theme
+          locale: rest.locale
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/certificates/{certificateid}/verifydomaincontrol
+      name: v1-certificates-certificateid-verifydomaincontrol
+      description: REST surface for v1-certificates-certificateId-verifyDomainControl.
+      operations:
+      - method: POST
+        name: certificateverifydomaincontrol
+        description: Check Domain Control
+        call: certificates-v1.certificateverifydomaincontrol
+        with:
+          certificateId: rest.certificateId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: certificates-v1-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for godaddy-certificates — v1. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-pending-order-certificate
+      description: Create a pending order for certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificatecreate
+      with:
+        X-Market-Id: tools.X-Market-Id
+        certificateCreate: tools.certificateCreate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-pending-order-certificate
+      description: Validate a pending order for certificate
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificatevalidate
+      with:
+        X-Market-Id: tools.X-Market-Id
+        certificateCreate: tools.certificateCreate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-certificate-details
+      description: Retrieve certificate details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificateget
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-all-certificate-actions
+      description: Retrieve all certificate actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificateactionretrieve
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unregister-system-callback
+      description: Unregister system callback
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: certificates-v1.certificatecallbackdelete
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-system-stateful-action-callback
+      description: Retrieve system stateful action callback url
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificatecallbackget
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-certificate-action-callback
+      description: Register of certificate action callback
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificatecallbackreplace
+      with:
+        certificateId: tools.certificateId
+        callbackUrl: tools.callbackUrl
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-pending-certificate
+      description: Cancel a pending certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificatecancel
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-certificate
+      description: Download certificate
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificatedownload
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-email-history
+      description: Retrieve email history
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificateemailhistory
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-alternate-email-address
+      description: Add alternate email address
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificatealternateemailaddress
+      with:
+        certificateId: tools.certificateId
+        emailAddress: tools.emailAddress
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resend-email
+      description: Resend an email
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificateresendemail
+      with:
+        certificateId: tools.certificateId
+        emailId: tools.emailId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resend-email-email-address
+      description: Resend email to email address
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificateresendemailaddress
+      with:
+        certificateId: tools.certificateId
+        emailId: tools.emailId
+        emailAddress: tools.emailAddress
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reissue-active-certificate
+      description: Reissue active certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificatereissue
+      with:
+        certificateId: tools.certificateId
+        reissueCreate: tools.reissueCreate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: renew-active-certificate
+      description: Renew active certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificaterenew
+      with:
+        certificateId: tools.certificateId
+        renewCreate: tools.renewCreate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: revoke-active-certificate
+      description: Revoke active certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificaterevoke
+      with:
+        certificateId: tools.certificateId
+        certificateRevoke: tools.certificateRevoke
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-site-seal
+      description: Get Site seal
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: certificates-v1.certificatesitesealget
+      with:
+        certificateId: tools.certificateId
+        theme: tools.theme
+        locale: tools.locale
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-domain-control
+      description: Check Domain Control
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: certificates-v1.certificateverifydomaincontrol
+      with:
+        certificateId: tools.certificateId
+      outputParameters:
+      - type: object
+        mapping: $.
