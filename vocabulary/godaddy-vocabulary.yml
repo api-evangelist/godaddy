@@ -1,0 +1,9 @@
+name: GoDaddy Domain Vocabulary
+provider: GoDaddy
+providerId: godaddy
+description: Tag-derived vocabulary for the GoDaddy API surface; sourced from openapi/ tags.
+terms:
+- term: v1
+- term: Domains
+- term: Actions
+- term: Notifications

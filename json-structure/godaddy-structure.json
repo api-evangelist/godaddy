@@ -1,0 +1,596 @@
+{
+  "provider": "GoDaddy",
+  "providerId": "godaddy",
+  "kind": "json-structure",
+  "description": "Structural overview of the GoDaddy API surface; extracted from openapi/.",
+  "schemaCount": 0,
+  "operationCount": 65,
+  "schemas": [],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/v1/domains",
+      "operationId": "list",
+      "summary": "Retrieve a list of Domains for the specified Shopper",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/agreements",
+      "operationId": "getAgreement",
+      "summary": "Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/available",
+      "operationId": "available",
+      "summary": "Determine whether or not the specified domain is available for purchase",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/available",
+      "operationId": "availableBulk",
+      "summary": "Determine whether or not the specified domains are available for purchase",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/contacts/validate",
+      "operationId": "ContactsValidate",
+      "summary": "Validate the request body using the Domain Contact Validation Schema for specified domains.",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/purchase",
+      "operationId": "purchase",
+      "summary": "Purchase and register the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/purchase/schema/{tld}",
+      "operationId": "schema",
+      "summary": "Retrieve the schema to be submitted when registering a Domain for the specified TLD",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/purchase/validate",
+      "operationId": "validate",
+      "summary": "Validate the request body using the Domain Purchase Schema for the specified TLD",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/suggest",
+      "operationId": "suggest",
+      "summary": "Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/tlds",
+      "operationId": "tlds",
+      "summary": "Retrieves a list of TLDs supported and enabled for sale",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/{domain}",
+      "operationId": "get",
+      "summary": "Retrieve details for the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/domains/{domain}",
+      "operationId": "cancel",
+      "summary": "Cancel a purchased domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1/domains/{domain}",
+      "operationId": "update",
+      "summary": "Update details for the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1/domains/{domain}/contacts",
+      "operationId": "updateContacts",
+      "summary": "Update domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/domains/{domain}/privacy",
+      "operationId": "cancelPrivacy",
+      "summary": "Submit a privacy cancellation request for the given domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/{domain}/privacy/purchase",
+      "operationId": "purchasePrivacy",
+      "summary": "Purchase privacy for a specified domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/domains/{domain}/records",
+      "operationId": "recordReplace",
+      "summary": "Replace all DNS Records for the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1/domains/{domain}/records",
+      "operationId": "recordAdd",
+      "summary": "Add the specified DNS Records to the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/domains/{domain}/records/{type}/{name}",
+      "operationId": "recordGet",
+      "summary": "Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/domains/{domain}/records/{type}/{name}",
+      "operationId": "recordReplaceTypeName",
+      "summary": "Replace all DNS Records for the specified Domain with the specified Type and Name",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/domains/{domain}/records/{type}/{name}",
+      "operationId": "recordDeleteTypeName",
+      "summary": "Delete all DNS Records for the specified Domain with the specified Type and Name",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/domains/{domain}/records/{type}",
+      "operationId": "recordReplaceType",
+      "summary": "Replace all DNS Records for the specified Domain with the specified Type",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/{domain}/renew",
+      "operationId": "renew",
+      "summary": "Renew the specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/{domain}/transfer",
+      "operationId": "transferIn",
+      "summary": "Purchase and start or restart transfer process",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/domains/{domain}/verifyRegistrantEmail",
+      "operationId": "verifyEmail",
+      "summary": "Re-send Contact E-mail Verification for specified Domain",
+      "tags": [
+        "v1"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}",
+      "operationId": null,
+      "summary": "Retrieve details for the specified Domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}/changeOfRegistrant",
+      "operationId": null,
+      "summary": "Retrieve change of registrant information",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/customers/{customerId}/domains/{domain}/changeOfRegistrant",
+      "operationId": null,
+      "summary": "Cancels a pending change of registrant request for a given domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/customers/{customerId}/domains/{domain}/dnssecRecords",
+      "operationId": null,
+      "summary": "Remove the specifed DNSSEC record from the domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/customers/{customerId}/domains/{domain}/dnssecRecords",
+      "operationId": null,
+      "summary": "Add the specifed DNSSEC records to the domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/customers/{customerId}/domains/{domain}/nameServers",
+      "operationId": null,
+      "summary": "Replaces the existing name servers on the domain.",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}/privacy/forwarding",
+      "operationId": null,
+      "summary": "Retrieve privacy email forwarding settings showing where emails are delivered",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/customers/{customerId}/domains/{domain}/privacy/forwarding",
+      "operationId": null,
+      "summary": "Update privacy email forwarding settings to determine how emails are delivered",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/redeem",
+      "operationId": null,
+      "summary": "Purchase a restore for the given domain to bring it out of redemption",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/renew",
+      "operationId": null,
+      "summary": "Renew the specified Domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transfer",
+      "operationId": null,
+      "summary": "Query the current transfer status",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transfer",
+      "operationId": null,
+      "summary": "Purchase and start or restart transfer process",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transfer/validate",
+      "operationId": null,
+      "summary": "Validate the request body using the Domain Transfer Schema for the specified TLD",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferInAccept",
+      "operationId": null,
+      "summary": "Accepts the transfer in",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferInCancel",
+      "operationId": null,
+      "summary": "Cancels the transfer in",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferInRestart",
+      "operationId": null,
+      "summary": "Restarts transfer in request from the beginning",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferInRetry",
+      "operationId": null,
+      "summary": "Retries the current transfer in request with supplied Authorization code",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferOut",
+      "operationId": null,
+      "summary": "Initiate transfer out to another registrar for a .uk domain.",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferOutAccept",
+      "operationId": null,
+      "summary": "Accept transfer out",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/transferOutReject",
+      "operationId": null,
+      "summary": "Reject transfer out",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/forwards/{fqdn}",
+      "operationId": "domainsForwardsGet",
+      "summary": "Retrieve the forwarding information for the given fqdn",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/forwards/{fqdn}",
+      "operationId": "domainsForwardsPost",
+      "summary": "Create a new forwarding configuration for the given FQDN",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/customers/{customerId}/domains/forwards/{fqdn}",
+      "operationId": "domainsForwardsPut",
+      "summary": "Modify the forwarding information for the given fqdn",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/customers/{customerId}/domains/forwards/{fqdn}",
+      "operationId": "domainsForwardsDelete",
+      "summary": "Submit a forwarding cancellation request for the given fqdn",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}/actions",
+      "operationId": null,
+      "summary": "Retrieves a list of the most recent actions for the specified domain",
+      "tags": [
+        "Actions"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/{domain}/actions/{type}",
+      "operationId": null,
+      "summary": "Retrieves the most recent action for the specified domain",
+      "tags": [
+        "Actions"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/customers/{customerId}/domains/{domain}/actions/{type}",
+      "operationId": null,
+      "summary": "Cancel the most recent user action for the specified domain",
+      "tags": [
+        "Actions"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/notifications",
+      "operationId": null,
+      "summary": "Retrieve the next domain notification",
+      "tags": [
+        "Notifications"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/notifications/optIn",
+      "operationId": null,
+      "summary": "Retrieve a list of notification types that are opted in",
+      "tags": [
+        "Notifications"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/customers/{customerId}/domains/notifications/optIn",
+      "operationId": null,
+      "summary": "Opt in to recieve notifications for the submitted notification types",
+      "tags": [
+        "Notifications"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/notifications/schemas/{type}",
+      "operationId": null,
+      "summary": "Retrieve the schema for the notification data for the specified notification type",
+      "tags": [
+        "Notifications"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/notifications/{notificationId}/acknowledge",
+      "operationId": null,
+      "summary": "Acknowledge a domain notification",
+      "tags": [
+        "Notifications"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/register",
+      "operationId": null,
+      "summary": "Purchase and register the specified Domain",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/customers/{customerId}/domains/register/schema/{tld}",
+      "operationId": null,
+      "summary": "Retrieve the schema to be submitted when registering a Domain for the specified TLD",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/register/validate",
+      "operationId": null,
+      "summary": "Validate the request body using the Domain Registration Schema for the specified TLD",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/domains/maintenances",
+      "operationId": null,
+      "summary": "Retrieve a list of upcoming system Maintenances",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/domains/maintenances/{maintenanceId}",
+      "operationId": null,
+      "summary": "Retrieve the details for an upcoming system Maintenances",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/domains/usage/{yyyymm}",
+      "operationId": null,
+      "summary": "Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three months.",
+      "tags": [
+        "Domains"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/customers/{customerId}/domains/{domain}/contacts",
+      "operationId": null,
+      "summary": "Update domain contacts",
+      "tags": [
+        "Contacts"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/customers/{customerId}/domains/{domain}/regenerateAuthCode",
+      "operationId": null,
+      "summary": "Regenerate the auth code for the given domain",
+      "tags": [
+        "Domains"
+      ]
+    }
+  ]
+}
