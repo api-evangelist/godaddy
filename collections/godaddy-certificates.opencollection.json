@@ -1,0 +1,720 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a pending order for certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates",
+            "headers": [
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "<p>Creating a certificate order can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see '/v1/certificates/{certificateId}/callback'.</p>"
+        },
+        {
+          "info": {
+            "name": "Validate a pending order for certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/validate",
+            "headers": [
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Validate a pending order for certificate"
+        },
+        {
+          "info": {
+            "name": "Retrieve certificate details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificate."
+        },
+        {
+          "info": {
+            "name": "Retrieve all certificate actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/actions",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to register for callback"
+              }
+            ]
+          },
+          "docs": "This method is used to retrieve all stateful actions relating to a certificate lifecycle."
+        },
+        {
+          "info": {
+            "name": "Resend an email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/email/:emailId/resend",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to resend email"
+              },
+              {
+                "name": "emailId",
+                "value": "",
+                "type": "path",
+                "description": "Email id for email to resend"
+              }
+            ]
+          },
+          "docs": "This method can be used to resend emails by providing the certificate id and the email id"
+        },
+        {
+          "info": {
+            "name": "Add alternate email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/email/resend/:emailAddress",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to resend emails"
+              },
+              {
+                "name": "emailAddress",
+                "value": "",
+                "type": "path",
+                "description": "Specific email address to resend email"
+              }
+            ]
+          },
+          "docs": "This method adds an alternate email address to a certificate order and re-sends all existing request emails to that address."
+        },
+        {
+          "info": {
+            "name": "Resend email to email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/email/:emailId/resend/:emailAddress",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to resend emails"
+              },
+              {
+                "name": "emailId",
+                "value": "",
+                "type": "path",
+                "description": "Email id for email to resend"
+              },
+              {
+                "name": "emailAddress",
+                "value": "",
+                "type": "path",
+                "description": "Specific email address to resend email"
+              }
+            ]
+          },
+          "docs": "This method can be used to resend emails by providing the certificate id, the email id, and the recipient email address"
+        },
+        {
+          "info": {
+            "name": "Retrieve email history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/email/history",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to retrieve email history"
+              }
+            ]
+          },
+          "docs": "This method can be used to retrieve all emails sent for a certificate."
+        },
+        {
+          "info": {
+            "name": "Retrieve system stateful action callback url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/callback",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to register for stateful action callback"
+              }
+            ]
+          },
+          "docs": "This method is used to retrieve the registered callback url for a certificate."
+        },
+        {
+          "info": {
+            "name": "Register of certificate action callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/callback",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to register/replace for callback"
+              },
+              {
+                "name": "callbackUrl",
+                "value": "",
+                "type": "query",
+                "description": "Callback url registered/replaced to receive stateful actions"
+              }
+            ]
+          },
+          "docs": "This method is used to register/replace url for callbacks for stateful actions relating to a certificate lifecycle. The callback url is a Webhook style pattern and will receive POST http requests with json body defined in the CertificateAction model definition for each certificate action.  Only one callback URL is allowed to be registered for each certificateId, so it will replace a previous registration."
+        },
+        {
+          "info": {
+            "name": "Unregister system callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/callback",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to unregister callback"
+              }
+            ]
+          },
+          "docs": "Unregister the callback for a particular certificate."
+        },
+        {
+          "info": {
+            "name": "Cancel a pending certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/cancel",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to cancel"
+              }
+            ]
+          },
+          "docs": "Use the cancel call to cancel a pending certificate order."
+        },
+        {
+          "info": {
+            "name": "Download certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/download",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to download"
+              }
+            ]
+          },
+          "docs": "Download certificate"
+        },
+        {
+          "info": {
+            "name": "Reissue active certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/reissue",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to reissue"
+              }
+            ]
+          },
+          "docs": "<p>Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissuing is the process by which domain names are added or removed from a certificate.Once a request is validated and approved, the certificate will be reissued with the new common name and sans specified. Unlimited reissues are available during the lifetime of the certificate.New names added to a certificate that do not share the base domain of "
+        },
+        {
+          "info": {
+            "name": "Renew active certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/renew",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to renew"
+              }
+            ]
+          },
+          "docs": "Renewal is the process by which the validity of a certificate is extended. Renewal is only available 60 days prior to expiration of the previous certificate and 30 days after the expiration of the previous certificate. The renewal supports modifying a set of the original certificate order information. Once a request is validated and approved, the certificate will be issued with extended validity. Since subject alternative names can be removed during a renewal, we require that you provide the sub"
+        },
+        {
+          "info": {
+            "name": "Revoke active certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/revoke",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to revoke"
+              }
+            ]
+          },
+          "docs": "Use revoke call to revoke an active certificate, if the certificate has not been issued a 404 response will be returned."
+        },
+        {
+          "info": {
+            "name": "Get Site seal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/siteSeal",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id"
+              },
+              {
+                "name": "theme",
+                "value": "",
+                "type": "query",
+                "description": "This value represents the visual theme of the seal. If seal doesn't exist, default values are used if params not present. If seal does exist, default values will not be used to update unless params present."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Determine locale for text displayed in seal image and verification page. If seal doesn't exist, default values are used if params not present. If seal does exist, default values will not be used to update unless params present."
+              }
+            ]
+          },
+          "docs": "<p>This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display w"
+        },
+        {
+          "info": {
+            "name": "Check Domain Control",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/certificates/:certificateId/verifyDomainControl",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "Domain control is a means for verifying the domain included in the certificate order. This resource is useful for resellers that control the domains for their customers, and can expedite the verification process. See https://www.godaddy.com/help/verifying-your-domain-ownership-for-ssl-certificate-requests-html-or-dns-7452"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "v2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for certificate details by entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates",
+            "params": [
+              {
+                "name": "entitlementId",
+                "value": "",
+                "type": "query",
+                "description": "Entitlement id to lookup"
+              },
+              {
+                "name": "latest",
+                "value": "",
+                "type": "query",
+                "description": "Fetch only the most recent certificate"
+              }
+            ]
+          },
+          "docs": "Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificates associated to an entitlement."
+        },
+        {
+          "info": {
+            "name": "Create a pending order for certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/certificates",
+            "headers": [
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "<p>Creating a certificate order for a subscription can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see '/v1/certificates/{certificateId}/callback'.</p>"
+        },
+        {
+          "info": {
+            "name": "Reissue active certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/certificates/:certificateId/reissue",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to reissue"
+              }
+            ]
+          },
+          "docs": "<p>Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissue extends validity of the existing certificate by requesting a new certificate with all the same values as existing issued certificate. Once a request is validated and approved, the certificate will be reissued with the same common name and sans specified from existing certificate. Unlimited reissues are available during the lifetime of the "
+        },
+        {
+          "info": {
+            "name": "Download certificate by entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/download",
+            "params": [
+              {
+                "name": "entitlementId",
+                "value": "",
+                "type": "query",
+                "description": "Entitlement id to download"
+              }
+            ]
+          },
+          "docs": "Download certificate by entitlement"
+        },
+        {
+          "info": {
+            "name": "Retrieve customer's certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              }
+            ]
+          },
+          "docs": "This method can be used to retrieve a list of certificates for a specified customer. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieve individual certificate details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificate. <ul><li>**shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieve domain verification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId/domainVerifications",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "This method can be used to retrieve the domain verification status for a certificate request.<ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>\""
+        },
+        {
+          "info": {
+            "name": "Retrieve detailed information for supplied domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId/domainVerifications/:domain",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "A valid domain name in the certificate request"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information for supplied domain, including domain verification details and Certificate Authority Authorization (CAA) verification details. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieves the external account binding for the specified customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/acme/externalAccountBinding",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              }
+            ]
+          },
+          "docs": "Use this endpoint to retrieve a key identifier and Hash-based Message Authentication Code (HMAC) key for Automated Certificate Management Environment (ACME) External Account Binding (EAB). These credentials can be used with an ACME client that supports EAB (ex. CertBot) to automate the issuance request and deployment of DV SSL certificates"
+        },
+        {
+          "info": {
+            "name": "Get a page of subscriptions by domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/subscriptions/search",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of records to return per query."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number. <b>(First page is <i>one</i> instead of zero.)</b>\n"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by domain name / common name.\nThis will look for the text inside the content of the domain.\nThis is not a \"find domains that start with x\" search.\n"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of certificate in terms of the number of applicable domains."
+              },
+              {
+                "name": "validation",
+                "value": "",
+                "type": "query",
+                "description": "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+              }
+            ]
+          },
+          "docs": "The pagination starts at page 1. Each page contains a page of *subscriptions*, not certificates. This endpoint is meant for paging the subscriptions under the authorized user's account. Each subscription contains a snapshot of certificates contained within the subscription. To fetch further certificates under a subscription, use the /v2/certificates/subscription/{guid} endpoint with the subscription GUID obtained from this call. If any filtering is applied, subscriptions without any certificates"
+        },
+        {
+          "info": {
+            "name": "GET a page of certificates for a specific domain product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/subscription/:guid",
+            "params": [
+              {
+                "name": "guid",
+                "value": "",
+                "type": "path",
+                "description": "The Subscription GUID containing the certificates being requested."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of records to return per query.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number. <b>(First page is <i>one</i> instead of zero.)</b>\n"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by domain name / common name.\nThis will look for the text inside the content of the domain.\nThis is not a \"find domains that start with x\" search.\n"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of certificate in terms of the number of applicable domains."
+              },
+              {
+                "name": "validation",
+                "value": "",
+                "type": "query",
+                "description": "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+              }
+            ]
+          },
+          "docs": "GET a page of certificates for a specific domain product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves summary country information for the provided marketId and filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/countries",
+            "params": [
+              {
+                "name": "marketId",
+                "value": "",
+                "type": "query",
+                "description": "MarketId in which the request is being made, and for which responses should be localized"
+              }
+            ]
+          },
+          "docs": "Authorization is not required"
+        },
+        {
+          "info": {
+            "name": "Retrieves country and summary state information for provided countryKey",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/countries/:countryKey",
+            "params": [
+              {
+                "name": "countryKey",
+                "value": "",
+                "type": "path",
+                "description": "The country key"
+              },
+              {
+                "name": "marketId",
+                "value": "",
+                "type": "query",
+                "description": "MarketId in which the request is being made, and for which responses should be localized"
+              }
+            ]
+          },
+          "docs": "Authorization is not required"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

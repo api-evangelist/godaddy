@@ -1,0 +1,2004 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Domains API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a list of Domains for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Only include results with `status` value in the specified set"
+              },
+              {
+                "name": "statusGroups",
+                "value": "",
+                "type": "query",
+                "description": "Only include results with `status` value in any of the specified groups"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of domains to return"
+              },
+              {
+                "name": "marker",
+                "value": "",
+                "type": "query",
+                "description": "Marker Domain to use as the offset in results"
+              },
+              {
+                "name": "includes",
+                "value": "",
+                "type": "query",
+                "description": "Optional details to be included in the response"
+              },
+              {
+                "name": "modifiedDate",
+                "value": "",
+                "type": "query",
+                "description": "Only include results that have been modified since the specified date"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of Domains for the specified Shopper"
+        },
+        {
+          "info": {
+            "name": "Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/agreements",
+            "headers": [
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "tlds",
+                "value": "",
+                "type": "query",
+                "description": "list of TLDs whose legal agreements are to be retrieved"
+              },
+              {
+                "name": "privacy",
+                "value": "",
+                "type": "query",
+                "description": "Whether or not privacy has been requested"
+              },
+              {
+                "name": "forTransfer",
+                "value": "",
+                "type": "query",
+                "description": "Whether or not domain tranfer has been requested"
+              }
+            ]
+          },
+          "docs": "Retrieve the legal agreement(s) required to purchase the specified TLD and add-ons"
+        },
+        {
+          "info": {
+            "name": "Determine whether or not the specified domain is available for purchase",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/available",
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Domain name whose availability is to be checked"
+              },
+              {
+                "name": "checkType",
+                "value": "",
+                "type": "query",
+                "description": "Optimize for time ('FAST') or accuracy ('FULL')"
+              },
+              {
+                "name": "forTransfer",
+                "value": "",
+                "type": "query",
+                "description": "Whether or not to include domains available for transfer. If set to True, checkType is ignored"
+              }
+            ]
+          },
+          "docs": "Determine whether or not the specified domain is available for purchase"
+        },
+        {
+          "info": {
+            "name": "Determine whether or not the specified domains are available for purchase",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/available",
+            "params": [
+              {
+                "name": "checkType",
+                "value": "",
+                "type": "query",
+                "description": "Optimize for time ('FAST') or accuracy ('FULL')"
+              }
+            ]
+          },
+          "docs": "Determine whether or not the specified domains are available for purchase"
+        },
+        {
+          "info": {
+            "name": "Validate the request body using the Domain Contact Validation Schema for specified domains.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/contacts/validate",
+            "headers": [
+              {
+                "name": "X-Private-Label-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "marketId",
+                "value": "",
+                "type": "query",
+                "description": "MarketId in which the request is being made, and for which responses should be localized"
+              }
+            ]
+          },
+          "docs": "All contacts specified in request will be validated against all domains specifed in \"domains\". As an alternative, you can also pass in tlds, with the exception of `uk`, which requires full domain names"
+        },
+        {
+          "info": {
+            "name": "Purchase and register the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/purchase",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Purchase and register the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Retrieve the schema to be submitted when registering a Domain for the specified TLD",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/purchase/schema/:tld",
+            "params": [
+              {
+                "name": "tld",
+                "value": "",
+                "type": "path",
+                "description": "The Top-Level Domain whose schema should be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve the schema to be submitted when registering a Domain for the specified TLD"
+        },
+        {
+          "info": {
+            "name": "Validate the request body using the Domain Purchase Schema for the specified TLD",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/purchase/validate"
+          },
+          "docs": "Validate the request body using the Domain Purchase Schema for the specified TLD"
+        },
+        {
+          "info": {
+            "name": "Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/suggest",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Domain name or set of keywords for which alternative domain names will be suggested"
+              },
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "Two-letter ISO country code to be used as a hint for target region<br/><br/>\nNOTE: These are sample values, there are many\n<a href=\"http://www.iso.org/iso/country_codes.htm\">more</a>"
+              },
+              {
+                "name": "city",
+                "value": "",
+                "type": "query",
+                "description": "Name of city to be used as a hint for target region"
+              },
+              {
+                "name": "sources",
+                "value": "",
+                "type": "query",
+                "description": "Sources to be queried<br/><br/><ul>\n<li><strong>CC_TLD</strong> - Varies the TLD using Country Codes</li>\n<li><strong>EXTENSION</strong> - Varies the TLD</li>\n<li><strong>KEYWORD_SPIN</strong> - Identifies keywords and then rotates each one</li>\n<li><strong>PREMIUM</strong> - Includes variations with premium prices</li></ul>"
+              },
+              {
+                "name": "tlds",
+                "value": "",
+                "type": "query",
+                "description": "Top-level domains to be included in suggestions<br/><br/>\nNOTE: These are sample values, there are many\n<a href=\"http://www.godaddy.com/tlds/gtld.aspx#domain_search_form\">more</a>"
+              },
+              {
+                "name": "lengthMax",
+                "value": "",
+                "type": "query",
+                "description": "Maximum length of second-level domain"
+              },
+              {
+                "name": "lengthMin",
+                "value": "",
+                "type": "query",
+                "description": "Minimum length of second-level domain"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of suggestions to return"
+              },
+              {
+                "name": "waitMs",
+                "value": "",
+                "type": "query",
+                "description": "Maximum amount of time, in milliseconds, to wait for responses\nIf elapses, return the results compiled up to that point"
+              }
+            ]
+          },
+          "docs": "Suggest alternate Domain names based on a seed Domain, a set of keywords, or the shopper's purchase history"
+        },
+        {
+          "info": {
+            "name": "Retrieves a list of TLDs supported and enabled for sale",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/tlds"
+          },
+          "docs": "Retrieves a list of TLDs supported and enabled for sale"
+        },
+        {
+          "info": {
+            "name": "Retrieve details for the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/:domain",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain name whose details are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve details for the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Update details for the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/domains/:domain",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose details are to be updated"
+              }
+            ]
+          },
+          "docs": "Update details for the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Cancel a purchased domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/domains/:domain",
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to cancel"
+              }
+            ]
+          },
+          "docs": "Cancel a purchased domain"
+        },
+        {
+          "info": {
+            "name": "Update domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/domains/:domain/contacts",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose Contacts are to be updated."
+              }
+            ]
+          },
+          "docs": "Update domain"
+        },
+        {
+          "info": {
+            "name": "Submit a privacy cancellation request for the given domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/domains/:domain/privacy",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose privacy is to be cancelled"
+              }
+            ]
+          },
+          "docs": "Submit a privacy cancellation request for the given domain"
+        },
+        {
+          "info": {
+            "name": "Purchase privacy for a specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/:domain/privacy/purchase",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain for which to purchase privacy"
+              }
+            ]
+          },
+          "docs": "Purchase privacy for a specified domain"
+        },
+        {
+          "info": {
+            "name": "Replace all DNS Records for the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/domains/:domain/records",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be replaced"
+              }
+            ]
+          },
+          "docs": "Replace all DNS Records for the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Add the specified DNS Records to the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/domains/:domain/records",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be augmented"
+              }
+            ]
+          },
+          "docs": "Add the specified DNS Records to the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/domains/:domain/records/:type/:name",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be retrieved"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Type for which DNS Records are to be retrieved"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Name for which DNS Records are to be retrieved"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              }
+            ]
+          },
+          "docs": "Retrieve DNS Records for the specified Domain, optionally with the specified Type and/or Name"
+        },
+        {
+          "info": {
+            "name": "Replace all DNS Records for the specified Domain with the specified Type and Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/domains/:domain/records/:type/:name",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be replaced"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Type for which DNS Records are to be replaced"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Name for which DNS Records are to be replaced"
+              }
+            ]
+          },
+          "docs": "Replace all DNS Records for the specified Domain with the specified Type and Name"
+        },
+        {
+          "info": {
+            "name": "Delete all DNS Records for the specified Domain with the specified Type and Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/domains/:domain/records/:type/:name",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be deleted"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Type for which DNS Records are to be deleted"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Name for which DNS Records are to be deleted"
+              }
+            ]
+          },
+          "docs": "Delete all DNS Records for the specified Domain with the specified Type and Name"
+        },
+        {
+          "info": {
+            "name": "Replace all DNS Records for the specified Domain with the specified Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/domains/:domain/records/:type",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose DNS Records are to be replaced"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "DNS Record Type for which DNS Records are to be replaced"
+              }
+            ]
+          },
+          "docs": "Replace all DNS Records for the specified Domain with the specified Type"
+        },
+        {
+          "info": {
+            "name": "Renew the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/:domain/renew",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to renew"
+              }
+            ]
+          },
+          "docs": "Renew the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Purchase and start or restart transfer process",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/:domain/transfer",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to transfer in"
+              }
+            ]
+          },
+          "docs": "Purchase and start or restart transfer process"
+        },
+        {
+          "info": {
+            "name": "Re-send Contact E-mail Verification for specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/domains/:domain/verifyRegistrantEmail",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose Contact E-mail should be verified."
+              }
+            ]
+          },
+          "docs": "Re-send Contact E-mail Verification for specified Domain"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Domains",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve details for the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain name whose details are to be retrieved"
+              },
+              {
+                "name": "includes",
+                "value": "",
+                "type": "query",
+                "description": "Optional details to be included in the response"
+              }
+            ]
+          },
+          "docs": "Retrieve details for the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Retrieve change of registrant information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/changeOfRegistrant",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose change of registrant information is to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve change of registrant information"
+        },
+        {
+          "info": {
+            "name": "Cancels a pending change of registrant request for a given domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/changeOfRegistrant",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose change of registrant is to be cancelled"
+              }
+            ]
+          },
+          "docs": "Cancels a pending change of registrant request for a given domain"
+        },
+        {
+          "info": {
+            "name": "Add the specifed DNSSEC records to the domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/dnssecRecords",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to add the DNSSEC record for"
+              }
+            ]
+          },
+          "docs": "Add the specifed DNSSEC records to the domain"
+        },
+        {
+          "info": {
+            "name": "Remove the specifed DNSSEC record from the domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/dnssecRecords",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to delete the DNSSEC record for"
+              }
+            ]
+          },
+          "docs": "Remove the specifed DNSSEC record from the domain"
+        },
+        {
+          "info": {
+            "name": "Replaces the existing name servers on the domain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/nameServers",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose name servers are to be replaced"
+              }
+            ]
+          },
+          "docs": "Replaces the existing name servers on the domain."
+        },
+        {
+          "info": {
+            "name": "Retrieve privacy email forwarding settings showing where emails are delivered",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/privacy/forwarding",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain name whose details are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve privacy email forwarding settings showing where emails are delivered"
+        },
+        {
+          "info": {
+            "name": "Update privacy email forwarding settings to determine how emails are delivered",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/privacy/forwarding",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain name whose details are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Update privacy email forwarding settings to determine how emails are delivered"
+        },
+        {
+          "info": {
+            "name": "Purchase a restore for the given domain to bring it out of redemption",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/redeem",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to request redeem for"
+              }
+            ]
+          },
+          "docs": "Purchase a restore for the given domain to bring it out of redemption"
+        },
+        {
+          "info": {
+            "name": "Renew the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/renew",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to be renewed"
+              }
+            ]
+          },
+          "docs": "Renew the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Query the current transfer status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transfer",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain Name"
+              }
+            ]
+          },
+          "docs": "Query the current transfer status"
+        },
+        {
+          "info": {
+            "name": "Purchase and start or restart transfer process",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transfer",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to transfer in"
+              }
+            ]
+          },
+          "docs": "Purchase and start or restart transfer process"
+        },
+        {
+          "info": {
+            "name": "Validate the request body using the Domain Transfer Schema for the specified TLD",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transfer/validate",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to transfer in"
+              }
+            ]
+          },
+          "docs": "Validate the request body using the Domain Transfer Schema for the specified TLD"
+        },
+        {
+          "info": {
+            "name": "Accepts the transfer in",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferInAccept",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to accept the transfer in for"
+              }
+            ]
+          },
+          "docs": "Accepts the transfer in"
+        },
+        {
+          "info": {
+            "name": "Cancels the transfer in",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferInCancel",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to cancel the transfer in for"
+              }
+            ]
+          },
+          "docs": "Cancels the transfer in"
+        },
+        {
+          "info": {
+            "name": "Restarts transfer in request from the beginning",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferInRestart",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to restart the transfer in"
+              }
+            ]
+          },
+          "docs": "Restarts transfer in request from the beginning"
+        },
+        {
+          "info": {
+            "name": "Retries the current transfer in request with supplied Authorization code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferInRetry",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to retry the transfer in"
+              }
+            ]
+          },
+          "docs": "Retries the current transfer in request with supplied Authorization code"
+        },
+        {
+          "info": {
+            "name": "Initiate transfer out to another registrar for a .uk domain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferOut",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to initiate the transfer out for"
+              },
+              {
+                "name": "registrar",
+                "value": "",
+                "type": "query",
+                "description": "Registrar tag to push transfer to"
+              }
+            ]
+          },
+          "docs": "Initiate transfer out to another registrar for a .uk domain."
+        },
+        {
+          "info": {
+            "name": "Accept transfer out",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferOutAccept",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to accept the transfer out for"
+              }
+            ]
+          },
+          "docs": "Accept transfer out"
+        },
+        {
+          "info": {
+            "name": "Reject transfer out",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/transferOutReject",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to reject the transfer out for"
+              },
+              {
+                "name": "reason",
+                "value": "",
+                "type": "query",
+                "description": "Transfer out reject reason"
+              }
+            ]
+          },
+          "docs": "Reject transfer out"
+        },
+        {
+          "info": {
+            "name": "Retrieve the forwarding information for the given fqdn",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/forwards/:fqdn",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "fqdn",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified domain name whose forwarding details are to be retrieved."
+              },
+              {
+                "name": "includeSubs",
+                "value": "",
+                "type": "query",
+                "description": "Optionally include all sub domains if the fqdn specified is a domain and not a sub domain."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Create a new forwarding configuration for the given FQDN",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/forwards/:fqdn",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your own customer id."
+              },
+              {
+                "name": "fqdn",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified domain name whose forwarding details are to be modified."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Modify the forwarding information for the given fqdn",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/forwards/:fqdn",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "fqdn",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified domain name whose forwarding details are to be modified."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Submit a forwarding cancellation request for the given fqdn",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/forwards/:fqdn",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "fqdn",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified domain name whose forwarding details are to be deleted."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Purchase and register the specified Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/register",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              }
+            ]
+          },
+          "docs": "Purchase and register the specified Domain"
+        },
+        {
+          "info": {
+            "name": "Retrieve the schema to be submitted when registering a Domain for the specified TLD",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/register/schema/:tld",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "tld",
+                "value": "",
+                "type": "path",
+                "description": "The Top-Level Domain whose schema should be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve the schema to be submitted when registering a Domain for the specified TLD"
+        },
+        {
+          "info": {
+            "name": "Validate the request body using the Domain Registration Schema for the specified TLD",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/register/validate",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              }
+            ]
+          },
+          "docs": "Validate the request body using the Domain Registration Schema for the specified TLD"
+        },
+        {
+          "info": {
+            "name": "Retrieve a list of upcoming system Maintenances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/domains/maintenances",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Only include results with the selected `status` value.  Returns all results if omitted<br/><ul><li><strong style='margin-left: 12px;'>ACTIVE</strong> - The upcoming maintenance is active.</li><li><strong style='margin-left: 12px;'>CANCELLED</strong> - The upcoming maintenance has been cancelled.</li></ul>"
+              },
+              {
+                "name": "modifiedAtAfter",
+                "value": "",
+                "type": "query",
+                "description": "Only include results with `modifiedAt` after the supplied date"
+              },
+              {
+                "name": "startsAtAfter",
+                "value": "",
+                "type": "query",
+                "description": "Only include results with `startsAt` after the supplied date"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of upcoming system Maintenances"
+        },
+        {
+          "info": {
+            "name": "Retrieve the details for an upcoming system Maintenances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/domains/maintenances/:maintenanceId",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "maintenanceId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the system maintenance"
+              }
+            ]
+          },
+          "docs": "Retrieve the details for an upcoming system Maintenances"
+        },
+        {
+          "info": {
+            "name": "Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three months.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/domains/usage/:yyyymm",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "yyyymm",
+                "value": "",
+                "type": "path",
+                "description": "The year/month timeframe for the request counts (in the format yyyy-mm)"
+              },
+              {
+                "name": "includes",
+                "value": "",
+                "type": "query",
+                "description": "Determines if the detail records (grouped by request path) are included in the response"
+              }
+            ]
+          },
+          "docs": "Retrieve api usage request counts for a specific year/month.  The data is retained for a period of three months."
+        },
+        {
+          "info": {
+            "name": "Regenerate the auth code for the given domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/regenerateAuthCode",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain to update authcode for"
+              }
+            ]
+          },
+          "docs": "Regenerate the auth code for the given domain"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a list of the most recent actions for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose actions are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of the most recent actions for the specified domain"
+        },
+        {
+          "info": {
+            "name": "Retrieves the most recent action for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions/:type",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose action is to be retrieved"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of action to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieves the most recent action for the specified domain"
+        },
+        {
+          "info": {
+            "name": "Cancel the most recent user action for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions/:type",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose action is to be cancelled"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of action to cancel"
+              }
+            ]
+          },
+          "docs": "Cancel the most recent user action for the specified domain"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve the next domain notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/notifications",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              }
+            ]
+          },
+          "docs": "Retrieve the next domain notification"
+        },
+        {
+          "info": {
+            "name": "Retrieve a list of notification types that are opted in",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/notifications/optIn",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              }
+            ]
+          },
+          "docs": "Retrieve a list of notification types that are opted in"
+        },
+        {
+          "info": {
+            "name": "Opt in to recieve notifications for the submitted notification types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/notifications/optIn",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "The notification types that should be opted in"
+              }
+            ]
+          },
+          "docs": "Opt in to recieve notifications for the submitted notification types"
+        },
+        {
+          "info": {
+            "name": "Retrieve the schema for the notification data for the specified notification type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/notifications/schemas/:type",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The notification type whose schema should be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve the schema for the notification data for the specified notification type"
+        },
+        {
+          "info": {
+            "name": "Acknowledge a domain notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/notifications/:notificationId/acknowledge",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "notificationId",
+                "value": "",
+                "type": "path",
+                "description": "The notification ID to acknowledge"
+              }
+            ]
+          },
+          "docs": "Acknowledge a domain notification"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update domain contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/contacts",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose Contacts are to be updated."
+              }
+            ]
+          },
+          "docs": "Update domain contacts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

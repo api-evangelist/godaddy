@@ -1,0 +1,1677 @@
+{
+  "item": [
+    {
+      "id": "3965d43f-5565-4715-969d-de7a04dd99ad",
+      "name": "v1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "64b60a4f-6fe3-48c6-9511-fe9a61b33d42",
+          "name": "List all abuse tickets ids that match user provided filters",
+          "request": {
+            "name": "List all abuse tickets ids that match user provided filters",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "abuse",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of abuse."
+                },
+                {
+                  "disabled": false,
+                  "key": "closed",
+                  "value": "false",
+                  "description": "Is this abuse ticket closed?"
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceDomainOrIp",
+                  "value": "<host-name-or-ip-address>",
+                  "description": "The domain name or ip address the abuse originated from"
+                },
+                {
+                  "disabled": false,
+                  "key": "target",
+                  "value": "<string>",
+                  "description": "The brand/company the abuse is targeting. ie: brand name/bank name"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdStart",
+                  "value": "<iso-datetime>",
+                  "description": "The earliest abuse ticket creation date to pull abuse tickets for"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdEnd",
+                  "value": "<iso-datetime>",
+                  "description": "The latest abuse ticket creation date to pull abuse tickets for"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Number of abuse ticket numbers to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "The earliest result set record number to pull abuse tickets for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d931dbf-35a1-4cdd-a746-91e910ebb0cb",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"ticketIds\": [\n    \"string\",\n    \"string\"\n  ],\n  \"pagination\": {\n    \"first\": \"string\",\n    \"last\": \"string\",\n    \"next\": \"string\",\n    \"previous\": \"string\",\n    \"total\": 6882\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69e641e6-fb98-48f8-a2bb-400575a738ce",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c2cca40-bde3-40ac-9a07-c4c11a86132a",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9dd9fb8a-b3b6-4c40-9d41-06c256f6660b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37352410-244f-4518-8f7d-13eb20645bd2",
+          "name": "Create a new abuse ticket",
+          "request": {
+            "name": "Create a new abuse ticket",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "abuse",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"intentional\": false,\n  \"proxy\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9f941e6e-a032-4899-a715-49484f9cd5f6",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"intentional\": false,\n  \"proxy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"u_number\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b842bc4d-937b-49d5-94e2-6d4dee9875f4",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"intentional\": false,\n  \"proxy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ac5ebaf-a9a3-49c1-9755-d0c8895841ae",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"intentional\": false,\n  \"proxy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9acfa4d-eea3-4e1a-b42e-689e6aa332fb",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"intentional\": false,\n  \"proxy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aec2e05e-e9b8-41cb-a8d4-91c2332bca66",
+          "name": "Return the abuse ticket data for a given ticket id",
+          "request": {
+            "name": "Return the abuse ticket data for a given ticket id",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "abuse",
+                "tickets",
+                ":ticketId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ticketId",
+                  "description": "(Required) A unique abuse ticket identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "05121322-4aa1-45b7-9d53-a11db38a4489",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"ticketId\": \"string\",\n  \"reporter\": \"string\",\n  \"domainIp\": \"string\",\n  \"closed\": false,\n  \"type\": \"CONTENT\",\n  \"target\": \"string\",\n  \"source\": \"string\",\n  \"createdAt\": \"string\",\n  \"closedAt\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3dd67f72-0e66-4045-8135-675c4377a70f",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "495fc274-bca4-4126-b4be-94790007639f",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b592565-34d1-4eec-a0a2-6de2975d6b00",
+              "name": "Invalid ticket id provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2bc8dfa2-bd9e-4fd8-9d69-bf1195173213",
+      "name": "v2",
+      "description": {
+        "content": "An incremental update that keeps the endpoints largely the same, but deprecates some commonly misused parameters and add some features to ensure reports can be worked quicker.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9483f30e-c3a2-4acb-b874-f78fc45f2afb",
+          "name": "List all abuse tickets ids that match user provided filters",
+          "request": {
+            "name": "List all abuse tickets ids that match user provided filters",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "abuse",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of abuse."
+                },
+                {
+                  "disabled": false,
+                  "key": "closed",
+                  "value": "false",
+                  "description": "Is this abuse ticket closed?"
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceDomainOrIp",
+                  "value": "<host-name-or-ip-address>",
+                  "description": "The domain name or ip address the abuse originated from"
+                },
+                {
+                  "disabled": false,
+                  "key": "target",
+                  "value": "<string>",
+                  "description": "The brand/company the abuse is targeting. ie: brand name/bank name"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdStart",
+                  "value": "<iso-datetime>",
+                  "description": "The earliest abuse ticket creation date to pull abuse tickets for"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdEnd",
+                  "value": "<iso-datetime>",
+                  "description": "The latest abuse ticket creation date to pull abuse tickets for"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Number of abuse ticket numbers to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "The earliest result set record number to pull abuse tickets for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ecf45172-4364-4e10-906f-7fac5030cfe3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"ticketIds\": [\n    \"string\",\n    \"string\"\n  ],\n  \"pagination\": {\n    \"first\": \"string\",\n    \"last\": \"string\",\n    \"next\": \"string\",\n    \"previous\": \"string\",\n    \"total\": 3118\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e51be719-845c-47fb-aa1b-5bdaa907f884",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c72d3e79-9a30-46fe-a51d-e13346591fff",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42217be3-cee8-4ef7-881d-e0f129e5e62d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "closed",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sourceDomainOrIp",
+                      "value": "<host-name-or-ip-address>"
+                    },
+                    {
+                      "key": "target",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdStart",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "createdEnd",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf3b47da-167f-49f1-b816-15efcb216896",
+          "name": "Create a new abuse ticket",
+          "request": {
+            "name": "Create a new abuse ticket",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "abuse",
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"proxy\": \"<string>\",\n  \"useragent\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4542ae1b-1d27-4594-9118-508d3d381efa",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"proxy\": \"<string>\",\n  \"useragent\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"u_number\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6392db70-4d8f-4521-9f8b-083a04ea9f73",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"proxy\": \"<string>\",\n  \"useragent\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86d9ae6c-eb7b-4c05-8b01-e0c5132f84bb",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"proxy\": \"<string>\",\n  \"useragent\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f575c03a-b169-4cd0-89db-d7087633e0b8",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"<string>\",\n  \"type\": \"<string>\",\n  \"info\": \"<string>\",\n  \"infoUrl\": \"<url>\",\n  \"target\": \"<string>\",\n  \"proxy\": \"<string>\",\n  \"useragent\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8f3969f-40cb-49cf-ad37-7aa52178956f",
+          "name": "Return the abuse ticket data for a given ticket id",
+          "request": {
+            "name": "Return the abuse ticket data for a given ticket id",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "abuse",
+                "tickets",
+                ":ticketId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ticketId",
+                  "description": "(Required) A unique abuse ticket identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b896081-b692-4b11-b23f-19674a56c553",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"ticketId\": \"string\",\n  \"reporter\": \"string\",\n  \"domainIp\": \"string\",\n  \"closed\": false,\n  \"type\": \"IP_BLOCK\",\n  \"target\": \"string\",\n  \"source\": \"string\",\n  \"createdAt\": \"string\",\n  \"closedAt\": \"string\",\n  \"closeReason\": \"NOT_REGISTERED_HOSTED_HERE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec406157-77a0-4be5-9a40-569e3f1a6b26",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6286ebc1-4211-4d0c-985e-536696204e42",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95f1ac71-c01b-49ed-a894-71e77bfa3d01",
+              "name": "Invalid ticket id provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "abuse",
+                    "tickets",
+                    ":ticketId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticketId",
+                      "description": "(Required) A unique abuse ticket identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\",\n  \"stack\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.ote-godaddy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d1b01f29-9610-4486-949e-ed5915147d43",
+    "name": "Abuse API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a list of orders for the authenticated shopper. Only one filter may be used at a time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/orders",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              },
+              {
+                "name": "X-App-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "periodStart",
+                "value": "",
+                "type": "query",
+                "description": "Start of range indicating what time-frame should be returned. Inclusive"
+              },
+              {
+                "name": "periodEnd",
+                "value": "",
+                "type": "query",
+                "description": "End of range indicating what time-frame should be returned. Inclusive"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Domain name to use as the filter of results"
+              },
+              {
+                "name": "productGroupId",
+                "value": "",
+                "type": "query",
+                "description": "Product group id to use as the filter of results"
+              },
+              {
+                "name": "paymentProfileId",
+                "value": "",
+                "type": "query",
+                "description": "Payment profile id to use as the filter of results"
+              },
+              {
+                "name": "parentOrderId",
+                "value": "",
+                "type": "query",
+                "description": "Parent order id to use as the filter of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Property name that will be used to sort results. '-' indicates descending"
+              }
+            ]
+          },
+          "docs": "<strong>API Resellers</strong><ul><li>This endpoint does not support subaccounts and therefore API Resellers should not supply an X-Shopper-Id header</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieve details for specified order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/orders/:orderId",
+            "headers": [
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              },
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              },
+              {
+                "name": "X-App-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Order id whose details are to be retrieved"
+              }
+            ]
+          },
+          "docs": "<strong>API Resellers</strong><ul><li>This endpoint does not support subaccounts and therefore API Resellers should not supply an X-Shopper-Id header</li></ul>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

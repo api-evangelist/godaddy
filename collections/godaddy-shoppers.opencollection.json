@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Subaccount owned by the authenticated Reseller",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/shoppers/subaccount"
+          },
+          "docs": "Create a Subaccount owned by the authenticated Reseller"
+        },
+        {
+          "info": {
+            "name": "Get details for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/shoppers/:shopperId",
+            "params": [
+              {
+                "name": "shopperId",
+                "value": "",
+                "type": "path",
+                "description": "Shopper whose details are to be retrieved"
+              },
+              {
+                "name": "includes",
+                "value": "",
+                "type": "query",
+                "description": "Additional properties to be included in the response shopper object"
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Update details for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/shoppers/:shopperId",
+            "params": [
+              {
+                "name": "shopperId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the Shopper to update"
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Request the deletion of a shopper profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/shoppers/:shopperId",
+            "params": [
+              {
+                "name": "shopperId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the shopper to delete. Must agree with the shopper id on the token or header, if present. *Note*: **shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)"
+              },
+              {
+                "name": "auditClientIp",
+                "value": "",
+                "type": "query",
+                "description": "The client IP of the user who originated the request leading to this call."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>Shopper deletion is not supported in OTE</li><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Get details for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/shoppers/:shopperId/status",
+            "params": [
+              {
+                "name": "shopperId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the shopper to retrieve. Must agree with the shopper id on the token or header, if present"
+              },
+              {
+                "name": "auditClientIp",
+                "value": "",
+                "type": "query",
+                "description": "The client IP of the user who originated the request leading to this call."
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>**shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Set subaccount's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/shoppers/:shopperId/factors/password",
+            "params": [
+              {
+                "name": "shopperId",
+                "value": "",
+                "type": "path",
+                "description": "Shopper whose password will be set"
+              }
+            ]
+          },
+          "docs": "<strong>Notes:</strong><ul><li>Password set is only supported by API Resellers setting subaccount passwords.</li><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

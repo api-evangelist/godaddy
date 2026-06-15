@@ -1,0 +1,208 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Abuse API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all abuse tickets ids that match user provided filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/abuse/tickets",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of abuse."
+              },
+              {
+                "name": "closed",
+                "value": "",
+                "type": "query",
+                "description": "Is this abuse ticket closed?"
+              },
+              {
+                "name": "sourceDomainOrIp",
+                "value": "",
+                "type": "query",
+                "description": "The domain name or ip address the abuse originated from"
+              },
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "The brand/company the abuse is targeting. ie: brand name/bank name"
+              },
+              {
+                "name": "createdStart",
+                "value": "",
+                "type": "query",
+                "description": "The earliest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "createdEnd",
+                "value": "",
+                "type": "query",
+                "description": "The latest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of abuse ticket numbers to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The earliest result set record number to pull abuse tickets for"
+              }
+            ]
+          },
+          "docs": "List all abuse tickets ids that match user provided filters"
+        },
+        {
+          "info": {
+            "name": "Create a new abuse ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/abuse/tickets"
+          },
+          "docs": "Create a new abuse ticket"
+        },
+        {
+          "info": {
+            "name": "Return the abuse ticket data for a given ticket id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/abuse/tickets/:ticketId",
+            "params": [
+              {
+                "name": "ticketId",
+                "value": "",
+                "type": "path",
+                "description": "A unique abuse ticket identifier"
+              }
+            ]
+          },
+          "docs": "Return the abuse ticket data for a given ticket id"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "v2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all abuse tickets ids that match user provided filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/abuse/tickets",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of abuse."
+              },
+              {
+                "name": "closed",
+                "value": "",
+                "type": "query",
+                "description": "Is this abuse ticket closed?"
+              },
+              {
+                "name": "sourceDomainOrIp",
+                "value": "",
+                "type": "query",
+                "description": "The domain name or ip address the abuse originated from"
+              },
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "The brand/company the abuse is targeting. ie: brand name/bank name"
+              },
+              {
+                "name": "createdStart",
+                "value": "",
+                "type": "query",
+                "description": "The earliest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "createdEnd",
+                "value": "",
+                "type": "query",
+                "description": "The latest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of abuse ticket numbers to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The earliest result set record number to pull abuse tickets for"
+              }
+            ]
+          },
+          "docs": "List all abuse tickets ids that match user provided filters"
+        },
+        {
+          "info": {
+            "name": "Create a new abuse ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/abuse/tickets"
+          },
+          "docs": "Create a new abuse ticket"
+        },
+        {
+          "info": {
+            "name": "Return the abuse ticket data for a given ticket id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/abuse/tickets/:ticketId",
+            "params": [
+              {
+                "name": "ticketId",
+                "value": "",
+                "type": "path",
+                "description": "A unique abuse ticket identifier"
+              }
+            ]
+          },
+          "docs": "Return the abuse ticket data for a given ticket id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

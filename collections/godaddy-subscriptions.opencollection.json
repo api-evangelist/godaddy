@@ -1,0 +1,182 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a list of Subscriptions for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/subscriptions",
+            "headers": [
+              {
+                "name": "X-App-Key",
+                "value": ""
+              },
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              },
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "productGroupKeys",
+                "value": "",
+                "type": "query",
+                "description": "Only return Subscriptions with the specified product groups"
+              },
+              {
+                "name": "includes",
+                "value": "",
+                "type": "query",
+                "description": "Optional details to be included in the response"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of Subscriptions to skip before starting to return paged results (must be a multiple of the limit)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of Subscriptions to retrieve in this page, starting after offset"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Property name that will be used to sort results. \"-\" indicates descending"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of Subscriptions for the specified Shopper"
+        },
+        {
+          "info": {
+            "name": "Retrieve a list of ProductGroups for the specified Shopper",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/subscriptions/productGroups",
+            "headers": [
+              {
+                "name": "X-App-Key",
+                "value": ""
+              },
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve a list of ProductGroups for the specified Shopper"
+        },
+        {
+          "info": {
+            "name": "Retrieve details for the specified Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/subscriptions/:subscriptionId",
+            "headers": [
+              {
+                "name": "X-App-Key",
+                "value": ""
+              },
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Subscription to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieve details for the specified Subscription"
+        },
+        {
+          "info": {
+            "name": "Update details for the specified Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/subscriptions/:subscriptionId",
+            "headers": [
+              {
+                "name": "X-App-Key",
+                "value": ""
+              },
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Subscription to update"
+              }
+            ]
+          },
+          "docs": "Only Subscription properties that can be changed without immediate financial impact can be modified via PATCH, whereas some properties can be changed by purchasing a renewal<br/><strong>This endpoint only supports JWT authentication</strong>"
+        },
+        {
+          "info": {
+            "name": "Cancel the specified Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/subscriptions/:subscriptionId",
+            "headers": [
+              {
+                "name": "X-App-Key",
+                "value": ""
+              },
+              {
+                "name": "X-Shopper-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the Subscription to cancel"
+              }
+            ]
+          },
+          "docs": "Cancel the specified Subscription"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

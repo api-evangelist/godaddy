@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Collection"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Legal Agreements for provided agreements keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agreements",
+            "headers": [
+              {
+                "name": "X-Private-Label-Id",
+                "value": ""
+              },
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "Keys for Agreements whose details are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieve Legal Agreements for provided agreements keys"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
