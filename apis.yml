@@ -144,6 +144,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-countries-openapi.json
 common:
+  - type: DomainSecurity
+    url: security/godaddy-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/godaddy
   - type: LinkedIn
@@ -160,6 +162,8 @@ common:
     url: https://developer.godaddy.com/support
   - type: LlmsText
     url: https://developer.godaddy.com/llms.txt
+  - url: https://www.godaddy.com/resources/feed
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
