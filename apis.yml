@@ -144,6 +144,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-countries-openapi.json
 common:
+  - type: AgenticAccess
+    url: agentic-access/godaddy-agentic-access.yml
   - type: DomainSecurity
     url: security/godaddy-domain-security.yml
   - type: GitHubOrganization
