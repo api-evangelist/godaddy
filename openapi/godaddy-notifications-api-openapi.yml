@@ -1,0 +1,535 @@
+swagger: '2.0'
+info:
+  title: Abuse Actions Notifications API
+  version: 2.0.0
+  description: <strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>
+host: api.ote-godaddy.com
+tags:
+- name: Notifications
+  description: ''
+paths:
+  /v2/customers/{customerId}/domains/notifications:
+    get:
+      tags:
+      - Notifications
+      produces:
+      - application/json
+      summary: Retrieve the next domain notification
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/DomainNotification'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The customer does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /v2/customers/{customerId}/domains/notifications/optIn:
+    get:
+      tags:
+      - Notifications
+      produces:
+      - application/json
+      summary: Retrieve a list of notification types that are opted in
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainNotification'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The customer does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+      - Notifications
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Opt in to recieve notifications for the submitted notification types
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      - name: types
+        description: The notification types that should be opted in
+        in: query
+        required: true
+        type: array
+        items:
+          type: string
+          enum:
+          - AUTH_CODE_PURCHASE
+          - AUTH_CODE_REGENERATE
+          - AUTO_RENEWAL
+          - BACKORDER
+          - BACKORDER_PURCHASE
+          - BACKORDER_DELETE
+          - BACKORDER_UPDATE
+          - CHANGE_OF_REGISTRANT_DELETE
+          - CONTACT_CREATE
+          - CONTACT_DELETE
+          - CONTACT_UPDATE
+          - DNS_VERIFICATION
+          - DNSSEC_CREATE
+          - DNSSEC_DELETE
+          - DOMAIN_DELETE
+          - DOMAIN_UPDATE
+          - DOMAIN_UPDATE_CONTACTS
+          - DOMAIN_UPDATE_NAME_SERVERS
+          - EXPIRY
+          - HOST_CREATE
+          - HOST_DELETE
+          - ICANN_VERIFICATION
+          - MIGRATE
+          - MIGRATE_IN
+          - PREMIUM
+          - PRIVACY_FORWARDING_UPDATE
+          - PRIVACY_PURCHASE
+          - PRIVACY_DELETE
+          - REDEEM
+          - REGISTER
+          - RENEW
+          - RENEW_UNDO
+          - TRADE
+          - TRADE_CANCEL
+          - TRADE_PURCHASE
+          - TRADE_PURCHASE_AUTH_TEXT_MESSAGE
+          - TRADE_RESEND_AUTH_EMAIL
+          - TRANSFER
+          - TRANSFER_IN
+          - TRANSFER_IN_ACCEPT
+          - TRANSFER_IN_CANCEL
+          - TRANSFER_IN_RESTART
+          - TRANSFER_IN_RETRY
+          - TRANSFER_OUT
+          - TRANSFER_OUT_ACCEPT
+          - TRANSFER_OUT_REJECT
+          - TRANSFER_OUT_REQUESTED
+          - TRANSIT
+      responses:
+        '204':
+          description: Command successful
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The customer does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: '`type` must be specified'
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /v2/customers/{customerId}/domains/notifications/schemas/{type}:
+    get:
+      tags:
+      - Notifications
+      produces:
+      - application/json
+      summary: Retrieve the schema for the notification data for the specified notification type
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      - description: The notification type whose schema should be retrieved
+        name: type
+        in: path
+        required: true
+        type: string
+        enum:
+        - AUTO_RENEWAL
+        - BACKORDER
+        - BACKORDER_PURCHASE
+        - EXPIRY
+        - PREMIUM
+        - PRIVACY_PURCHASE
+        - REDEEM
+        - REGISTER
+        - RENEW
+        - TRADE
+        - TRANSFER
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/JsonSchema'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The schema type does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: '`type` must be specified'
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /v2/customers/{customerId}/domains/notifications/{notificationId}/acknowledge:
+    post:
+      tags:
+      - Notifications
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Acknowledge a domain notification
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      - name: notificationId
+        description: The notification ID to acknowledge
+        in: path
+        required: true
+        type: string
+      responses:
+        '204':
+          description: Message acknowledged
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The domain does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  JsonProperty:
+    properties:
+      defaultValue:
+        type: string
+      format:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/JsonDataType'
+        type: object
+      maxItems:
+        type: integer
+      maximum:
+        type: integer
+      minItems:
+        type: integer
+      minimum:
+        type: integer
+      pattern:
+        type: string
+      required:
+        type: boolean
+      type:
+        type: string
+    required:
+    - type
+    - $ref
+    - required
+  JsonDataType:
+    properties:
+      format:
+        type: string
+      pattern:
+        type: string
+      type:
+        type: string
+    required:
+    - type
+    - $ref
+  Error:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField'
+        type: array
+      message:
+        description: Human-readable, English description of the error
+        type: string
+    required:
+    - code
+  ErrorField:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      message:
+        description: Human-readable, English description of the problem with the contents of the field
+        type: string
+      path:
+        description: '<ul>
+
+          <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+          <strong style=''margin-left: 12px;''>OR</strong>
+
+          <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+          </ul>'
+        format: json-path
+        type: string
+      pathRelated:
+        description: JSONPath referring to a field containing an error, which is referenced by `path`
+        format: json-path
+        type: string
+    required:
+    - path
+    - code
+  JsonSchema:
+    properties:
+      id:
+        type: string
+      models:
+        items:
+          $ref: '#/definitions/JsonSchema'
+        type: object
+      properties:
+        items:
+          $ref: '#/definitions/JsonProperty'
+        type: object
+      required:
+        items:
+          type: string
+        type: array
+    required:
+    - id
+    - properties
+    - required
+    - models
+  DomainNotification:
+    properties:
+      notificationId:
+        description: The notification ID to be used in POST /v2/customers/{customerId}/domains/notifications to acknowledge the notification
+        default: ''
+        type: string
+      type:
+        description: The type of action the notification relates to
+        enum:
+        - AUTH_CODE_PURCHASE
+        - AUTH_CODE_REGENERATE
+        - AUTO_RENEWAL
+        - BACKORDER
+        - BACKORDER_PURCHASE
+        - BACKORDER_DELETE
+        - BACKORDER_UPDATE
+        - CHANGE_OF_REGISTRANT_DELETE
+        - CONTACT_CREATE
+        - CONTACT_DELETE
+        - CONTACT_UPDATE
+        - DNS_VERIFICATION
+        - DNSSEC_CREATE
+        - DNSSEC_DELETE
+        - DOMAIN_DELETE
+        - DOMAIN_UPDATE
+        - DOMAIN_UPDATE_CONTACTS
+        - DOMAIN_UPDATE_NAME_SERVERS
+        - EXPIRY
+        - HOST_CREATE
+        - HOST_DELETE
+        - ICANN_VERIFICATION
+        - MIGRATE
+        - MIGRATE_IN
+        - PREMIUM
+        - PRIVACY_FORWARDING_UPDATE
+        - PRIVACY_PURCHASE
+        - PRIVACY_DELETE
+        - REDEEM
+        - REGISTER
+        - RENEW
+        - RENEW_UNDO
+        - TRADE
+        - TRADE_CANCEL
+        - TRADE_PURCHASE
+        - TRADE_PURCHASE_AUTH_TEXT_MESSAGE
+        - TRADE_RESEND_AUTH_EMAIL
+        - TRANSFER
+        - TRANSFER_IN
+        - TRANSFER_IN_ACCEPT
+        - TRANSFER_IN_CANCEL
+        - TRANSFER_IN_RESTART
+        - TRANSFER_IN_RETRY
+        - TRANSFER_OUT
+        - TRANSFER_OUT_ACCEPT
+        - TRANSFER_OUT_REJECT
+        - TRANSFER_OUT_REQUESTED
+        - TRANSIT
+        type: string
+      resource:
+        description: The resource the notification pertains to.
+        default: ''
+        type: string
+      resourceType:
+        description: The type of resource the notification relates to
+        enum:
+        - CONTACT
+        - DOMAIN
+        - HOST
+        type: string
+      status:
+        type: string
+        enum:
+        - AWAITING
+        - CANCELLED
+        - FAILED
+        - PENDING
+        - SUCCESS
+        description: The resulting status of the action.
+      addedAt:
+        description: The date the notification was added
+        default: ''
+        type: string
+        format: iso-datetime
+      requestId:
+        type: string
+        description: A client provided identifier (via X-Request-Id header) indicating the request this notification is for
+      metadata:
+        description: The notification data for the given type as specifed by GET /v2/customers/{customerId}/domains/notifications/schema
+        default: ''
+        type: object
+    required:
+    - notificationId
+    - type
+    - resource
+    - resourceType
+    - status
+    - addedAt
+  ErrorLimit:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField'
+        type: array
+      message:
+        description: Human-readable, English description of the error
+        type: string
+      retryAfterSec:
+        description: Number of seconds to wait before attempting a similar request
+        format: integer-positive
+        type: integer
+    required:
+    - retryAfterSec
+    - code

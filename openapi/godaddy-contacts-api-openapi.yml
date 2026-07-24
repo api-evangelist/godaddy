@@ -1,0 +1,510 @@
+swagger: '2.0'
+info:
+  title: Abuse Actions Contacts API
+  version: 2.0.0
+  description: <strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>
+host: api.ote-godaddy.com
+tags:
+- name: Contacts
+paths:
+  /v2/customers/{customerId}/domains/{domain}/contacts:
+    patch:
+      tags:
+      - Contacts
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Update domain contacts
+      parameters:
+      - name: X-Request-Id
+        required: false
+        in: header
+        type: string
+        description: A client provided identifier for tracking this request.
+      - description: 'The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you''re operating on behalf of; otherwise use your shopper id.'
+        in: path
+        name: customerId
+        required: true
+        type: string
+      - description: Domain whose Contacts are to be updated.
+        name: domain
+        in: path
+        required: true
+        type: string
+      - description: Changes to apply to existing Contacts
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/DomainContactsUpdateV2'
+      responses:
+        '202':
+          description: Request Accepted. You may use GET /v2/customers/{customerId}/domains/{domain}/actions/DOMAIN_UPDATE_CONTACTS to poll status
+        '400':
+          description: Request was malformed
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: The domain does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: There is already a similar action processing
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Request body doesn't fulfill schema, see details in `fields`
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Too many requests received within interval
+          schema:
+            $ref: '#/definitions/ErrorLimit'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  DomainContactsCreateV2:
+    additionalProperties: false
+    type: object
+    properties:
+      admin:
+        $ref: '#/definitions/ContactDomainCreate'
+      adminId:
+        description: 'Unique identifier of the contact that the user wants to use for the domain admin contact. This can be specified instead of the `admin` property.
+
+          '
+        type: string
+      billing:
+        $ref: '#/definitions/ContactDomainCreate'
+      billingId:
+        description: 'Unique identifier of the contact that the user wants to use for the domain billing contact. This can be specified instead of the `billing` property.
+
+          '
+        type: string
+      registrant:
+        $ref: '#/definitions/ContactDomainCreate'
+      registrantId:
+        description: 'Unique identifier of the contact that the user wants to use for the domain registrant contact. This can be specified instead of the `registrant` property.
+
+          '
+        type: string
+      tech:
+        $ref: '#/definitions/ContactDomainCreate'
+      techId:
+        description: 'Unique identifier of the contact that the user wants to use for the domain tech contact. This can be specified instead of the `tech` property.
+
+          '
+        type: string
+  Error:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField'
+        type: array
+      message:
+        description: Human-readable, English description of the error
+        type: string
+    required:
+    - code
+  Address:
+    properties:
+      address1:
+        format: street-address
+        type: string
+      address2:
+        format: street-address2
+        type: string
+      city:
+        format: city-name
+        type: string
+      country:
+        default: US
+        description: 'Two-letter ISO country code to be used as a hint for target region<br/><br/>
+
+          NOTE: These are sample values, there are many
+
+          <a href=''http://www.iso.org/iso/country_codes.htm''>more</a>'
+        enum:
+        - AC
+        - AD
+        - AE
+        - AF
+        - AG
+        - AI
+        - AL
+        - AM
+        - AO
+        - AQ
+        - AR
+        - AS
+        - AT
+        - AU
+        - AW
+        - AX
+        - AZ
+        - BA
+        - BB
+        - BD
+        - BE
+        - BF
+        - BG
+        - BH
+        - BI
+        - BJ
+        - BM
+        - BN
+        - BO
+        - BQ
+        - BR
+        - BS
+        - BT
+        - BV
+        - BW
+        - BY
+        - BZ
+        - CA
+        - CC
+        - CD
+        - CF
+        - CG
+        - CH
+        - CI
+        - CK
+        - CL
+        - CM
+        - CN
+        - CO
+        - CR
+        - CV
+        - CW
+        - CX
+        - CY
+        - CZ
+        - DE
+        - DJ
+        - DK
+        - DM
+        - DO
+        - DZ
+        - EC
+        - EE
+        - EG
+        - EH
+        - ER
+        - ES
+        - ET
+        - FI
+        - FJ
+        - FK
+        - FM
+        - FO
+        - FR
+        - GA
+        - GB
+        - GD
+        - GE
+        - GF
+        - GG
+        - GH
+        - GI
+        - GL
+        - GM
+        - GN
+        - GP
+        - GQ
+        - GR
+        - GS
+        - GT
+        - GU
+        - GW
+        - GY
+        - HK
+        - HM
+        - HN
+        - HR
+        - HT
+        - HU
+        - ID
+        - IE
+        - IL
+        - IM
+        - IN
+        - IO
+        - IQ
+        - IS
+        - IT
+        - JE
+        - JM
+        - JO
+        - JP
+        - KE
+        - KG
+        - KH
+        - KI
+        - KM
+        - KN
+        - KR
+        - KV
+        - KW
+        - KY
+        - KZ
+        - LA
+        - LB
+        - LC
+        - LI
+        - LK
+        - LR
+        - LS
+        - LT
+        - LU
+        - LV
+        - LY
+        - MA
+        - MC
+        - MD
+        - ME
+        - MG
+        - MH
+        - MK
+        - ML
+        - MM
+        - MN
+        - MO
+        - MP
+        - MQ
+        - MR
+        - MS
+        - MT
+        - MU
+        - MV
+        - MW
+        - MX
+        - MY
+        - MZ
+        - NA
+        - NC
+        - NE
+        - NF
+        - NG
+        - NI
+        - NL
+        - 'NO'
+        - NP
+        - NR
+        - NU
+        - NZ
+        - OM
+        - PA
+        - PE
+        - PF
+        - PG
+        - PH
+        - PK
+        - PL
+        - PM
+        - PN
+        - PR
+        - PS
+        - PT
+        - PW
+        - PY
+        - QA
+        - RE
+        - RO
+        - RS
+        - RU
+        - RW
+        - SA
+        - SB
+        - SC
+        - SE
+        - SG
+        - SH
+        - SI
+        - SJ
+        - SK
+        - SL
+        - SM
+        - SN
+        - SO
+        - SR
+        - ST
+        - SV
+        - SX
+        - SZ
+        - TC
+        - TD
+        - TF
+        - TG
+        - TH
+        - TJ
+        - TK
+        - TL
+        - TM
+        - TN
+        - TO
+        - TP
+        - TR
+        - TT
+        - TV
+        - TW
+        - TZ
+        - UA
+        - UG
+        - UM
+        - US
+        - UY
+        - UZ
+        - VA
+        - VC
+        - VE
+        - VG
+        - VI
+        - VN
+        - VU
+        - WF
+        - WS
+        - YE
+        - YT
+        - ZA
+        - ZM
+        - ZW
+        format: iso-country-code
+        type: string
+      postalCode:
+        description: Postal or zip code
+        format: postal-code
+        type: string
+      state:
+        description: State or province or territory
+        format: state-province-territory
+        type: string
+    required:
+    - address1
+    - city
+    - state
+    - postalCode
+    - country
+  ErrorField:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      message:
+        description: Human-readable, English description of the problem with the contents of the field
+        type: string
+      path:
+        description: '<ul>
+
+          <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+          <strong style=''margin-left: 12px;''>OR</strong>
+
+          <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+          </ul>'
+        format: json-path
+        type: string
+      pathRelated:
+        description: JSONPath referring to a field containing an error, which is referenced by `path`
+        format: json-path
+        type: string
+    required:
+    - path
+    - code
+  DomainContactsUpdateV2:
+    additionalProperties: false
+    properties:
+      identityDocumentId:
+        type: string
+        description: Unique identifier of the identify document that the user wants to associate with the domain whose registrant contact is being updated. This is required only if user is trying to update registrant contact and the owning registry has a requirement for an approved identity document
+      contacts:
+        $ref: '#/definitions/DomainContactsCreateV2'
+  ContactDomainCreate:
+    additionalProperties: false
+    properties:
+      encoding:
+        type: string
+        default: ASCII
+        enum:
+        - ASCII
+        - UTF-8
+        description: 'The encoding of the contact data<br/><ul><li><strong style=''margin-left: 12px;''>ASCII</strong> - Data contains only ASCII characters that are not region or language specific</li><li><strong style=''margin-left: 12px;''>UTF-8</strong> - Data contains characters that are specific to a region or language</li></ul>'
+      nameFirst:
+        type: string
+        format: person-name
+        maxLength: 30
+      nameMiddle:
+        type: string
+      nameLast:
+        type: string
+        format: person-name
+        maxLength: 30
+      organization:
+        type: string
+        format: organization-name
+        maxLength: 100
+      jobTitle:
+        type: string
+      email:
+        type: string
+        format: email
+        maxLength: 80
+      phone:
+        type: string
+        format: phone
+        maxLength: 17
+      fax:
+        type: string
+        format: phone
+        maxLength: 17
+      addressMailing:
+        $ref: '#/definitions/Address'
+      metadata:
+        type: object
+        description: The contact eligibility data fields as specified by GET /v2/customers/{customerId}/domains/contacts/schema/{tld}
+    required:
+    - encoding
+    - nameFirst
+    - nameLast
+    - email
+    - phone
+    - addressMailing
+  ErrorLimit:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField'
+        type: array
+      message:
+        description: Human-readable, English description of the error
+        type: string
+      retryAfterSec:
+        description: Number of seconds to wait before attempting a similar request
+        format: integer-positive
+        type: integer
+    required:
+    - retryAfterSec
+    - code

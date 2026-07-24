@@ -1,0 +1,2147 @@
+swagger: '2.0'
+info:
+  title: Abuse Actions v2 API
+  version: 2.0.0
+  description: <strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>
+host: api.ote-godaddy.com
+tags:
+- name: v2
+  description: An incremental update that keeps the endpoints largely the same, but deprecates some commonly misused parameters and add some features to ensure reports can be worked quicker.
+paths:
+  /v2/abuse/tickets:
+    get:
+      tags:
+      - v2
+      parameters:
+      - description: The type of abuse.
+        enum:
+        - A_RECORD
+        - CHILD_ABUSE
+        - CONTENT
+        - FRAUD_WIRE
+        - IP_BLOCK
+        - MALWARE
+        - NETWORK_ABUSE
+        - PHISHING
+        - SPAM
+        in: query
+        name: type
+        required: false
+        type: string
+      - default: false
+        description: Is this abuse ticket closed?
+        in: query
+        name: closed
+        required: false
+        type: boolean
+      - description: The domain name or ip address the abuse originated from
+        format: host-name-or-ip-address
+        in: query
+        name: sourceDomainOrIp
+        required: false
+        type: string
+      - description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+        in: query
+        name: target
+        required: false
+        type: string
+      - description: The earliest abuse ticket creation date to pull abuse tickets for
+        format: iso-datetime
+        in: query
+        name: createdStart
+        required: false
+        type: string
+      - description: The latest abuse ticket creation date to pull abuse tickets for
+        format: iso-datetime
+        in: query
+        name: createdEnd
+        required: false
+        type: string
+      - default: 100
+        description: Number of abuse ticket numbers to return.
+        format: integer-positive
+        in: query
+        maximum: 100
+        name: limit
+        required: false
+        type: integer
+      - default: 0
+        description: The earliest result set record number to pull abuse tickets for
+        format: integer-positive
+        in: query
+        name: offset
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/AbuseTicketList'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+      operationId: getTicketsV2
+      summary: List all abuse tickets ids that match user provided filters
+    post:
+      tags:
+      - v2
+      parameters:
+      - description: The endpoint which allows the Reporter to create a new abuse ticket
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/AbuseTicketCreate'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/AbuseTicketId'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+      operationId: createTicketV2
+      summary: Create a new abuse ticket
+  /v2/abuse/tickets/{ticketId}:
+    get:
+      tags:
+      - v2
+      parameters:
+      - description: A unique abuse ticket identifier
+        in: path
+        name: ticketId
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/AbuseTicket'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Invalid ticket id provided
+          schema:
+            $ref: '#/definitions/Error'
+      operationId: getTicketInfoV2
+      summary: Return the abuse ticket data for a given ticket id
+  /v2/certificates:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - description: Entitlement id to lookup
+        in: query
+        name: entitlementId
+        required: true
+        type: string
+      - description: Fetch only the most recent certificate
+        in: query
+        name: latest
+        required: false
+        default: true
+        type: boolean
+      responses:
+        '200':
+          description: Certificate details retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Certificate'
+        '400':
+          description: Request was malformed
+          schema:
+            $ref: '#/definitions/Error_2'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error_2'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error_2'
+        '422':
+          description: Entitlement id not provided
+          schema:
+            $ref: '#/definitions/Error_2'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error_2'
+      description: Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificates associated to an entitlement.
+      operationId: certificate_get_entitlement
+      summary: Search for certificate details by entitlement
+    post:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - default: Default locale for shopper account
+        description: Setting locale for communications such as emails and error messages
+        in: header
+        name: X-Market-Id
+        required: false
+        type: string
+      - description: The certificate order information
+        in: body
+        name: subscriptionCertificateCreate
+        required: true
+        schema:
+          $ref: '#/definitions/SubscriptionCertificateCreate'
+      responses:
+        '202':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/SubscriptionCertificateIdentifier'
+        '400':
+          description: Request was malformed
+          schema:
+            $ref: '#/definitions/Error_2'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error_2'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error_2'
+        '409':
+          description: Certificate state does not allow renew
+          schema:
+            $ref: '#/definitions/Error_2'
+        '422':
+          description: '`email` is not empty<br>`csr` is invalid'
+          schema:
+            $ref: '#/definitions/Error_2'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error_2'
+      description: '<p>Creating a certificate order for a subscription can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see ''/v1/certificates/{certificateId}/callback''.</p>'
+      operationId: certificate_create
+      summary: Create a pending order for certificate
+  /v2/certificates/{certificateId}/reissue:
+    post:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - description: Certificate id to reissue
+        in: path
+        name: certificateId
+        required: true
+        type: string
+      - description: The reissue request info
+        in: body
+        name: reissueCreate
+        required: false
+        schema:
+          $ref: '#/definitions/CertificateReissueV2'
+      responses:
+        '202':
+          description: Reissue request created
+        '400':
+          description: Request was malformed
+          schema:
+            $ref: '#/definitions/Error_2'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error_2'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error_2'
+        '404':
+          description: Certificate id not found
+          schema:
+            $ref: '#/definitions/Error_2'
+        '409':
+          description: Certificate state does not allow reissue
+          schema:
+            $ref: '#/definitions/Error_2'
+        '422':
+          description: '`csr` is invalid<br>Delay revocation exceeds maximum'
+          schema:
+            $ref: '#/definitions/Error_2'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error_2'
+      description: <p>Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissue extends validity of the existing certificate by requesting a new certificate with all the same values as existing issued certificate. Once a request is validated and approved, the certificate will be reissued with the same common name and sans specified from existing certificate. Unlimited reissues are available during the lifetime of the certificate.If this API call is made before a previous pending reissue has been validated and issued, the previous reissue request is automatically rejected and replaced with the current request.</p>
+      operationId: certificate_reissue
+      summary: Reissue active certificate
+  /v2/certificates/download:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - description: Entitlement id to download
+        in: query
+        name: entitlementId
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Certificate retrieved
+          schema:
+            $ref: '#/definitions/CertificateBundle'
+        '400':
+          description: Request was malformed
+          schema:
+            $ref: '#/definitions/Error_2'
+        '401':
+          description: Authentication info not sent or invalid
+          schema:
+            $ref: '#/definitions/Error_2'
+        '403':
+          description: Authenticated user is not allowed access
+          schema:
+            $ref: '#/definitions/Error_2'
+        '404':
+          description: Entitlement id not found
+          schema:
+            $ref: '#/definitions/Error_2'
+        '409':
+          description: Certificate state does not allow download
+          schema:
+            $ref: '#/definitions/Error_2'
+        '422':
+          description: Entitlement id not provided
+          schema:
+            $ref: '#/definitions/Error_2'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error_2'
+      operationId: certificate_download_entitlement
+      summary: Download certificate by entitlement
+  /v2/customers/{customerId}/certificates:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/customerId'
+      - $ref: '#/parameters/offset'
+      - $ref: '#/parameters/limit'
+      responses:
+        '200':
+          description: Customer certificate information retrieved.
+          schema:
+            $ref: '#/definitions/CertificateSummariesV2'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '422':
+          $ref: '#/responses/422'
+        '429':
+          $ref: '#/responses/429'
+        '500':
+          $ref: '#/responses/500'
+      description: This method can be used to retrieve a list of certificates for a specified customer. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>
+      operationId: getCustomerCertificatesByCustomerId
+      summary: Retrieve customer's certificates
+  /v2/customers/{customerId}/certificates/{certificateId}:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/customerId'
+      - $ref: '#/parameters/certificateId'
+      responses:
+        '200':
+          description: Certificate details retrieved
+          schema:
+            $ref: '#/definitions/CertificateDetailV2'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '429':
+          $ref: '#/responses/429'
+        '500':
+          $ref: '#/responses/500'
+      description: Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificate. <ul><li>**shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>
+      operationId: getCertificateDetailByCertIdentifier
+      summary: Retrieve individual certificate details
+  /v2/customers/{customerId}/certificates/{certificateId}/domainVerifications:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/customerId'
+      - $ref: '#/parameters/certificateId'
+      responses:
+        '200':
+          description: Domain verification status list for specified certificateId.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainVerificationSummary'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '429':
+          $ref: '#/responses/429'
+        '500':
+          $ref: '#/responses/500'
+      description: This method can be used to retrieve the domain verification status for a certificate request.<ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+      operationId: getDomainInformationByCertificateId
+      summary: Retrieve domain verification status
+  /v2/customers/{customerId}/certificates/{certificateId}/domainVerifications/{domain}:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: Retrieve detailed information for supplied domain, including domain verification details and Certificate Authority Authorization (CAA) verification details. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>
+      operationId: getDomainDetailsByDomain
+      summary: Retrieve detailed information for supplied domain
+      parameters:
+      - $ref: '#/parameters/customerId'
+      - $ref: '#/parameters/certificateId'
+      - $ref: '#/parameters/domain'
+      responses:
+        '200':
+          description: Retrieve detailed information for supplied domain, including domain verification details and Certificate Authority Authorization (CAA) verification details.
+          schema:
+            $ref: '#/definitions/DomainVerificationDetail'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '429':
+          $ref: '#/responses/429'
+        '500':
+          $ref: '#/responses/500'
+  /v2/customers/{customerId}/certificates/acme/externalAccountBinding:
+    get:
+      tags:
+      - v2
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      description: Use this endpoint to retrieve a key identifier and Hash-based Message Authentication Code (HMAC) key for Automated Certificate Management Environment (ACME) External Account Binding (EAB). These credentials can be used with an ACME client that supports EAB (ex. CertBot) to automate the issuance request and deployment of DV SSL certificates
+      operationId: getAcmeExternalAccountBinding
+      summary: Retrieves the external account binding for the specified customer
+      parameters:
+      - $ref: '#/parameters/customerId'
+      responses:
+        '200':
+          description: Acme key identifier and HMAC key for the external account binding. Directory URI is also provided for making ACME requests.
+          schema:
+            $ref: '#/definitions/ExternalAccountBinding'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '422':
+          $ref: '#/responses/422'
+        '429':
+          $ref: '#/responses/429'
+        '500':
+          $ref: '#/responses/500'
+  /v2/certificates/subscriptions/search:
+    get:
+      operationId: retrieveSslByDomainReseller
+      parameters:
+      - $ref: '#/parameters/PageSizeParam'
+      - $ref: '#/parameters/PageParam'
+      - $ref: '#/parameters/DomainParam'
+      - $ref: '#/parameters/CertificateStatusParam'
+      - $ref: '#/parameters/CertificateTypeParam'
+      - $ref: '#/parameters/CertificateValidationTypeParam'
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CertificatesByDomainPage'
+      summary: Get a page of subscriptions by domain
+      description: The pagination starts at page 1. Each page contains a page of *subscriptions*, not certificates. This endpoint is meant for paging the subscriptions under the authorized user's account. Each subscription contains a snapshot of certificates contained within the subscription. To fetch further certificates under a subscription, use the /v2/certificates/subscription/{guid} endpoint with the subscription GUID obtained from this call. If any filtering is applied, subscriptions without any certificates will be omitted.
+      tags:
+      - v2
+  /v2/certificates/subscription/{guid}:
+    get:
+      operationId: retrieveSslByDomainSubscriptionReseller
+      parameters:
+      - $ref: '#/parameters/SubscriptionGuidParam'
+      - $ref: '#/parameters/SubscriptionPageSize'
+      - $ref: '#/parameters/PageParam'
+      - $ref: '#/parameters/DomainParam'
+      - $ref: '#/parameters/CertificateStatusParam'
+      - $ref: '#/parameters/CertificateTypeParam'
+      - $ref: '#/parameters/CertificateValidationTypeParam'
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CertificatesByDomainPaged'
+      summary: GET a page of certificates for a specific domain product
+      tags:
+      - v2
+definitions:
+  CertificateValidationType:
+    description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+    enum:
+    - DV
+    - EV
+    - OV
+    type: string
+  Error:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField'
+        type: array
+      message:
+        description: Human-readable, English description of the error
+        type: string
+      stack:
+        description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
+        items:
+          type: string
+        type: array
+    required:
+    - code
+  CertificateSummaryV2:
+    properties:
+      certificateId:
+        description: The unique identifier of the certificate request.
+        type: string
+      commonName:
+        description: Common name for the certificate request.
+        format: domain
+        type: string
+      period:
+        description: Validity period of order. Specified in years.
+        type: integer
+      type:
+        description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
+        enum:
+        - DV_SSL
+        - DV_WILDCARD_SSL
+        - EV_SSL
+        - OV_CODE_SIGNING
+        - OV_DRIVER_SIGNING
+        - OV_SSL
+        - OV_WILDCARD_SSL
+        - UCC_DV_SSL
+        - UCC_EV_SSL
+        - UCC_OV_SSL
+        type: string
+      status:
+        description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\n  * `UNUSED` - Certificate in an error state\n"
+        enum:
+        - ISSUED
+        - CANCELED
+        - DENIED
+        - EXPIRED
+        - PENDING_ISSUANCE
+        - PENDING_REKEY
+        - PENDING_REVOCATION
+        - REVOKED
+        - UNUSED
+        type: string
+      createdAt:
+        description: Date that the certificate request was received.
+        format: iso-datetime
+        type: string
+      completedAt:
+        description: The date the certificate request completed processing (if issued or revoked).
+        format: iso-datetime
+        type: string
+      validEndAt:
+        description: The end date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+      validStartAt:
+        description: The start date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+      revokedAt:
+        description: The revocation date of certificate (if revoked).
+        format: iso-datetime
+        type: string
+      renewalAvailable:
+        description: Only returned when a renewal is available.
+        type: boolean
+      serialNumber:
+        description: Serial number of certificate (if issued or revoked).
+        type: string
+      slotSize:
+        description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
+        enum:
+        - FIVE
+        - TEN
+        - FIFTEEN
+        - TWENTY
+        - THIRTY
+        - FOURTY
+        - FIFTY
+        - ONE_HUNDRED
+        type: string
+      subjectAlternativeNames:
+        description: Subject Alternative names (if UCC). Collection of subjectAlternativeNames to be included in certificate.
+        format: domain
+        items:
+          type: string
+        type: array
+        uniqueItems: true
+    required:
+    - certificateId
+    - commonName
+    - period
+    - type
+    - createdAt
+    - status
+  CertificateDetailV2:
+    properties:
+      certificateId:
+        description: The unique identifier of the certificate request. Only present if no errors returned
+        type: string
+      commonName:
+        description: Common name of certificate
+        format: domain
+        type: string
+      period:
+        description: Validity period of order. Specified in years
+        type: integer
+      type:
+        description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
+        enum:
+        - DV_SSL
+        - DV_WILDCARD_SSL
+        - EV_SSL
+        - OV_CODE_SIGNING
+        - OV_DRIVER_SIGNING
+        - OV_SSL
+        - OV_WILDCARD_SSL
+        - UCC_DV_SSL
+        - UCC_EV_SSL
+        - UCC_OV_SSL
+        type: string
+      status:
+        description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\\n  * `UNUSED` - Certificate in an error state\n"
+        enum:
+        - PENDING_ISSUANCE
+        - ISSUED
+        - REVOKED
+        - CANCELED
+        - DENIED
+        - PENDING_REVOCATION
+        - PENDING_REKEY
+        - UNUSED
+        - EXPIRED
+        type: string
+      createdAt:
+        description: The date the certificate was ordered.
+        format: iso-datetime
+        type: string
+      completedAt:
+        description: The date the certificate request completed processing.
+        format: iso-datetime
+        type: string
+      validEndAt:
+        description: The end date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+      validStartAt:
+        description: The start date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+      revokedAt:
+        description: The revocation date of certificate (if revoked).
+        format: iso-datetime
+        type: string
+      renewalAvailable:
+        description: Only returned when a renewal is available.
+        type: boolean
+      serialNumber:
+        description: Serial number of certificate (if issued or revoked)
+        type: string
+      serialNumberHex:
+        description: Hexadecmial format for Serial number of certificate(if issued or revoked)
+        type: string
+      slotSize:
+        description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
+        enum:
+        - FIVE
+        - TEN
+        - FIFTEEN
+        - TWENTY
+        - THIRTY
+        - FOURTY
+        - FIFTY
+        - ONE_HUNDRED
+        type: string
+      subjectAlternativeNames:
+        description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+        items:
+          format: domain
+          type: string
+        type: array
+        uniqueItems: true
+      contact:
+        $ref: '#/definitions/CertificateContact'
+      organization:
+        $ref: '#/definitions/CertificateOrganization'
+      csr:
+        description: Certificate signing request (if present) in PEM format
+        type: string
+      rootType:
+        description: "Root type: \n  * `GODADDY_SHA_1` - GoDaddy (Secure Hash Algorithm 1) SHA-1 root type\n  * `GODADDY_SHA_2` - GoDaddy (Secure Hash Algorithm 2) SHA-2 root type\n  * `STARFIELD_SHA_1` - Starfield SHA-1 root type\n  * `STARFIELD_SHA_2` - Starfield SHA-2 root type\n"
+        enum:
+        - GODADDY_SHA_1
+        - GODADDY_SHA_2
+        - STARFIELD_SHA_1
+        - STARFIELD_SHA_2
+        type: string
+      deniedReason:
+        description: Only present if certificate order has been denied
+        type: string
+      progress:
+        description: Percentage of completion for certificate vetting
+        type: integer
+    required:
+    - certificateId
+    - commonName
+    - period
+    - type
+    - status
+    - createdAt
+    - contact
+  CertificateAddress:
+    properties:
+      address1:
+        description: Address line 1 of organization address
+        type: string
+      address2:
+        description: Address line 2 of organization address
+        type: string
+      city:
+        description: City/Locality of organization address
+        type: string
+      country:
+        description: Two character country code of organization
+        enum:
+        - AC
+        - AD
+        - AE
+        - AF
+        - AG
+        - AI
+        - AL
+        - AM
+        - AN
+        - AO
+        - AQ
+        - AR
+        - AS
+        - AT
+        - AU
+        - AW
+        - AZ
+        - BA
+        - BB
+        - BD
+        - BE
+        - BF
+        - BG
+        - BH
+        - BI
+        - BJ
+        - BM
+        - BN
+        - BO
+        - BR
+        - BS
+        - BT
+        - BV
+        - BW
+        - BY
+        - BZ
+        - CA
+        - CC
+        - CD
+        - CF
+        - CG
+        - CH
+        - CI
+        - CK
+        - CL
+        - CM
+        - CN
+        - CO
+        - CR
+        - CV
+        - CX
+        - CY
+        - CZ
+        - DE
+        - DJ
+        - DK
+        - DM
+        - DO
+        - DZ
+        - EC
+        - EE
+        - EG
+        - EH
+        - ER
+        - ES
+        - ET
+        - FI
+        - FJ
+        - FK
+        - FM
+        - FO
+        - FR
+        - GA
+        - GB
+        - GD
+        - GE
+        - GF
+        - GG
+        - GH
+        - GI
+        - GL
+        - GM
+        - GN
+        - GP
+        - GQ
+        - GR
+        - GS
+        - GT
+        - GU
+        - GW
+        - GY
+        - HK
+        - HM
+        - HN
+        - HR
+        - HT
+        - HU
+        - ID
+        - IE
+        - IL
+        - IM
+        - IN
+        - IO
+        - IQ
+        - IS
+        - IT
+        - JE
+        - JM
+        - JO
+        - JP
+        - KE
+        - KG
+        - KH
+        - KI
+        - KM
+        - KN
+        - KR
+        - KW
+        - KY
+        - KZ
+        - LA
+        - LB
+        - LC
+        - LI
+        - LK
+        - LR
+        - LS
+        - LT
+        - LU
+        - LV
+        - LY
+        - MA
+        - MC
+        - MD
+        - ME
+        - MG
+        - MH
+        - ML
+        - MM
+        - MN
+        - MO
+        - MP
+        - MQ
+        - MR
+        - MS
+        - MT
+        - MU
+        - MV
+        - MW
+        - MX
+        - MY
+        - MZ
+        - NA
+        - NC
+        - NE
+        - NF
+        - NG
+        - NI
+        - NL
+        - 'NO'
+        - NP
+        - NR
+        - NU
+        - NZ
+        - OM
+        - PA
+        - PE
+        - PF
+        - PG
+        - PH
+        - PK
+        - PL
+        - PM
+        - PN
+        - PR
+        - PS
+        - PT
+        - PW
+        - PY
+        - QA
+        - RE
+        - RO
+        - RS
+        - RU
+        - RW
+        - SA
+        - SB
+        - SC
+        - SE
+        - SG
+        - SH
+        - SI
+        - SJ
+        - SK
+        - SL
+        - SM
+        - SN
+        - SO
+        - SR
+        - ST
+        - SV
+        - SZ
+        - TC
+        - TD
+        - TF
+        - TG
+        - TH
+        - TJ
+        - TK
+        - TL
+        - TM
+        - TN
+        - TO
+        - TP
+        - TR
+        - TT
+        - TV
+        - TW
+        - TZ
+        - UA
+        - UG
+        - UM
+        - US
+        - UY
+        - UZ
+        - VA
+        - VC
+        - VE
+        - VG
+        - VI
+        - VN
+        - VU
+        - WF
+        - WS
+        - YE
+        - YT
+        - YU
+        - ZA
+        - ZM
+        - ZW
+        format: iso-country-code
+        type: string
+      postalCode:
+        description: Postal code of organization address
+        type: string
+      state:
+        description: Full name of State/Province/Territory of organization address
+        type: string
+    required:
+    - address1
+    - country
+  Certificate:
+    properties:
+      certificateId:
+        description: The unique identifier of the certificate request. Only present if no errors returned
+        type: string
+      commonName:
+        description: Common name of certificate
+        type: string
+      contact:
+        $ref: '#/definitions/CertificateContact'
+        description: Requestor contact information
+      createdAt:
+        description: The date the certificate was ordered.
+        format: iso-datetime
+        type: string
+      deniedReason:
+        description: Only present if certificate order has been denied
+        type: string
+      organization:
+        $ref: '#/definitions/CertificateOrganization'
+        description: Organization Name in certificate
+      period:
+        description: Validity period of order. Specified in years
+        type: integer
+      productType:
+        description: Certificate product type
+        enum:
+        - DV_SSL
+        - DV_WILDCARD_SSL
+        - EV_SSL
+        - OV_CS
+        - OV_DS
+        - OV_SSL
+        - OV_WILDCARD_SSL
+        - UCC_DV_SSL
+        - UCC_EV_SSL
+        - UCC_OV_SSL
+        type: string
+      progress:
+        description: Percentage of completion for certificate vetting
+        type: integer
+      revokedAt:
+        description: The revocation date of certificate (if revoked).
+        format: iso-datetime
+        type: string
+      rootType:
+        description: Root Type
+        enum:
+        - GODADDY_SHA_1
+        - GODADDY_SHA_2
+        - STARFIELD_SHA_1
+        - STARFIELD_SHA_2
+        type: string
+      serialNumber:
+        description: Serial number of certificate (if issued or revoked)
+        type: string
+      serialNumberHex:
+        description: Hexadecmial format for Serial number of certificate(if issued or revoked)
+        type: string
+      slotSize:
+        description: 'Number of subject alternative names(SAN) to be included in certificate '
+        enum:
+        - FIVE
+        - TEN
+        - FIFTEEN
+        - TWENTY
+        - THIRTY
+        - FOURTY
+        - FIFTY
+        - ONE_HUNDRED
+        type: string
+      status:
+        description: Status of certificate
+        enum:
+        - PENDING_ISSUANCE
+        - ISSUED
+        - REVOKED
+        - CANCELED
+        - DENIED
+        - PENDING_REVOCATION
+        - PENDING_REKEY
+        - UNUSED
+        - EXPIRED
+        type: string
+      subjectAlternativeNames:
+        description: Contains subject alternative names set
+        items:
+          $ref: '#/definitions/SubjectAlternativeNameDetails'
+        type: array
+      validEnd:
+        description: The end date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+      validStart:
+        description: The start date of the certificate's validity (if issued or revoked).
+        format: iso-datetime
+        type: string
+    required:
+    - certificateId
+    - status
+    - contact
+    - period
+    - createdAt
+    - productType
+  ErrorField_2:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      message:
+        description: Description of the problem with the contents of the field
+        type: string
+      path:
+        description: JSONPath referring to the field within the submitted data containing an error
+        format: json-path
+        type: string
+    required:
+    - path
+    - code
+  CertificateReissueV2:
+    properties:
+      csr:
+        default: New CSR, required for rekey only. Changes to common name or subject alternative names will be rejected.
+        description: Certificate Signing Request.
+        type: string
+      revokeExistingCertificate:
+        default: false
+        description: Whether to revoke existing certificate upon issuance of new certificate
+        type: boolean
+      delayExistingRevoke:
+        default: 72
+        description: In hours, time to delay revoking existing certificate after issuance of new certificate. If revokeExistingCertOnIssuance is enabled, this value will be ignored
+        maximum: 168
+        type: integer
+      forceDomainRevetting:
+        description: Optional field. Domain verification will be required for each domain listed here. Specify a value of * to indicate that all domains associated with the request should have their domain information reverified.
+        items:
+          type: string
+        type: array
+        uniqueItems: true
+  CertificateSummariesV2:
+    properties:
+      certificates:
+        type: array
+        items:
+          $ref: '#/definitions/CertificateSummaryV2'
+        description: List of certificates for a specified customer.
+      pagination:
+        $ref: '#/definitions/Pagination_2'
+    required:
+    - certificates
+    - pagination
+  Pagination_2:
+    type: object
+    properties:
+      first:
+        type: string
+        description: URI to access the first page
+      previous:
+        type: string
+        description: URI to access the previous page
+      next:
+        type: string
+        description: URI to access the next page
+      last:
+        type: string
+        description: URI to access the last page
+      total:
+        type: integer
+        description: Number of records available
+  PEMCertificates:
+    properties:
+      certificate:
+        description: End entity certificate in PEM format
+        type: string
+      cross:
+        description: CA Cross Intermediate certificate in PEM format
+        type: string
+      intermediate:
+        description: CA Signing Intermediate certificate in PEM format
+        type: string
+      root:
+        description: CA Root certificate in PEM format
+        type: string
+    required:
+    - certificate
+  SubscriptionCertificateCreate:
+    properties:
+      callbackUrl:
+        description: Required if client would like to receive stateful actions via callback during certificate lifecyle
+        type: string
+      commonName:
+        description: Name to be secured in certificate. If provided, CN field in CSR will be ignored.
+        type: string
+      certificateId:
+        description: Id of the existing certificate to renew. If provided, all other fields will be ignored and copied from the existing certificate.
+        type: string
+      contact:
+        $ref: '#/definitions/CertificateContact'
+        description: Requestor contact information
+      csr:
+        description: Certificate Signing Request
+        type: string
+      intelVPro:
+        default: false
+        description: Only used for OV
+        type: boolean
+      organization:
+        $ref: '#/definitions/CertificateOrganizationCreate'
+        description: Required for EVSSL, OVSSL, CS, and DS
+      period:
+        description: Number of years for certificate validity period
+        type: integer
+      termType:
+        description: Determines the temporal unit used for period value.
+        enum:
+        - YEARS
+        - DAYS
+        type: string
+      productType:
+        description: Type of product requesting a certificate. Only required non-renewal
+        enum:
+        - DV_SSL
+        - DV_WILDCARD_SSL
+        - EV_SSL
+        - OV_CS
+        - OV_DS
+        - OV_SSL
+        - OV_WILDCARD_SSL
+        - UCC_DV_SSL
+        - UCC_EV_SSL
+        - UCC_OV_SSL
+        type: string
+      rootType:
+        default: STARFIELD_SHA_2
+        description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+        enum:
+        - GODADDY_SHA_1
+        - GODADDY_SHA_2
+        - STARFIELD_SHA_1
+        - STARFIELD_SHA_2
+        type: string
+      slotSize:
+        description: 'Number of subject alternative names(SAN) to be included in certificate '
+        enum:
+        - FIVE
+        - TEN
+        - FIFTEEN
+        - TWENTY
+        - THIRTY
+        - FOURTY
+        - FIFTY
+        - ONE_HUNDRED
+        type: string
+      subjectAlternativeNames:
+        description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+        items:
+          type: string
+        type: array
+        uniqueItems: true
+    required: []
+  Pagination:
+    properties:
+      first:
+        description: Optional link to first list of results
+        type: string
+      last:
+        description: Optional link to last list of results
+        type: string
+      next:
+        description: Optional link to next list of results
+        type: string
+      previous:
+        description: Optional link to previous list of results
+        type: string
+      total:
+        description: Number of records available
+        type: integer
+  Domain:
+    description: 'A domain, subject alternative name, or alias.
+
+      '
+    example: example.com
+    type: string
+  SubscriptionCertificateIdentifier:
+    properties:
+      certificateId:
+        description: The unique identifier of the certificate request. Only present if verified.
+        type: string
+      subscriptionId:
+        description: The unique identifier of the subscription owning the certificate request.
+        type: string
+      subscriptionCreatedForOrder:
+        description: Was subscription purchased for certificate order.
+        type: boolean
+    required:
+    - certificateId
+    - subscriptionId
+    - subscriptionCreatedForOrder
+  CertificateOrganization:
+    properties:
+      address:
+        $ref: '#/definitions/CertificateAddress'
+        description: Organization presence address
+      assumedName:
+        description: Only for EVSSL. The DBA(does business as) name for the organization.
+        type: string
+      jurisdictionOfIncorporation:
+        $ref: '#/definitions/JurisdictionOfIncorporation'
+        description: Jurisdiction of Incorporation
+      name:
+        description: Name of organization that owns common name
+        type: string
+      phone:
+        description: Phone number for organization
+        type: string
+      registrationAgent:
+        description: Only for EVSSL.
+        type: string
+      registrationNumber:
+        description: Only for EVSSL.
+        type: string
+    required:
+    - name
+    - phone
+    - address
+  Page:
+    default: '1'
+    description: The page number.
+    format: int32
+    minimum: 1
+    type: integer
+  CertificatesByDomainPaged:
+    allOf:
+    - $ref: '#/definitions/CertificatesByDomain'
+    - properties:
+        currentPage:
+          $ref: '#/definitions/Page'
+        data:
+          items:
+            $ref: '#/definitions/CertificateDetails'
+          minItems: 0
+          type: array
+        pageSize:
+          $ref: '#/definitions/PageSize'
+        total:
+          $ref: '#/definitions/Count'
+      type: object
+    required:
+    - total
+    - currentPage
+    - pageSize
+    - data
+  DomainVerificationSummary:
+    properties:
+      domain:
+        description: Domain name
+        format: domain
+        type: string
+      domainEntityId:
+        description: A unique identifier that can be leveraged for retrieving domain verification related information. Primarily used when troubleshooting a request
+        type: integer
+      dceToken:
+        description: DCE verification type token (if DCE verification type).
+        type: string
+      status:
+        description: "Domain verification status: \n  * `AWAITING` - Verification pending customer input\n  * `INVALID` - SAN connected to a cancelled request\n  * `COMPLETED` - Verification completed\n  * `FAILED_VERIFICATION` - Verification failed\n  * `PENDING_POSSIBLE_FRAUD` - Flagged for a system level fraud review\n  * `VERIFIED_POSSIBLE_FRAUD` - Fraud detection reviewed but verified\n  * `DROPPED` - SAN dropped from request\n  * `REVOKED_CERT` - Certificate revoked\n  * `DROPPED_GOOGLE_SAFE_BROWSING` - SAN dropped from request due to Google Safe Browsing check\n  * `DROPPED_CERTIFICATE_AUTHORITY_AUTHORIZATION` - SAN dropped from request due to Certificate Authorization Authority DNS record check\n"
+        enum:
+        - COMPLETED
+        - FAILED_VERIFICATION
+        - VERIFIED_POSSIBLE_FRAUD
+        - DROPPED
+        - DROPPED_CERTIFICATE_AUTHORITY_AUTHORIZATION
+        - DROPPED_GOOGLE_SAFE_BROWSING
+        - INVALID
+        - AWAITING
+        - PENDING_POSSIBLE_FRAUD
+        - REVOKED_CERTIFICATE
+        type: string
+      createdAt:
+        description: Timestamp indicating when the domain verification process was started
+        format: iso-datetime
+        type: string
+      modifiedAt:
+        description: Timestamp indicating when the domain verification process was last updated
+        format: iso-datetime
+        type: string
+      type:
+        description: "Domain verification type: \n  * `AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_ADMIN` - Domain verified using domain control verification email sent to admin@<your.domain.com>\n  * `AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_ADMINSTRATOR` - Domain verified using domain control verification email sent to administrator@<your.domain.com>\n  * `AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_HOST_MASTER` - Domain verified using domain control verification email sent to hostmaster@<your.domain.com>\n  * `AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_POST_MASTER` - Domain verified using domain control verification email sent to postmaster@<your.domain.com>\n  * `AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_WEB_MASTER` - Domain verified using domain control verification email sent to webmaster@<your.domain.com>\n  * `DOMAIN_ACCESS_EMAIL` - Domain verified using a domain access email\n  * `DOMAIN_ACCESS_LETTER` - Customer completed a domain access letter which was used for domain verification\n  * `DOMAIN_CONTROL_EMAIL` - Domain verified using HTML file or DNS zone file text value\n  * `DOMAIN_ZONE_CONTROL` - DNS zone file containing a pre-generated text value used for domain verification\n  * `MANUAL_DOMAIN_ACCESS_EMAIL` - DAE sent to an email address manually entered by a rep\n  * `PREVIOUS_DOMAIN_ACCESS_EMAIL` - Customers domain access email for a prior certificate request was used for domain verification\n  * `REGISTRATION_AUTHORITY_DOMAIN_ACCESS_LETTER` - Representative reviewed a customer provided domain access letter and verified domain\n  * `REGISTRATION_AUTHORITY_DOMAIN_ZONE_CONTROL` - Representative verified domain using a manual domain zone control check\n  * `REGISTRATION_AUTHORITY_OVERRIDE` - Representative verified domain using alternative methods\n  * `REGISTRATION_AUTHORITY_WEBSITE_CONTROL` - Representative verified domain using a manual website control check\n  * `CUSTOMER_OWNED` - Validated customer account information used for domain control verification\n  * `WEBSITE_CONTROL` - HTML file in root website directory containing pre-generated value used for domain control verification\n"
+        enum:
+        - DOMAIN_CONTROL_EMAIL
+        - AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_ADMIN
+        - AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_ADMINSTRATOR
+        - AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_HOST_MASTER
+        - AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_POST_MASTER
+        - AUTO_GENERATED_DOMAIN_ACCESS_EMAIL_WEB_MASTER
+        - DOMAIN_ACCESS_EMAIL
+        - DOMAIN_ACCESS_LETTER
+        - DOMAIN_ZONE_CONTROL
+        - MANUAL_DOMAIN_ACCESS_EMAIL
+        - PREVIOUS_DOMAIN_ACCESS_EMAIL
+        - REGISTRATION_AUTHORITY_DOMAIN_ACCESS_LETTER
+        - REGISTRATION_AUTHORITY_DOMAIN_ZONE_CONTROL
+        - REGISTRATION_AUTHORITY_OVERRIDE
+        - REGISTRATION_AUTHORITY_WEBSITE_CONTROL
+        - CUSTOMER_OWNED
+        - WEBSITE_CONTROL
+        type: string
+      usage:
+        description: Type of domain name used for domain verification
+        enum:
+        - COMMON_NAME
+        - SUBJECT_ALTERNATIVE_NAME
+        type: string
+    required:
+    - domain
+    - domainEntityId
+    - status
+    - createdAt
+    - modifiedAt
+    - type
+    - usage
+  AbuseTicketList:
+    properties:
+      pagination:
+        $ref: '#/definitions/Pagination'
+      ticketIds:
+        description: A list of abuse ticket ids originated by this reporter.
+        items:
+          type: string
+        type: array
+    required:
+    - ticketIds
+  ErrorField:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      message:
+        description: Human-readable, English description of the problem with the contents of the field
+        type: string
+      path:
+        description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
+        format: json-path
+        type: string
+      pathRelated:
+        description: JSONPath referring to the field on the object referenced by `path` containing an error
+        format: json-path
+        type: string
+    required:
+    - path
+    - code
+  CertificateBundle:
+    properties:
+      pems:
+        $ref: '#/definitions/PEMCertificates'
+        description: Certificates in PEM format
+      serialNumber:
+        description: Serial number of certificate requested
+        type: string
+    required:
+    - serialNumber
+    - pems
+  ErrorLimit:
+    x-error-model: true
+    additionalProperties: false
+    allOf:
+    - type: object
+      properties:
+        retryAfterSec:
+          format: integer-positive
+          type: integer
+          description: Number of seconds to wait before attempting a similar request
+      required:
+      - retryAfterSec
+    - $ref: '#/definitions/Error_2'
+  Error_2:
+    properties:
+      code:
+        description: Short identifier for the error, suitable for indicating the specific error within client code
+        format: constant
+        type: string
+      fields:
+        description: List of the specific fields, and the errors found with their contents
+        items:
+          $ref: '#/definitions/ErrorField_2'
+        type: array
+      message:
+        description: Description of the error
+        type: string
+    required:
+    - code
+  AbuseTicketCreateBase:
+    required:
+    - source
+    properties:
+      info:
+        description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
+        type: string
+      infoUrl:
+        description: Reporter URL if housing additional information that may assist the abuse investigator
+        format: url
+        type: string
+      source:
+        description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
+        type: string
+      target:
+        description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+        type: string
+  Count:
+    description: The total aggregate count.
+    format: int64
+    minimum: 0
+    type: integer
+  DomainVerificationDetail:
+    allOf:
+    - $ref: '#/definitions/DomainVerificationSummary'
+    - type: object
+      properties:
+        certificateAuthorityAuthorization:
+          description: 'Contains information about the last Certificate Authority Authorization (CAA) Lookup details for the specified domain.
+
+
+            In order for a domain to be eligible to be included in the certificate, the entire domain hierarchy must be scanned for DNS CAA records, as outlined by RFC 6844.
+
+
+            The absence of any CAA records found in the domain hierarchy indicates that the domain may be included in the certificate. Alternatively, if CAA records are found when scanning the domain hierarchy, the domain may be included in the certificate as long as `godaddy.com` or `starfieldtech.com` is found in the DNS record value. However, if CAA records are found, yet `godaddy.com` or `starfieldtech.com` is not found in any CAA record''s value, then we must drop the domain from the certificate request.
+
+
+            In the case where there are repeated DNS errors when scanning the domain hierarchy for CAA records, thus ending in an unsuccessful scan, then the domain can still be included in the certificate provided the primary domain is not setup with DNSSEC. Conversely, if DNSSEC is found to be setup on the primary domain when scanning following repeated CAA failures, the domain must be dropped from the certificate request. Finally, if DNS errors persist to the point where a successful DNSSEC query could not be obtained, then the domain must be dropped from the certificate request.
+
+            '
+          type: object
+          properties:
+            status:
+              description: 'Returns the status of the CAA Lookup for the specified domain:
+
+                * `PENDING` - The CAA lookup has not yet been attempted for the specified domain.
+
+                * `REMOVED_DNS_ERROR` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNS errors then prevented the system from determining if DNSSEC was enabled for the specified domain, and it had to be removed from the certificate request.
+
+                * `REMOVED_DNSSEC_ENABLED` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNSSEC was determined to be enabled for the specified domain, and it had to be removed from the certificate request.
+
+                * `REMOVED_NOT_FOUND_CA` - CAA records were found during the CAA lookup for the speicified domain, but `godaddy.com` or `starfieldtech.com` was not listed as a value, thereby not allowing us to issue a certificate with this domain. The specified domain was removed from the certificate request.
+
+                * `REMOVED_UNKNOWN_CRITICAL_TAG` - A CAA record was found during the CAA lookup with its Critical bit set, as outlined by RFC 6844, yet the Tag of the CAA record was not understood (as outlined by RFC 6844). The specified domain was removed from the certificate request.
+
+                * `SUCCESS_CAA` - The CAA lookup was successful for the specified domain, and the domain can remain in the certificate request.
+
+                * `SUCCESS_DNSSEC` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. The system detemined that DNSSEC was not enabled for the specified domain, so the domain is allowed to remain in the certificate request.
+
+                '
+              enum:
+              - PENDING
+              - REMOVED_DNS_ERROR
+              - REMOVED_DNSSEC_ENABLED
+              - REMOVED_NOT_FOUND_CA
+              - REMOVED_UNKNOWN_CRITICAL_TAG
+              - SUCCESS_CAA
+              - SUCCESS_DNSSEC
+              type: string
+            queryPaths:
+              description: Details all the individual DNS paths that were scanned for CAA records for this domain, as detailed by RFC 6844. This element not only contains the parts determined from parsing the domain, but also any CNAME or DNAME targets specified by any of those individual parts.
+              type: array
+              items:
+                type: string
+            recommendations:
+              description: Returns a list of fix recommendations if the query was unsuccessful, or if the domain was dropped from the certificate request, so that a subsequent certificate request with the specified domain will successfully pass its CAA scan.
+              type: array
+              items:
+                description: '* `ADD_CA_TO_CAA` - The system found a CAA record in the domain hierarchy, but it did not find our CA in the record''s values. Add `godaddy.com` or `starfieldtech.com` to the CAA record''s values.
+
+                  * `CREATE_TARGET_DOMAIN_CAA` - Create a CAA record on the specified domain with `godaddy.com` or `starfieldtech.com` as the value. If the system finds a CAA record in the specified domain, it will stop scanning the domain hierarchy, thereby preventing potentially problematic parent domain paths from being scanned.
+
+                  * `DISABLE_DNSSEC` - Disable DNSSEC on the domain if CAA lookups fail and a DNSSEC scan is being used as the method for determining if the specified domain can remain in the certificate request.
+
+                  * `FIX_CRITICAL_TAG` - When setting the critical flag in a CAA record, you must ensure you''re using a well-known tag, per RFC 6844.
+
+                  * `VALIDATE_SOA` - Make sure all queryPaths for the specified domain have an SOA record pointing to a valid publicly-accessible nameserver and respond in a timely fashion.
+
+                  '
+                enum:
+                - ADD_CA_TO_CAA
+                - CREATE_TARGET_DOMAIN_CAA
+                - DISABLE_DNSSEC
+                - FIX_CRITICAL_TAG
+                - VALIDATE_SOA
+                type: string
+            completedAt:
+              description: The date the certificate request completed processing.
+              format: iso-datetime
+              type: string
+  JurisdictionOfIncorporation:
+    properties:
+      city:
+        type: string
+      country:
+        format: iso-country-code
+        type: string
+      county:
+        type: string
+      state:
+        type: string
+    required:
+    - country
+  CertificateType:
+    description: The type of certificate in terms of the number of applicable domains.
+    enum:
+    - SINGLE
+    - UCC
+    - WILDCARD
+    type: string
+  PageSize:
+    description: The page size.
+    format: int32
+    type: integer
+  CertificateDetails:
+    properties:
+      certificateId:
+        type: string
+      completionDate:
+        format: date-time
+        type: string
+      domain:
+        $ref: '#/definitions/Domain'
+      period:
+        type: integer
+      requestDate:
+        format: date-time
+        type: string
+      revocationDate:
+        format: date-time
+        type: string
+      sans:
+        description: This includes the common-name
+        items:
+          $ref: '#/definitions/Domain'
+        minItems: 0
+        type: array
+      serialNumber:
+        type: string
+      slotSize:
+        format: int32
+        type: integer
+      status:
+        $ref: '#/definitions/CertificateStatus'
+      type:
+        $ref: '#/definitions/CertificateType'
+      validEndDate:
+        format: date-time
+        type: string
+      validStartDate:
+        format: date-time
+        type: string
+      validationType:
+        $ref: '#/definitions/CertificateValidationType'
+    required:
+    - certificateId
+    - domain
+    - period
+    - requestDate
+    - status
+    - type
+    - validationType
+    type: object
+  ExternalAccountBinding:
+    properties:
+      directoryUrl:
+        description: ACME directory resource URL.
+        format: url
+        type: string
+      keyId:
+        description: EAB key identifier for the ACME account.
+        type: string
+      hmacKey:
+        description: EAB HMAC key for the ACME account
+        type: string
+    required:
+    - directoryUrl
+    - keyId
+    - hmacKey
+  AbuseTicket:
+    allOf:
+    - $ref: '#/definitions/AbuseTicketLegacy'
+    - type: object
+      properties:
+        closeReason:
+          description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
+          enum:
+          - ACTIONED
+          - FALSE_POSITIVE
+          - FORWARDED_COMPLAINT
+          - RECLASSIFIED
+          - NOT_REGISTERED_HOSTED_HERE
+          type: string
+  AbuseTicketLegacy:
+    description: The associated fields returned, given a unique abuse ticket id
+    properties:
+      closed:
+        default: false
+        description: Is this abuse ticket closed?
+        type: boolean
+      closedAt:
+        description: The date the abuse ticket was closed
+        format: iso-datetime
+        type: string
+      createdAt:
+        description: The date the abuse ticket was created
+        format: iso-datetime
+        type: string
+      domainIp:
+        description: The domain or IP the suspected abuse was reported against
+        type: string
+      reporter:
+        description: The shopper id of the person who reported the suspected abuse
+        type: string
+      source:
+        description: The single URL or IP the suspected abuse was reported against
+        type: string
+      target:
+        description: The company the suspected abuse is targeting
+        type: string
+      ticketId:
+        description: Abuse ticket ID
+        type: string
+      type:
+        description: The type of abuse being reported
+        enum:
+        - A_RECORD
+        - CHILD_ABUSE
+        - CONTENT
+        - FRAUD_WIRE
+        - IP_BLOCK
+        - MALWARE
+        - NETWORK_ABUSE
+        - PHISHING
+        - SPAM
+        type: string
+    required:
+    - ticketId
+    - reporter
+    - domainIp
+    - closed
+    - type
+    - target
+    - source
+    - createdAt
+    - closedAt
+  AbuseTicketCreate:
+    required:
+    - type
+    allOf:
+    - $ref: '#/definitions/AbuseTicketCreateBase'
+    - type: object
+      properties:
+        type:
+          description: The type of abuse being reported.
+          enum:
+          - CHILD_ABUSE
+          - MALWARE
+          - PHISHING
+          type: string
+        proxy:
+          description: The regional location that the content needs to be viewed from.<br/>Here is a mapping of the regional codes to common countries.<br/>ARE - Pakistan, Israel, Turkey, Azerbaijan<br/>SGP - Japan, Tokyo, AU, Australia, Sydney, Singapore, India, Mumbai, New Zealand, Philippines, Korea, Indonesia, China, Malaysia, Taiwan, India<br/>ZAF - South Africa<br/>USA - Canada, United States<br/>BRA - Brazil, Argentina, Ecuador, Mexico, Peru, South America, Colombia, Chile, Guatemala, Panama<br/>DEU - Germany, France, United Kingdom, London, Italy, Belgium, Netherlands, Spain, Ukraine, Austria, Switzerland, Frankfurt, Denmark, Norway, Sweden, Finland, Iceland, Slovakia, Romania, Luxembourg, Poland, Ireland, Portugal, Moldova, Bulgaria, Slovenia, Serbia, Hungary, Lithuania, Malta, Morocco, Latvia, Estonia, Russian Federation, Sweden
+          enum:
+          - ARE
+          - SGP
+          - ZAF
+          - USA
+          - BRA
+          - DEU
+          - OTHER
+          - NOT_APPLICABLE
+          type: string
+        useragent:
+          description: The user-agent required to view the content.
+          enum:
+          - DESKTOP
+          - MOBILE
+          - OTHER
+          - NOT_APPLICABLE
+          type: string
+  CertificateOrganizationCreate:
+    properties:
+      address:
+        $ref: '#/definitions/CertificateAddress'
+        description: Organization presence address
+      assumedName:
+        description: Only for EVSSL. The DBA(does business as) name for the organization.
+        type: string
+      name:
+        description: Name of organization that owns common name
+        type: string
+      phone:
+        description: Phone number for organization
+        type: string
+      registrationAgent:
+        description: Only for EVSSL.
+        type: string
+      registrationNumber:
+        description: Only for EVSSL.
+        type: string
+    required:
+    - name
+    - phone
+  CertificatesByDomainPage:
+    properties:
+      currentPage:
+        $ref: '#/definitions/Page'
+      data:
+        items:
+          $ref: '#/definitions/CertificatesByDomainPaged'
+        minItems: 0
+        type: array
+      pageSize:
+        $ref: '#/definitions/PageSize'
+      total:
+        $ref: '#/definitions/Count'
+    required:
+    - total
+    - currentPage
+    - pageSize
+    - data
+    type: object
+  AbuseTicketId:
+    description: The primary key of a newly created abuse ticket
+    properties:
+      u_number:
+        description: Abuse ticket ID
+        type: string
+    required:
+    - u_number
+  CertificateContact:
+    properties:
+      email:
+        description: Email address of requestor contact
+        type: string
+      jobTitle:
+        description: Only used for EVSSL. Job title of requestor contact
+        type: string
+      nameFirst:
+        description: First name of requestor contact
+        type: string
+      nameLast:
+        description: Last name of requestor contact
+        type: string
+      nameMiddle:
+        description: Middle initial of requestor contact
+        type: string
+      phone:
+        description: Phone number for requestor contact
+        type: string
+      suffix:
+        description: Suffix of requestor contact
+        type: string
+    required:
+    - nameFirst
+    - nameLast
+    - email
+    - phone
+  Guid:
+    description: A Globally Unique Identifier
+    example: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+    type: string
+  CertificateStatus:
+    description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+    enum:
+    - ACTIVE
+    - DENIED
+    - EXPIRED
+    - PENDING
+    - REVOKED
+    type: string
+  CertificatesByDomain:
+    properties:
+      allowedDomains:
+        description: The domains that are currently allowed on this subscription.
+        items:
+          $ref: '#/definitions/Domain'
+        minItems: 1
+        type: array
+      domain:
+        $ref: '#/definitions/Domain'
+      guid:
+        $ref: '#/definitions/Guid'
+      maxDomains:
+        description: The maximum number of domains allowed on this subscription.
+        type: integer
+      subscriptionEndDate:
+        format: date-time
+        type: string
+      subscriptionStartDate:
+        format: date-time
+        type: string
+      subscriptionStatus:
+        default: ACTIVE
+        description: 'The internal representation of the subscription.
+
+          A reflection of the entitlement status.
+
+          '
+        enum:
+        - ACTIVE
+        - SUSPENDED
+        - CANCELED
+        type: string
+    required:
+    - domain
+    - guid
+    - subscriptionStartDate
+    - subscriptionEndDate
+    - subscriptionStatus
+    - maxDomains
+    - allowedDomains
+    type: object
+  SubjectAlternativeNameDetails:
+    properties:
+      status:
+        description: Total number of page results
+        enum:
+        - PENDING
+        - INVALID
+        - COMPLETED
+        - FRAUD
+        type: string
+      subjectAlternativeName:
+        description: Subject alternative name to be included in certificate
+        type: string
+    required:
+    - subjectAlternativeName
+    - status
+parameters:
+  DomainParam:
+    in: query
+    name: domain
+    required: false
+    type: string
+    description: 'Filter by domain name / common name.
+
+      This will look for the text inside the content of the domain.
+
+      This is not a "find domains that start with x" search.
+
+      '
+  certificateId:
+    description: Certificate id to lookup
+    in: path
+    name: certificateId
+    required: true
+    type: string
+  customerId:
+    name: customerId
+    description: An identifier for a customer
+    in: path
+    required: true
+    type: string
+  SubscriptionPageSize:
+    default: '15'
+    description: 'The number of records to return per query.
+
+      '
+    format: int32
+    in: query
+    name: pageSize
+    required: false
+    type: integer
+  CertificateValidationTypeParam:
+    in: query
+    name: validation
+    required: false
+    default: ANY
+    description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+    enum:
+    - ANY
+    - DV
+    - EV
+    - OV
+    type: string
+  PageParam:
+    name: page
+    in: query
+    required: false
+    description: 'The page number. <b>(First page is <i>one</i> instead of zero.)</b>
+
+      '
+    default: '1'
+    format: int32
+    minimum: 1
+    type: integer
+  PageSizeParam:
+    name: pageSize
+    in: query
+    required: false
+    description: The number of records to return per query.
+    format: int32
+    type: integer
+    default: '15'
+  SubscriptionGuidParam:
+    description: The Subscription GUID containing the certificates being requested.
+    in: path
+    name: guid
+    required: true
+    type: string
+    default: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+  limit:
+    name: limit
+    required: false
+    in: query
+    type: integer
+    format: integer-positive
+    pattern: ^[0-9]+$
+    description: Maximum number of items to return
+  CertificateStatusParam:
+    in: query
+    name: status
+    required: false
+    default: ANY
+    description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+    enum:
+    - ANY
+    - ACTIVE
+    - DENIED
+    - EXPIRED
+    - PENDING
+    - REVOKED
+    type: string
+  offset:
+    name: offset
+    required: false
+    in: query
+    type: integer
+    format: integer-positive
+    pattern: ^[0-9]+$
+    description: Number of results to skip for pagination
+  domain:
+    in: path
+    name: domain
+    type: string
+    format: domain
+    description: A valid domain name in the certificate request
+    required: true
+  CertificateTypeParam:
+    in: query
+    name: type
+    required: false
+    default: ANY
+    description: The type of certificate in terms of the number of applicable domains.
+    enum:
+    - ANY
+    - SINGLE
+    - UCC
+    - WILDCARD
+    type: string
+responses:
+  '422':
+    description: Application-specific request error
+    x-error-codes:
+    - INVALID_INPUT
+    schema:
+      $ref: '#/definitions/Error_2'
+  '403':
+    description: Authenticated user is not allowed access
+    x-error-codes:
+    - ACCESS_DENIED
+    schema:
+      $ref: '#/definitions/Error_2'
+  '429':
+    description: Too many requests received within interval
+    x-error-codes:
+    - RATE_LIMITED
+    schema:
+      $ref: '#/definitions/ErrorLimit'
+  '500':
+    description: Internal server error
+    x-error-codes:
+    - INTERNAL_SERVER_ERROR
+    schema:
+      $ref: '#/definitions/Error_2'
+  '401':
+    description: Authentication info not sent or is invalid
+    x-error-codes:
+    - UNAUTHORIZED
+    schema:
+      $ref: '#/definitions/Error_2'
+  '404':
+    description: Resource not found
+    x-error-codes:
+    - NOT_FOUND
+    schema:
+      $ref: '#/definitions/Error_2'
