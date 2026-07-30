@@ -4,9 +4,21 @@ description: >-
   GoDaddy is a domain registrar and web hosting company offering REST APIs for domain registration, DNS management,
   certificates, shopper accounts, subscriptions, aftermarket auctions, and abuse reporting.
 type: Index
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/godaddy.png
 tags:
   - Aftermarket
   - Certificates
@@ -19,130 +31,204 @@ created: '2026-03-16'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: godaddy:domains
-    name: GoDaddy Domains API
-    description: Purchase, renew, transfer, and manage domains, DNS records, contacts, and privacy settings programmatically.
-    humanURL: https://developer.godaddy.com/doc/endpoint/domains
-    baseURL: https://api.godaddy.com
-    tags:
-      - Domains
-      - DNS
-      - Registrar
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/domains
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-domains-openapi.json
-  - aid: godaddy:certificates
-    name: GoDaddy Certificates API
-    description: Issue, validate, renew, and manage SSL/TLS certificates for domains.
-    humanURL: https://developer.godaddy.com/doc/endpoint/certificates
-    baseURL: https://api.godaddy.com
-    tags:
-      - Certificates
-      - SSL
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/certificates
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-certificates-openapi.json
-  - aid: godaddy:shoppers
-    name: GoDaddy Shoppers API
-    description: Create, retrieve, update, and delete shopper accounts and subaccounts.
-    humanURL: https://developer.godaddy.com/doc/endpoint/shoppers
-    baseURL: https://api.godaddy.com
-    tags:
-      - Shoppers
-      - Accounts
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/shoppers
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-shoppers-openapi.json
-  - aid: godaddy:subscriptions
-    name: GoDaddy Subscriptions API
-    description: Manage subscription products including listing, canceling, and updating subscription billing settings.
-    humanURL: https://developer.godaddy.com/doc/endpoint/subscriptions
-    baseURL: https://api.godaddy.com
-    tags:
-      - Subscriptions
-      - Billing
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/subscriptions
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-subscriptions-openapi.json
-  - aid: godaddy:orders
-    name: GoDaddy Orders API
-    description: Retrieve order history, line items, and order details for shopper purchases.
-    humanURL: https://developer.godaddy.com/doc/endpoint/orders
-    baseURL: https://api.godaddy.com
-    tags:
-      - Orders
-      - Billing
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/orders
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-orders-openapi.json
-  - aid: godaddy:aftermarket
-    name: GoDaddy Aftermarket API
-    description: List, manage, and remove domains for sale on the GoDaddy aftermarket auction platform.
-    humanURL: https://developer.godaddy.com/doc/endpoint/aftermarket
-    baseURL: https://api.godaddy.com
-    tags:
-      - Aftermarket
-      - Auctions
-      - Domains
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/aftermarket
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-aftermarket-openapi.json
-  - aid: godaddy:abuse
-    name: GoDaddy Abuse API
-    description: Submit and track abuse reports related to domains and hosted content.
-    humanURL: https://developer.godaddy.com/doc/endpoint/abuse
-    baseURL: https://api.godaddy.com
-    tags:
-      - Abuse
-      - Trust and Safety
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/abuse
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-abuse-openapi.json
-  - aid: godaddy:agreements
-    name: GoDaddy Agreements API
-    description: Retrieve legal agreements required for purchasing or registering products.
-    humanURL: https://developer.godaddy.com/doc/endpoint/agreements
-    baseURL: https://api.godaddy.com
-    tags:
-      - Agreements
-      - Legal
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/agreements
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-agreements-openapi.json
-  - aid: godaddy:countries
-    name: GoDaddy Countries API
-    description: Retrieve supported countries, states, and markets used across GoDaddy APIs.
-    humanURL: https://developer.godaddy.com/doc/endpoint/countries
-    baseURL: https://api.godaddy.com
-    tags:
-      - Countries
-      - Reference Data
-    properties:
-      - type: Documentation
-        url: https://developer.godaddy.com/doc/endpoint/countries
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-countries-openapi.json
+- aid: godaddy:godaddy-actions-api
+  name: GoDaddy Actions API
+  description: The Actions API from GoDaddy — 2 operation(s) for actions.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Actions
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-actions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-contacts-api
+  name: GoDaddy Contacts API
+  description: The Contacts API from GoDaddy — 1 operation(s) for contacts.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-domains-api
+  name: GoDaddy Domains API
+  description: The Domains API from GoDaddy — 24 operation(s) for domains.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-domains-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-expiry-auctions-registrar-partners-api
+  name: 'GoDaddy Expiry Auctions: Registrar Partners API'
+  description: API for auction-related actions exclusive to whitelisted partners.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - 'Expiry Auctions: Registrar Partners'
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-expiry-auctions-registrar-partners-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-notifications-api
+  name: GoDaddy Notifications API
+  description: The Notifications API from GoDaddy — 4 operation(s) for notifications.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-v1-api
+  name: GoDaddy v1 API
+  description: The v1 API from GoDaddy — 49 operation(s) for v1.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - v1
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-v1-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-v2-api
+  name: GoDaddy v2 API
+  description: >-
+    An incremental update that keeps the endpoints largely the same, but deprecates some commonly misused
+    parameters and add some features to ensure reports can be worked quicker.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - v2
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-v2-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
 common:
   - type: AgenticAccess
     url: agentic-access/godaddy-agentic-access.yml
