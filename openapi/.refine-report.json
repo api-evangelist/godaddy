@@ -1,0 +1,26 @@
+{
+  "provider": "godaddy",
+  "sources": [
+    "godaddy-actions-api-openapi.yml",
+    "godaddy-contacts-api-openapi.yml",
+    "godaddy-domains-api-openapi.yml",
+    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml",
+    "godaddy-notifications-api-openapi.yml",
+    "godaddy-v1-api-openapi.yml",
+    "godaddy-v2-api-openapi.yml"
+  ],
+  "outputs": [
+    "godaddy-actions-api-openapi.yml",
+    "godaddy-contacts-api-openapi.yml",
+    "godaddy-domains-api-openapi.yml",
+    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml",
+    "godaddy-notifications-api-openapi.yml",
+    "godaddy-v1-api-openapi.yml",
+    "godaddy-v2-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
