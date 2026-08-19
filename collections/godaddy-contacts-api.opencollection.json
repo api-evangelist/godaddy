@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Abuse Actions Contacts API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update domain contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/contacts",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose Contacts are to be updated."
+              }
+            ]
+          },
+          "docs": "Update domain contacts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

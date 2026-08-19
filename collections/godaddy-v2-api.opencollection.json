@@ -1,0 +1,424 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Abuse Actions v2 API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "v2",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all abuse tickets ids that match user provided filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/abuse/tickets",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of abuse."
+              },
+              {
+                "name": "closed",
+                "value": "",
+                "type": "query",
+                "description": "Is this abuse ticket closed?"
+              },
+              {
+                "name": "sourceDomainOrIp",
+                "value": "",
+                "type": "query",
+                "description": "The domain name or ip address the abuse originated from"
+              },
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "The brand/company the abuse is targeting. ie: brand name/bank name"
+              },
+              {
+                "name": "createdStart",
+                "value": "",
+                "type": "query",
+                "description": "The earliest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "createdEnd",
+                "value": "",
+                "type": "query",
+                "description": "The latest abuse ticket creation date to pull abuse tickets for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of abuse ticket numbers to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The earliest result set record number to pull abuse tickets for"
+              }
+            ]
+          },
+          "docs": "List all abuse tickets ids that match user provided filters"
+        },
+        {
+          "info": {
+            "name": "Create a new abuse ticket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/abuse/tickets"
+          },
+          "docs": "Create a new abuse ticket"
+        },
+        {
+          "info": {
+            "name": "Return the abuse ticket data for a given ticket id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/abuse/tickets/:ticketId",
+            "params": [
+              {
+                "name": "ticketId",
+                "value": "",
+                "type": "path",
+                "description": "A unique abuse ticket identifier"
+              }
+            ]
+          },
+          "docs": "Return the abuse ticket data for a given ticket id"
+        },
+        {
+          "info": {
+            "name": "Search for certificate details by entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates",
+            "params": [
+              {
+                "name": "entitlementId",
+                "value": "",
+                "type": "query",
+                "description": "Entitlement id to lookup"
+              },
+              {
+                "name": "latest",
+                "value": "",
+                "type": "query",
+                "description": "Fetch only the most recent certificate"
+              }
+            ]
+          },
+          "docs": "Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificates associated to an entitlement."
+        },
+        {
+          "info": {
+            "name": "Create a pending order for certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/certificates",
+            "headers": [
+              {
+                "name": "X-Market-Id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "<p>Creating a certificate order for a subscription can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see '/v1/certificates/{certificateId}/callback'.</p>"
+        },
+        {
+          "info": {
+            "name": "Reissue active certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v2/certificates/:certificateId/reissue",
+            "params": [
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to reissue"
+              }
+            ]
+          },
+          "docs": "<p>Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissue extends validity of the existing certificate by requesting a new certificate with all the same values as existing issued certificate. Once a request is validated and approved, the certificate will be reissued with the same common name and sans specified from existing certificate. Unlimited reissues are available during the lifetime of the "
+        },
+        {
+          "info": {
+            "name": "Download certificate by entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/download",
+            "params": [
+              {
+                "name": "entitlementId",
+                "value": "",
+                "type": "query",
+                "description": "Entitlement id to download"
+              }
+            ]
+          },
+          "docs": "Download certificate by entitlement"
+        },
+        {
+          "info": {
+            "name": "Retrieve customer's certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              }
+            ]
+          },
+          "docs": "This method can be used to retrieve a list of certificates for a specified customer. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieve individual certificate details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificate. <ul><li>**shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieve domain verification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId/domainVerifications",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              }
+            ]
+          },
+          "docs": "This method can be used to retrieve the domain verification status for a certificate request.<ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>\""
+        },
+        {
+          "info": {
+            "name": "Retrieve detailed information for supplied domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/:certificateId/domainVerifications/:domain",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              },
+              {
+                "name": "certificateId",
+                "value": "",
+                "type": "path",
+                "description": "Certificate id to lookup"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "A valid domain name in the certificate request"
+              }
+            ]
+          },
+          "docs": "Retrieve detailed information for supplied domain, including domain verification details and Certificate Authority Authorization (CAA) verification details. <ul><li>**shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)</li></ul>"
+        },
+        {
+          "info": {
+            "name": "Retrieves the external account binding for the specified customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/certificates/acme/externalAccountBinding",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "An identifier for a customer"
+              }
+            ]
+          },
+          "docs": "Use this endpoint to retrieve a key identifier and Hash-based Message Authentication Code (HMAC) key for Automated Certificate Management Environment (ACME) External Account Binding (EAB). These credentials can be used with an ACME client that supports EAB (ex. CertBot) to automate the issuance request and deployment of DV SSL certificates"
+        },
+        {
+          "info": {
+            "name": "Get a page of subscriptions by domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/subscriptions/search",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of records to return per query."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number. <b>(First page is <i>one</i> instead of zero.)</b>\n"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by domain name / common name.\nThis will look for the text inside the content of the domain.\nThis is not a \"find domains that start with x\" search.\n"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of certificate in terms of the number of applicable domains."
+              },
+              {
+                "name": "validation",
+                "value": "",
+                "type": "query",
+                "description": "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+              }
+            ]
+          },
+          "docs": "The pagination starts at page 1. Each page contains a page of *subscriptions*, not certificates. This endpoint is meant for paging the subscriptions under the authorized user's account. Each subscription contains a snapshot of certificates contained within the subscription. To fetch further certificates under a subscription, use the /v2/certificates/subscription/{guid} endpoint with the subscription GUID obtained from this call. If any filtering is applied, subscriptions without any certificates"
+        },
+        {
+          "info": {
+            "name": "GET a page of certificates for a specific domain product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/certificates/subscription/:guid",
+            "params": [
+              {
+                "name": "guid",
+                "value": "",
+                "type": "path",
+                "description": "The Subscription GUID containing the certificates being requested."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of records to return per query.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number. <b>(First page is <i>one</i> instead of zero.)</b>\n"
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by domain name / common name.\nThis will look for the text inside the content of the domain.\nThis is not a \"find domains that start with x\" search.\n"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of certificate in terms of the number of applicable domains."
+              },
+              {
+                "name": "validation",
+                "value": "",
+                "type": "query",
+                "description": "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+              }
+            ]
+          },
+          "docs": "GET a page of certificates for a specific domain product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

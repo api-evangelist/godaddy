@@ -1,0 +1,720 @@
+{
+  "item": [
+    {
+      "id": "e98c4557-2900-4aa5-ba75-1cfaa248074e",
+      "name": "Contacts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd28c9cb-c19c-46f6-af11-f4c2cfd4c977",
+          "name": "Update domain contacts",
+          "request": {
+            "name": "Update domain contacts",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "customers",
+                ":customerId",
+                "domains",
+                ":domain",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain whose Contacts are to be updated."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A client provided identifier for tracking this request.",
+                "key": "X-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4264904b-6d3d-4f3d-adc7-b08c3255ee8b",
+              "name": "Request Accepted. You may use GET /v2/customers/{customerId}/domains/{domain}/actions/DOMAIN_UPDATE_CONTACTS to poll status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0c9e0c1f-fa20-4fdc-b8e1-f11f71f7d4ac",
+              "name": "Request was malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f6a1f37-0ebf-47f6-8528-1d69c73e9591",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4322b4a7-d2d4-484a-b769-fd10ca822c18",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df3a32b9-a3d9-4c24-a314-69e00797e75d",
+              "name": "The domain does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33f4593a-edcf-4372-b8c3-f8d9386942a6",
+              "name": "There is already a similar action processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3fe5bfb-6b23-4660-8886-393a68a6cb8a",
+              "name": "Request body doesn't fulfill schema, see details in `fields`",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f2701b8-4f3b-4a84-b075-913a391a573b",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 8314,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfa75e95-4752-40af-b0c0-1db486cc844b",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose Contacts are to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"identityDocumentId\": \"<string>\",\n  \"contacts\": {\n    \"admin\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"adminId\": \"<string>\",\n    \"billing\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"billingId\": \"<string>\",\n    \"registrant\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"registrantId\": \"<string>\",\n    \"tech\": {\n      \"encoding\": \"ASCII\",\n      \"nameFirst\": \"<person-name>\",\n      \"nameLast\": \"<person-name>\",\n      \"email\": \"<email>\",\n      \"phone\": \"<phone>\",\n      \"addressMailing\": {\n        \"address1\": \"<street-address>\",\n        \"city\": \"<city-name>\",\n        \"state\": \"<state-province-territory>\",\n        \"postalCode\": \"<postal-code>\",\n        \"country\": \"US\",\n        \"address2\": \"<street-address2>\"\n      },\n      \"nameMiddle\": \"<string>\",\n      \"organization\": \"<organization-name>\",\n      \"jobTitle\": \"<string>\",\n      \"fax\": \"<phone>\",\n      \"metadata\": \"<object>\"\n    },\n    \"techId\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.ote-godaddy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3db4405b-8f45-4fad-a707-868e78cb48f3",
+    "name": "Abuse Actions Contacts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>",
+      "type": "text/plain"
+    }
+  }
+}

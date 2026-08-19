@@ -1,0 +1,99 @@
+# GoDaddy Developer Platform
+
+> Programmatic access to GoDaddy's Domains API — domain registration, availability search, DNS management, and more. Built for developers and AI agents.
+
+## Evaluation path (start here)
+
+Prescribed crawl order for LLM/agent evaluators. Each step is machine-readable and independently useful.
+
+1. [Introduction](https://developer.godaddy.com/docs/api-users) — one-page platform overview
+2. [Quickstart](https://developer.godaddy.com/docs/api-users/quickstart) — mint a token, make the first authenticated call
+3. [End-to-end workflow](https://developer.godaddy.com/docs/api-users/full-workflow) — 5-step transactional flow with curl + Node + Python + Go
+4. [How to Authenticate](https://developer.godaddy.com/docs/api-users/auth/how-to) — generate, store, use, and revoke a Bearer PAT (see [Authentication](https://developer.godaddy.com/docs/api-users/auth) for scopes and account requirements)
+5. [Domains v3 OpenAPI spec](https://developer.godaddy.com/openapi/domains-v3.json) — machine-readable API contract
+6. [Full LLM-formatted docs](https://developer.godaddy.com/llms-full.txt) — bulk export of every documented page
+
+## Three-tier machine-readable model
+
+Tier 1 — **Discovery** (curated index, ~9 KB): this file, `https://developer.godaddy.com/llms.txt`
+Tier 2 — **Per-page fetch**: `https://developer.godaddy.com/docs/{slug}.md` (append `.md` to any doc URL) or `https://developer.godaddy.com/llms.mdx/{slug}`
+Tier 3 — **Bulk export**: `https://developer.godaddy.com/llms-full.txt` (all pages, ~200 KB)
+Contracts — `https://developer.godaddy.com/openapi/{spec}.json` (OpenAPI 3.1 for each API namespace)
+
+Most evaluators need Tier 1 → Tier 2 → Contracts. Tier 3 is only needed for full-corpus ingestion.
+
+## Recommended Starting Points
+
+If you want to...
+- **Register or manage domains**: Start with [Domains overview](https://developer.godaddy.com/docs/api-users/domains), then [Search availability](https://developer.godaddy.com/docs/api-users/domains/search)
+- **Make your first API call**: Start with [Quickstart](https://developer.godaddy.com/docs/api-users/quickstart)
+- **Run the complete flow**: Start with [End-to-end workflow](https://developer.godaddy.com/docs/api-users/full-workflow)
+- **Connect an AI agent or MCP client**: Start with [MCP server](https://developer.godaddy.com/docs/api-users/mcp)
+- **Understand authentication**: Start with [Authentication](https://developer.godaddy.com/docs/api-users/auth)
+
+## Getting Started
+
+- [Introduction](https://developer.godaddy.com/docs/api-users): Platform overview — what you can build and who this is for
+- [Quickstart](https://developer.godaddy.com/docs/api-users/quickstart): Make your first API call in 5 minutes
+- [End-to-end workflow](https://developer.godaddy.com/docs/api-users/full-workflow): Complete 5-step example — search → quote → register → configure DNS → verify. Copy-paste in curl, Node, Python, or Go
+- [How to Authenticate](https://developer.godaddy.com/docs/api-users/auth/how-to): Generate, store, use, and revoke a Personal Access Token (PAT) or classic developer key
+- [Authentication](https://developer.godaddy.com/docs/api-users/auth): Credential types, PAT scopes, and account requirements
+- [CLI setup](https://developer.godaddy.com/docs/api-users/cli-setup): Install the gddy CLI, authenticate, and make a first call
+- [Rate Limits](https://developer.godaddy.com/docs/api-users/rate-limits): 60 requests/minute per credential; retry strategies
+- [Error handling](https://developer.godaddy.com/docs/api-users/errors): Error envelope, status codes, retry semantics
+- [Pagination](https://developer.godaddy.com/docs/api-users/pagination): Cursor-based pagination on list endpoints
+- [MCP server](https://developer.godaddy.com/docs/api-users/mcp): Connect Claude or another MCP-compatible client to domain tools
+
+## For AI Agents and LLM Clients
+
+Every documentation page is machine-readable and includes agent-oriented signals to make integration reliable.
+
+**Per-page conventions:**
+- Append `.md` to any doc URL to get raw markdown (e.g. `https://developer.godaddy.com/docs/api-users/quickstart.md`) — same content, no HTML overhead
+- Every how-to page includes `Agent notes` structured data covering: required scopes, rate limits, idempotency, destructive-flag, and failure-recovery guidance
+- Every how-to page includes `Related` cross-references to APIs, guides, and concepts
+
+**MCP (Model Context Protocol) tools:**
+- Domain availability check — real-time registry lookup
+- Domain search / suggestions — natural-language domain discovery
+- No credential required; agents can invoke these tools directly via any MCP-compatible client (Claude, ChatGPT desktop, Cursor, Windsurf)
+- See [MCP server setup](https://developer.godaddy.com/docs/api-users/mcp) for connection details
+
+**Schema.org structured data** emitted on every page: `WebSite` + `SearchAction`, `Article`/`HowTo`/`TechArticle`, `BreadcrumbList`, `FAQPage` (where applicable). Consumable by Google AI Mode, Perplexity, and ChatGPT Search.
+
+## Domains — Search, Register, and Manage
+
+Capabilities: domain availability search, registration, DNS record management, transfers, renewals, locking, forwarding, and contacts.
+
+- [Domains overview](https://developer.godaddy.com/docs/api-users/domains): API structure, version namespaces, and all operations at a glance
+- [Search availability](https://developer.godaddy.com/docs/api-users/domains/search): Check if domains are available and get suggestions
+- [Register a domain](https://developer.godaddy.com/docs/api-users/domains/register): Quote and register domains via the v3 quote-execute model
+- [DNS management](https://developer.godaddy.com/docs/api-users/domains/manage/dns): Create, update, and delete DNS records (A, AAAA, CNAME, MX, TXT, etc.)
+- [Renewals](https://developer.godaddy.com/docs/api-users/domains/manage/renewals): Renew domains and configure auto-renewal
+- [Domain locking](https://developer.godaddy.com/docs/api-users/domains/manage/lock): Enable/disable transfer lock
+- [Domain forwarding](https://developer.godaddy.com/docs/api-users/domains/manage/forwarding): URL forwarding and masked forwarding
+- [Update contacts](https://developer.godaddy.com/docs/api-users/domains/manage/update-contacts): Change registrant, admin, billing, or tech contacts
+- [Registered domains](https://developer.godaddy.com/docs/api-users/domains/manage/list): List domains and fetch domain detail
+- [WHOIS privacy plans](https://www.godaddy.com/docs/godaddy-domain-whois-privacy.md): Included WHOIS privacy vs paid Domain Ownership Protection — what each tier covers
+
+### Common workflow: Register a domain and configure DNS
+1. Search availability → 2. Get a registration quote → 3. Execute registration → 4. Add DNS records → 5. Verify propagation
+
+Full walkthrough: [End-to-end workflow](https://developer.godaddy.com/docs/api-users/full-workflow).
+
+## API Reference
+
+Interactive reference documentation with try-it playground for all documented endpoints.
+
+- [Domains v3 (recommended)](https://developer.godaddy.com/docs/references/rest/domains/v3): Quote-execute model — discovery, registration quotes, registrations, DNS records, domain management
+- [Domains v1](https://developer.godaddy.com/docs/references/rest/domains/v1): Account-scoped — find, register, renew, transfer, DNS, settings
+- [Domains v2](https://developer.godaddy.com/docs/references/rest/domains/v2): Customer-scoped — register, transfer, actions, notifications, settings
+
+## Machine-Readable Resources
+
+- [Full LLM-formatted docs](https://developer.godaddy.com/llms-full.txt): All documentation pages as plain text for agentic use (Tier 3 bulk)
+- [Per-page markdown](https://developer.godaddy.com/llms.mdx/api-users/quickstart): Any page as clean markdown — replace path segment
+- [`.md` URL convention](https://developer.godaddy.com/docs/api-users/quickstart.md): Append `.md` to any doc path for the same content
+- [Domains v3 OpenAPI spec (recommended for new integrations)](https://developer.godaddy.com/openapi/domains-v3.json)
+- [Domains v1 OpenAPI spec for account-scoped operations](https://developer.godaddy.com/openapi/domains-v1.json)
+- [Domains v2 OpenAPI spec for customer-scoped operations](https://developer.godaddy.com/openapi/domains-v2.json)

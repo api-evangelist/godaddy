@@ -1,0 +1,1550 @@
+{
+  "item": [
+    {
+      "id": "e3eeae95-513e-4559-9d30-b48e7cac9806",
+      "name": "Actions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5301a619-fa03-42c7-8116-1bb080b11809",
+          "name": "Retrieves a list of the most recent actions for the specified domain",
+          "request": {
+            "name": "Retrieves a list of the most recent actions for the specified domain",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "customers",
+                ":customerId",
+                "domains",
+                ":domain",
+                "actions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain whose actions are to be retrieved"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A client provided identifier for tracking this request.",
+                "key": "X-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8fede64a-5755-4ae7-bbfd-0cf302168161",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": \"PRIVACY_DELETE\",\n    \"origination\": \"SYSTEM\",\n    \"createdAt\": \"string\",\n    \"status\": \"ACCEPTED\",\n    \"startedAt\": \"string\",\n    \"completedAt\": \"string\",\n    \"modifiedAt\": \"string\",\n    \"reason\": {\n      \"code\": \"QQ6Y4\",\n      \"message\": \"string\",\n      \"fields\": [\n        {\n          \"path\": \"string\",\n          \"code\": \"string\",\n          \"message\": \"string\",\n          \"pathRelated\": \"string\"\n        },\n        {\n          \"path\": \"string\",\n          \"code\": \"string\",\n          \"message\": \"string\",\n          \"pathRelated\": \"string\"\n        }\n      ]\n    },\n    \"requestId\": \"string\"\n  },\n  {\n    \"type\": \"DOMAIN_UPDATE\",\n    \"origination\": \"USER\",\n    \"createdAt\": \"string\",\n    \"status\": \"ACCEPTED\",\n    \"startedAt\": \"string\",\n    \"completedAt\": \"string\",\n    \"modifiedAt\": \"string\",\n    \"reason\": {\n      \"code\": \"MJC3U\",\n      \"message\": \"string\",\n      \"fields\": [\n        {\n          \"path\": \"string\",\n          \"code\": \"string\",\n          \"message\": \"string\",\n          \"pathRelated\": \"string\"\n        },\n        {\n          \"path\": \"string\",\n          \"code\": \"string\",\n          \"message\": \"string\",\n          \"pathRelated\": \"string\"\n        }\n      ]\n    },\n    \"requestId\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50c02fc5-8e11-4f88-926b-3deb865a0f04",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a77801a7-102e-42f7-baa1-fdf7ab14f276",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ee6e952-fcaa-4cc6-a7f9-d2892beb7cbe",
+              "name": "The domain does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "138a8417-e4a1-4c1b-9a3d-83c13e168451",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 1450,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b210e4b-3839-4bcf-a109-052ef9f4a406",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose actions are to be retrieved"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a31552a-0e14-45e8-8d7a-afda737db5f3",
+          "name": "Cancel the most recent user action for the specified domain",
+          "request": {
+            "name": "Cancel the most recent user action for the specified domain",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "customers",
+                ":customerId",
+                "domains",
+                ":domain",
+                "actions",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain whose action is to be cancelled"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The type of action to cancel"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A client provided identifier for tracking this request.",
+                "key": "X-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7d48f30-ebcd-476f-871d-d06719e3ec64",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "efbd402f-77d1-4c2e-975d-78ff7abe5729",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "81958cc9-dac6-49ce-b420-4e4a564de7e4",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bea66076-49e3-4292-a043-576683c0833f",
+              "name": "The domain does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7bc4d6e8-6d38-4bd1-986f-894a1b25baf4",
+              "name": "The action status does not allow performing the operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f493846f-6bcc-4c9a-a635-94431165cc7a",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 523,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34d11dcb-94e9-4ee6-9c25-0d0e95032833",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be cancelled"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to cancel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "63a39c31-d056-42fe-9f76-b9bda574573a",
+          "name": "Retrieves the most recent action for the specified domain",
+          "request": {
+            "name": "Retrieves the most recent action for the specified domain",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "customers",
+                ":customerId",
+                "domains",
+                ":domain",
+                "actions",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain whose action is to be retrieved"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The type of action to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A client provided identifier for tracking this request.",
+                "key": "X-Request-Id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "39eb7500-b475-44ae-b677-bdc6c9f2cc17",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"TRADE_PURCHASE\",\n  \"origination\": \"USER\",\n  \"createdAt\": \"string\",\n  \"status\": \"ACCEPTED\",\n  \"startedAt\": \"string\",\n  \"completedAt\": \"string\",\n  \"modifiedAt\": \"string\",\n  \"reason\": {\n    \"code\": \"AN_WCO6\",\n    \"message\": \"string\",\n    \"fields\": [\n      {\n        \"path\": \"string\",\n        \"code\": \"string\",\n        \"message\": \"string\",\n        \"pathRelated\": \"string\"\n      },\n      {\n        \"path\": \"string\",\n        \"code\": \"string\",\n        \"message\": \"string\",\n        \"pathRelated\": \"string\"\n      }\n    ]\n  },\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "000817f2-3f79-40d4-a697-629eb1305729",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06c6beb7-4035-409a-92e4-9b5bdc964d95",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e6ab0c5-42d6-4e0d-98a4-0a71b0dfa126",
+              "name": "The domain does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06602d18-1893-4b60-8f0d-39c8d47e7e2d",
+              "name": "The domain status does not allow performing the operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "468854de-24e3-41dc-84f6-0f8d6968de31",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 523,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e642f7d3-56e4-41d1-a6f8-eb708f52b7a0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customers",
+                    ":customerId",
+                    "domains",
+                    ":domain",
+                    "actions",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain whose action is to be retrieved"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The type of action to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "A client provided identifier for tracking this request.",
+                    "key": "X-Request-Id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.ote-godaddy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f9adc6c9-a419-42ac-a108-da5ccabe3449",
+    "name": "Abuse Actions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>",
+      "type": "text/plain"
+    }
+  }
+}

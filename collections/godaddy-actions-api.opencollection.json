@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Abuse Actions API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a list of the most recent actions for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose actions are to be retrieved"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of the most recent actions for the specified domain"
+        },
+        {
+          "info": {
+            "name": "Retrieves the most recent action for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions/:type",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose action is to be retrieved"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of action to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieves the most recent action for the specified domain"
+        },
+        {
+          "info": {
+            "name": "Cancel the most recent user action for the specified domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v2/customers/:customerId/domains/:domain/actions/:type",
+            "headers": [
+              {
+                "name": "X-Request-Id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The Customer identifier<br/> Note: For API Resellers, performing actions on behalf of your customers, you need to specify the Subaccount you're operating on behalf of; otherwise use your shopper id."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "path",
+                "description": "Domain whose action is to be cancelled"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of action to cancel"
+              }
+            ]
+          },
+          "docs": "Cancel the most recent user action for the specified domain"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1322 @@
+{
+  "item": [
+    {
+      "id": "0b57d50d-fa02-4bb8-ac3f-044518d812d5",
+      "name": "Expiry Auctions: Registrar Partners",
+      "description": {
+        "content": "API for auction-related actions exclusive to whitelisted partners.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "35101ad7-6548-4cac-b8a8-7afbb67df303",
+          "name": "Get listings from GoDaddy Auctions",
+          "request": {
+            "name": "Get listings from GoDaddy Auctions",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "customers",
+                ":customerId",
+                "auctions",
+                "listings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "domains",
+                  "value": "<string>",
+                  "description": "Only include results for the specified domains. Use comma-separated string to include more than one domain. For example, `one.com,two.info,three.biz`"
+                },
+                {
+                  "disabled": false,
+                  "key": "listingStatus",
+                  "value": "<string>",
+                  "description": "Only include results for the specified listing status."
+                },
+                {
+                  "disabled": false,
+                  "key": "transferBefore",
+                  "value": "<iso-datetime>",
+                  "description": "Domain transfer time before this time, ISO 8601, in UTC. Defaults to last day of the previous month if not provided. Applicable only for listings in `FULFILLED` listingStatus."
+                },
+                {
+                  "disabled": false,
+                  "key": "transferAfter",
+                  "value": "<iso-datetime>",
+                  "description": "Domain transfer time after this time, ISO 8601, in UTC. Defaults to first day of the previous month if not provided. Applicable only for listings in `FULFILLED` listingStatus."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer-positive>",
+                  "description": "Maximum number of items to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer-positive>",
+                  "description": "Number of results to skip for pagination."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) An identifier for a customer."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "86bff408-0a79-4a09-9e9b-c98533e08be6",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"listings\": [\n    {\n      \"domainName\": \"string\",\n      \"listingId\": 7912,\n      \"domainCreatedAt\": \"string\",\n      \"domainExpiresAt\": \"string\",\n      \"domainRegistrarIanaId\": 6521,\n      \"pageViewsMonthly\": 9903,\n      \"revenueMonthly\": 1549,\n      \"auctionStartAt\": \"2022-04-01T02:07:14Z\",\n      \"auctionEndAt\": \"2022-04-10T02:07:14Z\",\n      \"auctionTransferAt\": \"2022-04-15T02:07:14Z\",\n      \"auctionSoldAt\": \"2022-04-20T02:07:14Z\",\n      \"auctionBookingAmountUsd\": 1497,\n      \"createdAt\": \"string\",\n      \"updatedAt\": \"string\"\n    },\n    {\n      \"domainName\": \"string\",\n      \"listingId\": 5113,\n      \"domainCreatedAt\": \"string\",\n      \"domainExpiresAt\": \"string\",\n      \"domainRegistrarIanaId\": 4860,\n      \"pageViewsMonthly\": 89,\n      \"revenueMonthly\": 7797,\n      \"auctionStartAt\": \"2022-04-01T02:07:14Z\",\n      \"auctionEndAt\": \"2022-04-10T02:07:14Z\",\n      \"auctionTransferAt\": \"2022-04-15T02:07:14Z\",\n      \"auctionSoldAt\": \"2022-04-20T02:07:14Z\",\n      \"auctionBookingAmountUsd\": 5426,\n      \"createdAt\": \"string\",\n      \"updatedAt\": \"string\"\n    }\n  ],\n  \"pagination\": {\n    \"first\": \"string\",\n    \"previous\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\",\n    \"total\": 6658\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8723333-9ff6-415b-886e-1f24c110f977",
+              "name": "Request was malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9836f60e-09ee-4d1e-92ab-b4c4e9b16b1e",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c1af6b6-7892-40b9-a0b0-b1543ce95b42",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0afdaa34-2e9f-45d1-ad0c-7c0210606e72",
+              "name": "Required parameters must be specified in correct format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37af0506-092c-46de-b8ae-6038619e02ee",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 65,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af623181-36e7-49c8-9348-f3569f82887c",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "auctions",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listingStatus",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "transferBefore",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "transferAfter",
+                      "value": "<iso-datetime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer-positive>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer-positive>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) An identifier for a customer."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "753ffda2-7ccb-40b4-97d5-afc3d918620d",
+          "name": "Remove listings from GoDaddy Auction",
+          "request": {
+            "name": "Remove listings from GoDaddy Auction",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "aftermarket",
+                "listings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "domains",
+                  "value": "<string>,<string>",
+                  "description": "(Required) A comma separated list of domain names"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0c4f260-7e71-4ffe-aa6b-78bab2084103",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"listingActionId\": 6220\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfddedcf-08eb-4456-94c3-bb8cb082c8a8",
+              "name": "Request was malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9851a857-0b9e-4c8b-8c72-4c6a643c209d",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5de3aa6f-8496-4b36-b9b4-a8c07cef421f",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3effe74-731c-47f6-bc72-54e929715046",
+              "name": "\tRequired parameters must be specified in correct format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccf226c2-2c70-4bb4-8bf6-46cff79f8d20",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 7809,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4228cc38-a6e2-43e3-8a24-d80759208677",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domains",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "578309d7-1759-471d-9bcd-25c1a873d0f6",
+          "name": "Add expiry listings into GoDaddy Auction",
+          "request": {
+            "name": "Add expiry listings into GoDaddy Auction",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "aftermarket",
+                "listings",
+                "expiry"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6e0fe4eb-726d-4acf-a08e-f09c31f238d8",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"listingActionId\": 6220\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9dee2e0-dc14-4770-9fe0-239bc4471963",
+              "name": "Request was malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ddbf6a5-da57-4e0a-9db3-08594f1ab16e",
+              "name": "Authentication info not sent or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "baad41ee-8f9e-42bf-9352-e6d0c0f0bed8",
+              "name": "Authenticated user is not allowed access",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5918658f-7afa-4562-876f-ad0ec56e53b3",
+              "name": "Required parameters must be specified in correct format<br>Too many Listings provided<br>Invalid Losing Registrar Id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73a03e09-9cb7-4d45-b107-2b141e99078e",
+              "name": "Too many requests received within interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"retryAfterSec\": 7809,\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4efe4965-5410-4da8-9cbf-cb1aa1f25b70",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "aftermarket",
+                    "listings",
+                    "expiry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"expiresAt\": \"<iso-datetime>\",\n    \"losingRegistrarId\": 1,\n    \"pageViewsMonthly\": \"<integer>\",\n    \"revenueMonthly\": \"<integer>\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"fields\": [\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    },\n    {\n      \"path\": \"string\",\n      \"code\": \"string\",\n      \"message\": \"string\",\n      \"pathRelated\": \"string\"\n    }\n  ],\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.ote-godaddy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "908191f3-7bfc-4640-aa5c-c25c66be80a2",
+    "name": "Abuse Actions Expiry Auctions: Registrar Partners API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "<strong>GoDaddy Abuse API Terms of Use:</strong><p>GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.</p><p>GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.</p><p>As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc.  Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our [Front of Site](https://supportcenter.godaddy.com/AbuseReport) also describes other scenarios not covered by the API.</p><p>When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.</p><p>If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.</p><p>You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.</p><p>You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.</p><p>Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.</p>",
+      "type": "text/plain"
+    }
+  }
+}
