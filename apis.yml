@@ -149,6 +149,8 @@ apis:
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -207,6 +209,8 @@ apis:
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
+  - V2
+  tags_raw:
   - v2
   properties:
   - type: OpenAPI
