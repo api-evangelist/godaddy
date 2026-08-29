@@ -4,6 +4,18 @@ description: >-
   GoDaddy is a domain registrar and web hosting company offering REST APIs for domain registration, DNS management,
   certificates, shopper accounts, subscriptions, aftermarket auctions, and abuse reporting.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: unknown
