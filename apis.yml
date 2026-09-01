@@ -221,7 +221,7 @@ apis:
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
-  - V2
+  - v2
   tags_raw:
   - v2
   properties:
