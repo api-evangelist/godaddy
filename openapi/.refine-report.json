@@ -1,26 +1,60 @@
 {
   "provider": "godaddy",
   "sources": [
-    "godaddy-actions-api-openapi.yml",
-    "godaddy-contacts-api-openapi.yml",
-    "godaddy-domains-api-openapi.yml",
-    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml",
-    "godaddy-notifications-api-openapi.yml",
-    "godaddy-v1-api-openapi.yml",
-    "godaddy-v2-api-openapi.yml"
+    "_original/godaddy-abuse-openapi.json",
+    "_original/godaddy-aftermarket-openapi.json",
+    "_original/godaddy-agreements-openapi.json",
+    "_original/godaddy-certificates-openapi.json",
+    "_original/godaddy-countries-openapi.json",
+    "_original/godaddy-domains-openapi.json",
+    "_original/godaddy-orders-openapi.json",
+    "_original/godaddy-shoppers-openapi.json",
+    "_original/godaddy-subscriptions-openapi.json"
   ],
   "outputs": [
+    "godaddy-v1-api-openapi.yml",
+    "godaddy-v2-api-openapi.yml",
+    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml",
     "godaddy-actions-api-openapi.yml",
     "godaddy-contacts-api-openapi.yml",
     "godaddy-domains-api-openapi.yml",
-    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml",
-    "godaddy-notifications-api-openapi.yml",
-    "godaddy-v1-api-openapi.yml",
-    "godaddy-v2-api-openapi.yml"
+    "godaddy-notifications-api-openapi.yml"
   ],
   "archived": [],
-  "errors": [],
-  "warnings": [],
-  "notes": [],
-  "skipped": []
+  "errors": [
+    "godaddy-agreements-openapi.json: missing info object",
+    "godaddy-certificates-openapi.json: missing info object",
+    "godaddy-countries-openapi.json: missing info object",
+    "godaddy-orders-openapi.json: missing info object",
+    "godaddy-shoppers-openapi.json: missing info object",
+    "godaddy-subscriptions-openapi.json: missing info object"
+  ],
+  "warnings": [
+    "godaddy-domains-openapi.json: info.version missing"
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (9 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "godaddy-abuse-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-aftermarket-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-agreements-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-certificates-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-countries-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-domains-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-domains-openapi.json: declared missing tag: Contacts",
+    "godaddy-orders-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-shoppers-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "godaddy-subscriptions-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "tag 'v1' spans 8 source specs (godaddy-abuse-openapi.json, godaddy-agreements-openapi.json, godaddy-certificates-openapi.json, godaddy-countries-openapi.json, godaddy-domains-openapi.json, godaddy-orders-openapi.json, godaddy-shoppers-openapi.json, godaddy-subscriptions-openapi.json): per-path servers applied",
+    "tag 'v2' spans 2 source specs (godaddy-abuse-openapi.json, godaddy-certificates-openapi.json): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "godaddy-actions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-domains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-expiry-auctions-registrar-partners-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-v1-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "godaddy-v2-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
