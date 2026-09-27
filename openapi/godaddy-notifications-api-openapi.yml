@@ -384,17 +384,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    JsonDataType:
-      properties:
-        format:
-          type: string
-        pattern:
-          type: string
-        type:
-          type: string
-      required:
-      - type
-      - $ref
     JsonProperty:
       properties:
         defaultValue:
@@ -423,54 +412,26 @@ components:
       - type
       - $ref
       - required
-    JsonSchema:
-      properties:
-        id:
-          type: string
-        models:
-          items:
-            $ref: '#/components/schemas/JsonSchema'
-          type: object
-        properties:
-          items:
-            $ref: '#/components/schemas/JsonProperty'
-          type: object
-        required:
-          items:
-            type: string
-          type: array
-      required:
-      - id
-      - properties
-      - required
-      - models
-    ErrorField:
+    ErrorLimit:
       properties:
         code:
           description: Short identifier for the error, suitable for indicating the specific error within client code
           format: constant
           type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
         message:
-          description: Human-readable, English description of the problem with the contents of the field
+          description: Human-readable, English description of the error
           type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
       required:
-      - path
+      - retryAfterSec
       - code
     DomainNotification:
       properties:
@@ -569,27 +530,38 @@ components:
       - resourceType
       - status
       - addedAt
-    ErrorLimit:
+    JsonSchema:
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        id:
           type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
+        models:
           items:
-            $ref: '#/components/schemas/ErrorField'
+            $ref: '#/components/schemas/JsonSchema'
+          type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/JsonProperty'
+          type: object
+        required:
+          items:
+            type: string
           type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
       required:
-      - retryAfterSec
-      - code
+      - id
+      - properties
+      - required
+      - models
+    JsonDataType:
+      properties:
+        format:
+          type: string
+        pattern:
+          type: string
+        type:
+          type: string
+      required:
+      - type
+      - $ref
     Error:
       properties:
         code:
@@ -605,4 +577,32 @@ components:
           description: Human-readable, English description of the error
           type: string
       required:
+      - code
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
       - code

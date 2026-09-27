@@ -185,16 +185,16 @@ apis:
     url: https://developer.godaddy.com/doc/endpoint/agreements
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/countries
-- aid: godaddy:godaddy-v1-api
-  name: GoDaddy v1 API
-  description: The v1 API from GoDaddy — 49 operation(s) for v1.
+- aid: godaddy:godaddy-abuse-api
+  name: GoDaddy Abuse API
+  description: The Abuse API from GoDaddy — 4 operation(s) for abuse.
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
-  - v1
+  - Abuse
   properties:
   - type: OpenAPI
-    url: openapi/godaddy-v1-api-openapi.yml
+    url: openapi/godaddy-abuse-api-openapi.yml
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/domains
   - type: Documentation
@@ -213,20 +213,184 @@ apis:
     url: https://developer.godaddy.com/doc/endpoint/agreements
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/countries
-- aid: godaddy:godaddy-v2-api
-  name: GoDaddy v2 API
-  description: >-
-    An incremental update that keeps the endpoints largely the same, but deprecates some commonly misused
-    parameters and add some features to ensure reports can be worked quicker.
+- aid: godaddy:godaddy-agreements-api
+  name: GoDaddy Agreements API
+  description: The Agreements API from GoDaddy — 1 operation(s) for agreements.
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
-  - v2
-  tags_raw:
-  - v2
+  - Agreements
   properties:
   - type: OpenAPI
-    url: openapi/godaddy-v2-api-openapi.yml
+    url: openapi/godaddy-agreements-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-certificates-api
+  name: GoDaddy Certificates API
+  description: The Certificates API from GoDaddy — 21 operation(s) for certificates.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Certificates
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-certificates-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-countries-api
+  name: GoDaddy Countries API
+  description: The Countries API from GoDaddy — 2 operation(s) for countries.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Countries
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-countries-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-customers-api
+  name: GoDaddy Customers API
+  description: The Customers API from GoDaddy — 5 operation(s) for customers.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Customers
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-customers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-orders-api
+  name: GoDaddy Orders API
+  description: The Orders API from GoDaddy — 2 operation(s) for orders.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-orders-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-shoppers-api
+  name: GoDaddy Shoppers API
+  description: The Shoppers API from GoDaddy — 4 operation(s) for shoppers.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Shoppers
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-shoppers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/domains
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/certificates
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/shoppers
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/subscriptions
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/orders
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/aftermarket
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/abuse
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/agreements
+  - type: Documentation
+    url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-subscriptions-api
+  name: GoDaddy Subscriptions API
+  description: The Subscriptions API from GoDaddy — 3 operation(s) for subscriptions.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-subscriptions-api-openapi.yml
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/domains
   - type: Documentation

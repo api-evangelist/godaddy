@@ -1,0 +1,2439 @@
+openapi: 3.2.0
+info:
+  title: Godaddy Certificates API
+servers:
+- url: https://api.ote-godaddy.com
+tags:
+- name: Certificates
+paths:
+  /v1/certificates:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Setting locale for communications such as emails and error messages
+        in: header
+        name: X-Market-Id
+        required: false
+        schema:
+          type: string
+          default: Default locale for shopper account
+      responses:
+        '202':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateIdentifier'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow renew
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`email` is not empty<br>`csr` is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: 'Creating a certificate order can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see ''/v1/certificates/{certificateId}/callback''.'
+      operationId: certificate_create
+      summary: Create a pending order for certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateCreate'
+        description: The certificate order information
+        required: true
+  /v1/certificates/validate:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Setting locale for communications such as emails and error messages
+        in: header
+        name: X-Market-Id
+        required: false
+        schema:
+          type: string
+          default: Default locale for shopper account
+      responses:
+        '204':
+          description: Request validated successfully
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow renew
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`email` is not empty <br> `csr` is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: certificate_validate
+      summary: Validate a pending order for certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateCreate'
+        description: The certificate order info
+        required: true
+  /v1/certificates/{certificateId}:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to lookup
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Certificate details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificate.
+      operationId: certificate_get
+      summary: Retrieve certificate details
+  /v1/certificates/{certificateId}/actions:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to register for callback
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Action retrieval successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfCertificateAction'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method is used to retrieve all stateful actions relating to a certificate lifecycle.
+      operationId: certificate_action_retrieve
+      summary: Retrieve all certificate actions
+  /v1/certificates/{certificateId}/email/{emailId}/resend:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to resend email
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      - description: Email id for email to resend
+        in: path
+        name: emailId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Email sent successfully
+        '404':
+          description: Certificate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Email Id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method can be used to resend emails by providing the certificate id and the email id
+      operationId: certificate_resend_email
+      summary: Resend an email
+  /v1/certificates/{certificateId}/email/resend/{emailAddress}:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to resend emails
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      - description: Specific email address to resend email
+        in: path
+        name: emailAddress
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Alternate email address added and emails re-sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateEmailHistory'
+        '404':
+          description: Certificate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow alternate email address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method adds an alternate email address to a certificate order and re-sends all existing request emails to that address.
+      operationId: certificate_alternate_email_address
+      summary: Add alternate email address
+  /v1/certificates/{certificateId}/email/{emailId}/resend/{emailAddress}:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to resend emails
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      - description: Email id for email to resend
+        in: path
+        name: emailId
+        required: true
+        schema:
+          type: string
+      - description: Specific email address to resend email
+        in: path
+        name: emailAddress
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Email sent successfully
+        '404':
+          description: Certificate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Email Id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method can be used to resend emails by providing the certificate id, the email id, and the recipient email address
+      operationId: certificate_resend_email_address
+      summary: Resend email to email address
+  /v1/certificates/{certificateId}/email/history:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to retrieve email history
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Email history retrieval successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateEmailHistory'
+        '409':
+          description: Email history not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method can be used to retrieve all emails sent for a certificate.
+      operationId: certificate_email_history
+      summary: Retrieve email history
+  /v1/certificates/{certificateId}/callback:
+    delete:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to unregister callback
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Callback removed
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Unregister the callback for a particular certificate.
+      operationId: certificate_callback_delete
+      summary: Unregister system callback
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to register for stateful action callback
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Callback registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateCallback'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method is used to retrieve the registered callback url for a certificate.
+      operationId: certificate_callback_get
+      summary: Retrieve system stateful action callback url
+    put:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to register/replace for callback
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      - description: Callback url registered/replaced to receive stateful actions
+        in: query
+        name: callbackUrl
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Callback replaced/registered
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Callback url is missing <br> Callback url is malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method is used to register/replace url for callbacks for stateful actions relating to a certificate lifecycle. The callback url is a Webhook style pattern and will receive POST http requests with json body defined in the CertificateAction model definition for each certificate action. Only one callback URL is allowed to be registered for each certificateId, so it will replace a previous registration.
+      operationId: certificate_callback_replace
+      summary: Register of certificate action callback
+  /v1/certificates/{certificateId}/cancel:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to cancel
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Certificate order has been canceled
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow cancel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Use the cancel call to cancel a pending certificate order.
+      operationId: certificate_cancel
+      summary: Cancel a pending certificate
+  /v1/certificates/{certificateId}/download:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to download
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Certificate retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateBundle'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow download
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: certificate_download
+      summary: Download certificate
+  /v1/certificates/{certificateId}/reissue:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to reissue
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Reissue request created
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow reissue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`csr` is invalid<br>Delay revocation exceeds maximum'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissuing is the process by which domain names are added or removed from a certificate.Once a request is validated and approved, the certificate will be reissued with the new common name and sans specified. Unlimited reissues are available during the lifetime of the certificate.New names added to a certificate that do not share the base domain of the common name may take additional time to validate. If this API call is made before a previous pending reissue has been validated and issued, the previous reissue request is automatically rejected and replaced with the current request.
+      operationId: certificate_reissue
+      summary: Reissue active certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateReissue'
+        description: The reissue request info
+        required: true
+  /v1/certificates/{certificateId}/renew:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to renew
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Renew request created
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow renew
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`csr` is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Renewal is the process by which the validity of a certificate is extended. Renewal is only available 60 days prior to expiration of the previous certificate and 30 days after the expiration of the previous certificate. The renewal supports modifying a set of the original certificate order information. Once a request is validated and approved, the certificate will be issued with extended validity. Since subject alternative names can be removed during a renewal, we require that you provide the subject alternative names you expect in the renewed certificate. New names added to a certificate that do not share the base domain of the common name may take additional time to validate.
+      operationId: certificate_renew
+      summary: Renew active certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateRenew'
+        description: The renew request info
+        required: true
+  /v1/certificates/{certificateId}/revoke:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to revoke
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Certificate Revoked
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow revoke
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Use revoke call to revoke an active certificate, if the certificate has not been issued a 404 response will be returned.
+      operationId: certificate_revoke
+      summary: Revoke active certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateRevoke'
+        description: The certificate revocation request
+        required: true
+  /v1/certificates/{certificateId}/siteSeal:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      - description: This value represents the visual theme of the seal. If seal doesn't exist, default values are used if params not present. If seal does exist, default values will not be used to update unless params present.
+        in: query
+        name: theme
+        required: false
+        schema:
+          type: string
+          enum:
+          - DARK
+          - LIGHT
+          default: LIGHT
+      - description: Determine locale for text displayed in seal image and verification page. If seal doesn't exist, default values are used if params not present. If seal does exist, default values will not be used to update unless params present.
+        in: query
+        name: locale
+        required: false
+        schema:
+          type: string
+          default: en
+      responses:
+        '200':
+          description: Site seal retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateSiteSeal'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow seal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '''locale'' is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted on the reseller's website, to minimize delays for customer page load times.
+      operationId: certificate_siteseal_get
+      summary: Get Site seal
+  /v1/certificates/{certificateId}/verifyDomainControl:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to lookup
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Domain control was successful
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Domain control was not successful <br> Certificate state does not allow domain control
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Domain control is a means for verifying the domain included in the certificate order. This resource is useful for resellers that control the domains for their customers, and can expedite the verification process. See https://www.godaddy.com/help/verifying-your-domain-ownership-for-ssl-certificate-requests-html-or-dns-7452
+      operationId: certificate_verifydomaincontrol
+      summary: Check Domain Control
+  /v2/certificates:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Entitlement id to lookup
+        in: query
+        name: entitlementId
+        required: true
+        schema:
+          type: string
+      - description: Fetch only the most recent certificate
+        in: query
+        name: latest
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: Certificate details retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certificate'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Entitlement id not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Once the certificate order has been created, this method can be used to check the status of the certificate. This method can also be used to retrieve details of the certificates associated to an entitlement.
+      operationId: certificate_get_entitlement
+      summary: Search for certificate details by entitlement
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Setting locale for communications such as emails and error messages
+        in: header
+        name: X-Market-Id
+        required: false
+        schema:
+          type: string
+          default: Default locale for shopper account
+      responses:
+        '202':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCertificateIdentifier'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow renew
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`email` is not empty<br>`csr` is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: 'Creating a certificate order for a subscription can be a long running asynchronous operation in the PKI workflow. The PKI API supports 2 options for getting the completion stateful actions for this asynchronous operations: 1) by polling operations -- see /v1/certificates/{certificateId}/actions 2) via WebHook style callback -- see ''/v1/certificates/{certificateId}/callback''.'
+      operationId: postV2Certificates
+      summary: Create a pending order for certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCertificateCreate'
+        description: The certificate order information
+        required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: certificate_create
+  /v2/certificates/{certificateId}/reissue:
+    post:
+      tags:
+      - Certificates
+      parameters:
+      - description: Certificate id to reissue
+        in: path
+        name: certificateId
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Reissue request created
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Certificate id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow reissue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`csr` is invalid<br>Delay revocation exceeds maximum'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: Rekeying is the process by which the private and public key is changed for a certificate. It is a simplified reissue,where only the CSR is changed. Reissue extends validity of the existing certificate by requesting a new certificate with all the same values as existing issued certificate. Once a request is validated and approved, the certificate will be reissued with the same common name and sans specified from existing certificate. Unlimited reissues are available during the lifetime of the certificate.If this API call is made before a previous pending reissue has been validated and issued, the previous reissue request is automatically rejected and replaced with the current request.
+      operationId: postV2CertificatesByCertificateIdReissue
+      summary: Reissue active certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateReissueV2'
+        description: The reissue request info
+      x-operation-id-source: normalized
+      x-operation-id-original: certificate_reissue
+  /v2/certificates/download:
+    get:
+      tags:
+      - Certificates
+      parameters:
+      - description: Entitlement id to download
+        in: query
+        name: entitlementId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Certificate retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateBundle'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Entitlement id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Certificate state does not allow download
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Entitlement id not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: certificate_download_entitlement
+      summary: Download certificate by entitlement
+  /v2/certificates/subscriptions/search:
+    get:
+      operationId: retrieveSslByDomainReseller
+      parameters:
+      - $ref: '#/components/parameters/PageSizeParam'
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/DomainParam'
+      - $ref: '#/components/parameters/CertificateStatusParam'
+      - $ref: '#/components/parameters/CertificateTypeParam'
+      - $ref: '#/components/parameters/CertificateValidationTypeParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificatesByDomainPage'
+      summary: Get a page of subscriptions by domain
+      description: The pagination starts at page 1. Each page contains a page of *subscriptions*, not certificates. This endpoint is meant for paging the subscriptions under the authorized user's account. Each subscription contains a snapshot of certificates contained within the subscription. To fetch further certificates under a subscription, use the /v2/certificates/subscription/{guid} endpoint with the subscription GUID obtained from this call. If any filtering is applied, subscriptions without any certificates will be omitted.
+      tags:
+      - Certificates
+  /v2/certificates/subscription/{guid}:
+    get:
+      operationId: retrieveSslByDomainSubscriptionReseller
+      parameters:
+      - $ref: '#/components/parameters/SubscriptionGuidParam'
+      - $ref: '#/components/parameters/SubscriptionPageSize'
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/DomainParam'
+      - $ref: '#/components/parameters/CertificateStatusParam'
+      - $ref: '#/components/parameters/CertificateTypeParam'
+      - $ref: '#/components/parameters/CertificateValidationTypeParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificatesByDomainPaged'
+      summary: GET a page of certificates for a specific domain product
+      tags:
+      - Certificates
+components:
+  parameters:
+    CertificateTypeParam:
+      in: query
+      name: type
+      required: false
+      description: The type of certificate in terms of the number of applicable domains.
+      schema:
+        type: string
+        enum:
+        - ANY
+        - SINGLE
+        - UCC
+        - WILDCARD
+        default: ANY
+    PageSizeParam:
+      name: pageSize
+      in: query
+      required: false
+      description: The number of records to return per query.
+      schema:
+        type: integer
+        format: int32
+        default: '15'
+    SubscriptionGuidParam:
+      description: The Subscription GUID containing the certificates being requested.
+      in: path
+      name: guid
+      required: true
+      schema:
+        type: string
+        default: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+    CertificateValidationTypeParam:
+      in: query
+      name: validation
+      required: false
+      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+      schema:
+        type: string
+        enum:
+        - ANY
+        - DV
+        - EV
+        - OV
+        default: ANY
+    DomainParam:
+      in: query
+      name: domain
+      required: false
+      description: 'Filter by domain name / common name.
+
+        This will look for the text inside the content of the domain.
+
+        This is not a "find domains that start with x" search.
+
+        '
+      schema:
+        type: string
+    CertificateStatusParam:
+      in: query
+      name: status
+      required: false
+      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+      schema:
+        type: string
+        enum:
+        - ANY
+        - ACTIVE
+        - DENIED
+        - EXPIRED
+        - PENDING
+        - REVOKED
+        default: ANY
+    SubscriptionPageSize:
+      description: 'The number of records to return per query.
+
+        '
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: '15'
+    PageParam:
+      name: page
+      in: query
+      required: false
+      description: 'The page number. <b>(First page is <i>one</i> instead of zero.)</b>
+
+        '
+      schema:
+        type: integer
+        format: int32
+        default: '1'
+        minimum: 1
+  schemas:
+    Guid:
+      description: A Globally Unique Identifier
+      example: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+      type: string
+    CertificateRenew:
+      properties:
+        callbackUrl:
+          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
+          type: string
+        commonName:
+          default: Existing common name
+          description: The common name of certificate to be secured
+          type: string
+        csr:
+          default: Existing CSR
+          description: Certificate Signing Request.
+          type: string
+        period:
+          default: 0
+          description: Number of years for certificate validity period, if different from previous certificate
+          type: integer
+        rootType:
+          default: GODADDY_SHA_1
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        subjectAlternativeNames:
+          description: Only used for UCC products. An array of subject alternative names to include in certificate. Not including a subject alternative name that was in the previous certificate will remove it from the renewed certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+    CertificateAddress:
+      properties:
+        address1:
+          description: Address line 1 of organization address
+          type: string
+        address2:
+          description: Address line 2 of organization address
+          type: string
+        city:
+          description: City/Locality of organization address
+          type: string
+        country:
+          description: Two character country code of organization
+          enum:
+          - AC
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AN
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BM
+          - BN
+          - BO
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CV
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MG
+          - MH
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - ST
+          - SV
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TP
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - YE
+          - YT
+          - YU
+          - ZA
+          - ZM
+          - ZW
+          format: iso-country-code
+          type: string
+        postalCode:
+          description: Postal code of organization address
+          type: string
+        state:
+          description: Full name of State/Province/Territory of organization address
+          type: string
+      required:
+      - address1
+      - country
+    CertificateValidationType:
+      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+      enum:
+      - DV
+      - EV
+      - OV
+      type: string
+    PageSize:
+      description: The page size.
+      format: int32
+      type: integer
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Description of the error
+          type: string
+      required:
+      - code
+    CertificateCallback:
+      properties:
+        callbackUrl:
+          description: Callback url registered to receive stateful actions
+          type: string
+      required:
+      - callbackUrl
+    SubjectAlternativeNameDetails:
+      properties:
+        status:
+          description: Total number of page results
+          enum:
+          - PENDING
+          - INVALID
+          - COMPLETED
+          - FRAUD
+          type: string
+        subjectAlternativeName:
+          description: Subject alternative name to be included in certificate
+          type: string
+      required:
+      - subjectAlternativeName
+      - status
+    JurisdictionOfIncorporation:
+      properties:
+        city:
+          type: string
+        country:
+          format: iso-country-code
+          type: string
+        county:
+          type: string
+        state:
+          type: string
+      required:
+      - country
+    CertificateAction:
+      properties:
+        createdAt:
+          description: Date action created
+          format: iso-datetime
+          type: string
+        type:
+          enum:
+          - CERTIFICATE_ISSUED
+          - CERTIFICATE_ORDER_CANCELED
+          - CERTIFICATE_ORDER_CREATED
+          - CERTIFICATE_REVOKED
+          - DOMAIN_VALIDATION_COMPLETE
+          - FRAUD_DETECTED
+          - ORG_NAME_CHANGE
+          - ORG_VALIDATION_COMPLETE
+          - SAN_DROP
+          type: string
+      required:
+      - type
+      - createdAt
+    CertificateReissueV2:
+      properties:
+        csr:
+          default: New CSR, required for rekey only. Changes to common name or subject alternative names will be rejected.
+          description: Certificate Signing Request.
+          type: string
+        revokeExistingCertificate:
+          default: false
+          description: Whether to revoke existing certificate upon issuance of new certificate
+          type: boolean
+        delayExistingRevoke:
+          default: 72
+          description: In hours, time to delay revoking existing certificate after issuance of new certificate. If revokeExistingCertOnIssuance is enabled, this value will be ignored
+          maximum: 168
+          type: integer
+        forceDomainRevetting:
+          description: Optional field. Domain verification will be required for each domain listed here. Specify a value of * to indicate that all domains associated with the request should have their domain information reverified.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+    Certificate:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if no errors returned
+          type: string
+        commonName:
+          description: Common name of certificate
+          type: string
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+          description: Requestor contact information
+        createdAt:
+          description: The date the certificate was ordered.
+          format: iso-datetime
+          type: string
+        deniedReason:
+          description: Only present if certificate order has been denied
+          type: string
+        organization:
+          $ref: '#/components/schemas/CertificateOrganization'
+          description: Organization Name in certificate
+        period:
+          description: Validity period of order. Specified in years
+          type: integer
+        productType:
+          description: Certificate product type
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CS
+          - OV_DS
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        progress:
+          description: Percentage of completion for certificate vetting
+          type: integer
+        revokedAt:
+          description: The revocation date of certificate (if revoked).
+          format: iso-datetime
+          type: string
+        rootType:
+          description: Root Type
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        serialNumber:
+          description: Serial number of certificate (if issued or revoked)
+          type: string
+        serialNumberHex:
+          description: Hexadecmial format for Serial number of certificate(if issued or revoked)
+          type: string
+        slotSize:
+          description: 'Number of subject alternative names(SAN) to be included in certificate '
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        status:
+          description: Status of certificate
+          enum:
+          - PENDING_ISSUANCE
+          - ISSUED
+          - REVOKED
+          - CANCELED
+          - DENIED
+          - PENDING_REVOCATION
+          - PENDING_REKEY
+          - UNUSED
+          - EXPIRED
+          type: string
+        subjectAlternativeNames:
+          description: Contains subject alternative names set
+          items:
+            $ref: '#/components/schemas/SubjectAlternativeNameDetails'
+          type: array
+        validEnd:
+          description: The end date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        validStart:
+          description: The start date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+      required:
+      - certificateId
+      - status
+      - contact
+      - period
+      - createdAt
+      - productType
+    CertificateIdentifier:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if verified.
+          type: string
+      required:
+      - certificateId
+    CertificatesByDomainPage:
+      properties:
+        currentPage:
+          $ref: '#/components/schemas/Page'
+        data:
+          items:
+            $ref: '#/components/schemas/CertificatesByDomainPaged'
+          minItems: 0
+          type: array
+        pageSize:
+          $ref: '#/components/schemas/PageSize'
+        total:
+          $ref: '#/components/schemas/Count'
+      required:
+      - total
+      - currentPage
+      - pageSize
+      - data
+      type: object
+    SubscriptionCertificateIdentifier:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if verified.
+          type: string
+        subscriptionId:
+          description: The unique identifier of the subscription owning the certificate request.
+          type: string
+        subscriptionCreatedForOrder:
+          description: Was subscription purchased for certificate order.
+          type: boolean
+      required:
+      - certificateId
+      - subscriptionId
+      - subscriptionCreatedForOrder
+    CertificatesByDomain:
+      properties:
+        allowedDomains:
+          description: The domains that are currently allowed on this subscription.
+          items:
+            $ref: '#/components/schemas/Domain'
+          minItems: 1
+          type: array
+        domain:
+          $ref: '#/components/schemas/Domain'
+        guid:
+          $ref: '#/components/schemas/Guid'
+        maxDomains:
+          description: The maximum number of domains allowed on this subscription.
+          type: integer
+        subscriptionEndDate:
+          format: date-time
+          type: string
+        subscriptionStartDate:
+          format: date-time
+          type: string
+        subscriptionStatus:
+          default: ACTIVE
+          description: 'The internal representation of the subscription.
+
+            A reflection of the entitlement status.
+
+            '
+          enum:
+          - ACTIVE
+          - SUSPENDED
+          - CANCELED
+          type: string
+      required:
+      - domain
+      - guid
+      - subscriptionStartDate
+      - subscriptionEndDate
+      - subscriptionStatus
+      - maxDomains
+      - allowedDomains
+      type: object
+    CertificatesByDomainPaged:
+      allOf:
+      - $ref: '#/components/schemas/CertificatesByDomain'
+      - properties:
+          currentPage:
+            $ref: '#/components/schemas/Page'
+          data:
+            items:
+              $ref: '#/components/schemas/CertificateDetails'
+            minItems: 0
+            type: array
+          pageSize:
+            $ref: '#/components/schemas/PageSize'
+          total:
+            $ref: '#/components/schemas/Count'
+        type: object
+      required:
+      - total
+      - currentPage
+      - pageSize
+      - data
+    CertificateContact:
+      properties:
+        email:
+          description: Email address of requestor contact
+          type: string
+        jobTitle:
+          description: Only used for EVSSL. Job title of requestor contact
+          type: string
+        nameFirst:
+          description: First name of requestor contact
+          type: string
+        nameLast:
+          description: Last name of requestor contact
+          type: string
+        nameMiddle:
+          description: Middle initial of requestor contact
+          type: string
+        phone:
+          description: Phone number for requestor contact
+          type: string
+        suffix:
+          description: Suffix of requestor contact
+          type: string
+      required:
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+    CertificateDetails:
+      properties:
+        certificateId:
+          type: string
+        completionDate:
+          format: date-time
+          type: string
+        domain:
+          $ref: '#/components/schemas/Domain'
+        period:
+          type: integer
+        requestDate:
+          format: date-time
+          type: string
+        revocationDate:
+          format: date-time
+          type: string
+        sans:
+          description: This includes the common-name
+          items:
+            $ref: '#/components/schemas/Domain'
+          minItems: 0
+          type: array
+        serialNumber:
+          type: string
+        slotSize:
+          format: int32
+          type: integer
+        status:
+          $ref: '#/components/schemas/CertificateStatus'
+        type:
+          $ref: '#/components/schemas/CertificateType'
+        validEndDate:
+          format: date-time
+          type: string
+        validStartDate:
+          format: date-time
+          type: string
+        validationType:
+          $ref: '#/components/schemas/CertificateValidationType'
+      required:
+      - certificateId
+      - domain
+      - period
+      - requestDate
+      - status
+      - type
+      - validationType
+      type: object
+    ArrayOfCertificateAction:
+      type: array
+      items:
+        $ref: '#/components/schemas/CertificateAction'
+    CertificateReissue:
+      properties:
+        callbackUrl:
+          description: Required if client would like to receive stateful action via callback during certificate lifecyle
+          type: string
+        commonName:
+          default: Existing common name
+          description: The common name of certificate to be secured
+          type: string
+        csr:
+          default: Existing CSR
+          description: Certificate Signing Request.
+          type: string
+        delayExistingRevoke:
+          default: 72
+          description: In hours, time to delay revoking existing certificate after issuance of new certificate. If revokeExistingCertOnIssuance is enabled, this value will be ignored
+          maximum: 168
+          type: integer
+        rootType:
+          default: GODADDY_SHA_1
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        subjectAlternativeNames:
+          description: Only used for UCC products. An array of subject alternative names to include in certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        forceDomainRevetting:
+          description: Optional field. Domain verification will be required for each domain listed here. Specify a value of * to indicate that all domains associated with the request should have their domain information reverified.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+    CertificateEmailHistory:
+      properties:
+        id:
+          description: Email Id
+          type: integer
+        accountId:
+          description: Shopper Id requested certificate
+          type: integer
+        templateType:
+          description: Email template type name
+          type: string
+        fromType:
+          description: Email from address
+          type: string
+        recipients:
+          description: Email address email was sent
+          type: string
+        body:
+          description: Email message
+          type: string
+        dateEntered:
+          description: Date email sent
+          format: iso-datetime
+          type: string
+        subject:
+          description: Email subject
+          type: string
+      required:
+      - id
+      - accountId
+      - templateType
+      - fromType
+      - recipients
+      - body
+      - dateEntered
+      - subject
+    SubscriptionCertificateCreate:
+      properties:
+        callbackUrl:
+          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
+          type: string
+        commonName:
+          description: Name to be secured in certificate. If provided, CN field in CSR will be ignored.
+          type: string
+        certificateId:
+          description: Id of the existing certificate to renew. If provided, all other fields will be ignored and copied from the existing certificate.
+          type: string
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+          description: Requestor contact information
+        csr:
+          description: Certificate Signing Request
+          type: string
+        intelVPro:
+          default: false
+          description: Only used for OV
+          type: boolean
+        organization:
+          $ref: '#/components/schemas/CertificateOrganizationCreate'
+          description: Required for EVSSL, OVSSL, CS, and DS
+        period:
+          description: Number of years for certificate validity period
+          type: integer
+        termType:
+          description: Determines the temporal unit used for period value.
+          enum:
+          - YEARS
+          - DAYS
+          type: string
+        productType:
+          description: Type of product requesting a certificate. Only required non-renewal
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CS
+          - OV_DS
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        rootType:
+          default: STARFIELD_SHA_2
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        slotSize:
+          description: 'Number of subject alternative names(SAN) to be included in certificate '
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        subjectAlternativeNames:
+          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+      required: []
+    Domain:
+      description: 'A domain, subject alternative name, or alias.
+
+        '
+      example: example.com
+      type: string
+    Page:
+      default: '1'
+      description: The page number.
+      format: int32
+      minimum: 1
+      type: integer
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Description of the problem with the contents of the field
+          type: string
+        path:
+          description: JSONPath referring to the field within the submitted data containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    CertificateRevoke:
+      properties:
+        reason:
+          description: Reason for revocation
+          enum:
+          - AFFILIATION_CHANGED
+          - CESSATION_OF_OPERATION
+          - KEY_COMPROMISE
+          - PRIVILEGE_WITHDRAWN
+          - SUPERSEDED
+          type: string
+      required:
+      - reason
+    Count:
+      description: The total aggregate count.
+      format: int64
+      minimum: 0
+      type: integer
+    CertificateOrganizationCreate:
+      properties:
+        address:
+          $ref: '#/components/schemas/CertificateAddress'
+          description: Organization presence address
+        assumedName:
+          description: Only for EVSSL. The DBA(does business as) name for the organization.
+          type: string
+        name:
+          description: Name of organization that owns common name
+          type: string
+        phone:
+          description: Phone number for organization
+          type: string
+        registrationAgent:
+          description: Only for EVSSL.
+          type: string
+        registrationNumber:
+          description: Only for EVSSL.
+          type: string
+      required:
+      - name
+      - phone
+    CertificateStatus:
+      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+      enum:
+      - ACTIVE
+      - DENIED
+      - EXPIRED
+      - PENDING
+      - REVOKED
+      type: string
+    PEMCertificates:
+      properties:
+        certificate:
+          description: End entity certificate in PEM format
+          type: string
+        cross:
+          description: CA Cross Intermediate certificate in PEM format
+          type: string
+        intermediate:
+          description: CA Signing Intermediate certificate in PEM format
+          type: string
+        root:
+          description: CA Root certificate in PEM format
+          type: string
+      required:
+      - certificate
+    CertificateCreate:
+      properties:
+        callbackUrl:
+          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
+          type: string
+        commonName:
+          description: Name to be secured in certificate. If provided, CN field in CSR will be ignored.
+          type: string
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+          description: Requestor contact information
+        csr:
+          description: Certificate Signing Request
+          type: string
+        intelVPro:
+          default: false
+          description: Only used for OV
+          type: boolean
+        organization:
+          $ref: '#/components/schemas/CertificateOrganizationCreate'
+          description: Required for EVSSL, OVSSL, CS, and DS
+        period:
+          description: Number of years for certificate validity period
+          type: integer
+        productType:
+          description: Type of product requesting a certificate. Only required non-renewal
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CS
+          - OV_DS
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        rootType:
+          default: STARFIELD_SHA_2
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        slotSize:
+          description: 'Number of subject alternative names(SAN) to be included in certificate '
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        subjectAlternativeNames:
+          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+      required:
+      - csr
+      - productType
+      - period
+      - contact
+    CertificateOrganization:
+      properties:
+        address:
+          $ref: '#/components/schemas/CertificateAddress'
+          description: Organization presence address
+        assumedName:
+          description: Only for EVSSL. The DBA(does business as) name for the organization.
+          type: string
+        jurisdictionOfIncorporation:
+          $ref: '#/components/schemas/JurisdictionOfIncorporation'
+          description: Jurisdiction of Incorporation
+        name:
+          description: Name of organization that owns common name
+          type: string
+        phone:
+          description: Phone number for organization
+          type: string
+        registrationAgent:
+          description: Only for EVSSL.
+          type: string
+        registrationNumber:
+          description: Only for EVSSL.
+          type: string
+      required:
+      - name
+      - phone
+      - address
+    CertificateType:
+      description: The type of certificate in terms of the number of applicable domains.
+      enum:
+      - SINGLE
+      - UCC
+      - WILDCARD
+      type: string
+    CertificateSiteSeal:
+      properties:
+        html:
+          description: Certificate Seal HTML
+          type: string
+      required:
+      - html
+    CertificateBundle:
+      properties:
+        pems:
+          $ref: '#/components/schemas/PEMCertificates'
+          description: Certificates in PEM format
+        serialNumber:
+          description: Serial number of certificate requested
+          type: string
+      required:
+      - serialNumber
+      - pems

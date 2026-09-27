@@ -301,6 +301,61 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ActionReason:
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          format: constant
+          pattern: ^[A-Z_][A-Z0-9_]*$
+          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
+        message:
+          type: string
+          description: Human-readable, English description of the code
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          description: List of the specific fields, and the errors found with their contents
+      required:
+      - code
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
     Action:
       properties:
         type:
@@ -425,59 +480,4 @@ components:
           type: string
       required:
       - path
-      - code
-    ActionReason:
-      additionalProperties: false
-      properties:
-        code:
-          type: string
-          format: constant
-          pattern: ^[A-Z_][A-Z0-9_]*$
-          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
-        message:
-          type: string
-          description: Human-readable, English description of the code
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          description: List of the specific fields, and the errors found with their contents
-      required:
-      - code
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
       - code

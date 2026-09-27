@@ -1,0 +1,1167 @@
+openapi: 3.2.0
+info:
+  title: Godaddy Shoppers API
+servers:
+- url: https://api.ote-godaddy.com
+tags:
+- name: Shoppers
+paths:
+  /v1/shoppers/subaccount:
+    post:
+      tags:
+      - Shoppers
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`subaccount` does not fulfill the schema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: createSubaccount
+      summary: Create a Subaccount owned by the authenticated Reseller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubaccountCreate'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/SubaccountCreate'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/SubaccountCreate'
+        description: The subaccount to create
+        required: true
+  /v1/shoppers/{shopperId}:
+    get:
+      description: 'Notes:
+
+
+        **shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+      tags:
+      - Shoppers
+      parameters:
+      - description: Shopper whose details are to be retrieved
+        in: path
+        name: shopperId
+        required: true
+        schema:
+          type: string
+      - description: Additional properties to be included in the response shopper object
+        in: query
+        name: includes
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - customerId
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shopper'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Shopper'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Shopper'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Shopper'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Shopper'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get
+      summary: Get details for the specified Shopper
+    post:
+      description: 'Notes:
+
+
+        **shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+      tags:
+      - Shoppers
+      parameters:
+      - description: The ID of the Shopper to update
+        in: path
+        name: shopperId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: '`Shopper` does not fulfill the schema'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: update
+      summary: Update details for the specified Shopper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopperUpdate'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ShopperUpdate'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/ShopperUpdate'
+        description: The Shopper details to update
+        required: true
+    delete:
+      description: 'Notes:
+
+
+        Shopper deletion is not supported in OTE
+
+
+        **shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+      tags:
+      - Shoppers
+      parameters:
+      - description: 'The ID of the shopper to delete. Must agree with the shopper id on the token or header, if present. *Note*: **shopperId** is **not the same** as **customerId**.  **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+        in: path
+        name: shopperId
+        required: true
+        schema:
+          type: string
+          maxLength: 10
+      - description: The client IP of the user who originated the request leading to this call.
+        in: query
+        name: auditClientIp
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Active and locked shoppers cannot be deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Shopper ID is not supplied or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: delete
+      summary: Request the deletion of a shopper profile
+  /v1/shoppers/{shopperId}/status:
+    get:
+      description: 'Notes:
+
+
+        **shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+      tags:
+      - Shoppers
+      parameters:
+      - description: The ID of the shopper to retrieve. Must agree with the shopper id on the token or header, if present
+        in: path
+        name: shopperId
+        required: true
+        schema:
+          type: string
+          maxLength: 10
+      - description: The client IP of the user who originated the request leading to this call.
+        in: query
+        name: auditClientIp
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopperStatus'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperStatus'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ShopperStatus'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ShopperStatus'
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Shopper ID is not supplied or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: getStatus
+      summary: Get details for the specified Shopper
+  /v1/shoppers/{shopperId}/factors/password:
+    put:
+      description: 'Notes:
+
+
+        Password set is only supported by API Resellers setting subaccount passwords.
+
+
+        **shopperId** is **not the same** as **customerId**. **shopperId** is a number of max length 10 digits (*ex:* 1234567890) whereas **customerId** is a UUIDv4 (*ex:* 295e3bc3-b3b9-4d95-aae5-ede41a994d13)'
+      tags:
+      - Shoppers
+      parameters:
+      - description: Shopper whose password will be set
+        in: path
+        name: shopperId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopperId'
+        '400':
+          description: Request was not successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordError'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: changePassword
+      summary: Set subaccount's password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Secret'
+        description: The value to set the subaccount's password to
+        required: true
+components:
+  schemas:
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    ShopperId:
+      properties:
+        customerId:
+          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
+          type: string
+        shopperId:
+          type: string
+      required:
+      - shopperId
+    PasswordError:
+      properties:
+        type:
+          description: Response type, always 'error'
+          type: string
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+          enum:
+          - PW_BLACK_LIST
+          - PW_TOO_SHORT
+          - PW_TOO_LONG
+          - PW_MISSING_UC
+          - PW_MISSING_NUM
+          - PW_RECENTLY_USED
+          - PW_NOT_UNIQUE
+        message:
+          description: Human-readable, English description of the error
+          type: string
+    Shopper:
+      properties:
+        customerId:
+          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
+          type: string
+        email:
+          format: email
+          type: string
+        externalId:
+          type: integer
+        marketId:
+          default: en-US
+          format: bcp-47
+          type: string
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+        shopperId:
+          type: string
+      required:
+      - shopperId
+      - nameFirst
+      - nameLast
+      - email
+      - marketId
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    ShopperStatus:
+      properties:
+        billingState:
+          type: string
+          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
+          enum:
+          - ABANDONED
+          - INACTIVE
+          - ACTIVE
+    ShopperUpdate:
+      properties:
+        email:
+          format: email
+          type: string
+        externalId:
+          type: integer
+        marketId:
+          format: bcp-47
+          type: string
+          maxLength: 50
+          enum:
+          - da-DK
+          - de-AT
+          - de-CH
+          - de-DE
+          - el-GR
+          - en-AE
+          - en-AU
+          - en-CA
+          - en-GB
+          - en-HK
+          - en-IE
+          - en-IL
+          - en-IN
+          - en-MY
+          - en-NZ
+          - en-PH
+          - en-PK
+          - en-SG
+          - en-US
+          - en-ZA
+          - es-AR
+          - es-CL
+          - es-CO
+          - es-ES
+          - es-MX
+          - es-PE
+          - es-US
+          - es-VE
+          - fi-FI
+          - fr-BE
+          - fr-CA
+          - fr-CH
+          - fr-FR
+          - hi-IN
+          - id-ID
+          - it-CH
+          - it-IT
+          - ja-JP
+          - ko-KR
+          - mr-IN
+          - nb-NO
+          - nl-BE
+          - nl-NL
+          - pl-PL
+          - pt-BR
+          - pt-PT
+          - ru-RU
+          - sv-SE
+          - ta-IN
+          - th-TH
+          - tr-TR
+          - uk-UA
+          - vi-VN
+          - zh-HK
+          - zh-SG
+          - zh-TW
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+    SubaccountCreate:
+      properties:
+        email:
+          format: email
+          type: string
+        externalId:
+          type: integer
+        marketId:
+          default: en-US
+          format: bcp-47
+          type: string
+          maxLength: 50
+          enum:
+          - da-DK
+          - de-AT
+          - de-CH
+          - de-DE
+          - el-GR
+          - en-AE
+          - en-AU
+          - en-CA
+          - en-GB
+          - en-HK
+          - en-IE
+          - en-IL
+          - en-IN
+          - en-MY
+          - en-NZ
+          - en-PH
+          - en-PK
+          - en-SG
+          - en-US
+          - en-ZA
+          - es-AR
+          - es-CL
+          - es-CO
+          - es-ES
+          - es-MX
+          - es-PE
+          - es-US
+          - es-VE
+          - fi-FI
+          - fr-BE
+          - fr-CA
+          - fr-CH
+          - fr-FR
+          - hi-IN
+          - id-ID
+          - it-CH
+          - it-IT
+          - ja-JP
+          - ko-KR
+          - mr-IN
+          - nb-NO
+          - nl-BE
+          - nl-NL
+          - pl-PL
+          - pt-BR
+          - pt-PT
+          - ru-RU
+          - sv-SE
+          - ta-IN
+          - th-TH
+          - tr-TR
+          - uk-UA
+          - vi-VN
+          - zh-HK
+          - zh-SG
+          - zh-TW
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+        password:
+          format: shopper-password
+          type: string
+      required:
+      - email
+      - password
+      - nameFirst
+      - nameLast
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    Secret:
+      properties:
+        secret:
+          description: The secret value used to set a subaccount's password
+          type: string
+          example: P@55w0rd+

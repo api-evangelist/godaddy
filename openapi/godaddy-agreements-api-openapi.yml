@@ -1,0 +1,242 @@
+openapi: 3.2.0
+info:
+  title: Godaddy Agreements API
+servers:
+- url: https://api.ote-godaddy.com
+tags:
+- name: Agreements
+paths:
+  /v1/agreements:
+    get:
+      tags:
+      - Agreements
+      parameters:
+      - description: PrivateLabelId to operate as, if different from JWT
+        in: header
+        name: X-Private-Label-Id
+        required: false
+        schema:
+          type: integer
+      - description: Unique identifier of the Market used to retrieve/translate Legal Agreements
+        in: header
+        name: X-Market-Id
+        required: false
+        schema:
+          type: string
+          format: bcp-47
+          default: en-US
+      - description: Keys for Agreements whose details are to be retrieved
+        in: query
+        name: keys
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LegalAgreement'
+                type: array
+            application/javascript:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LegalAgreement'
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LegalAgreement'
+                type: array
+            text/javascript:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LegalAgreement'
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LegalAgreement'
+                type: array
+        '400':
+          description: Request was malformed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication info not sent or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Authenticated user is not allowed access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests received within interval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorLimit'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/javascript:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get
+      summary: Retrieve Legal Agreements for provided agreements keys
+components:
+  schemas:
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    LegalAgreement:
+      properties:
+        agreementKey:
+          description: Unique identifier for the legal agreement
+          type: string
+        content:
+          description: Contents of the legal agreement, suitable for embedding
+          type: string
+        title:
+          description: Title of the legal agreement
+          type: string
+        url:
+          description: URL to a page containing the legal agreement
+          format: url
+          type: string
+      required:
+      - agreementKey
+      - title
+      - content
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code

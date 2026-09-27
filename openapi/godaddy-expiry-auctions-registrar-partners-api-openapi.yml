@@ -401,58 +401,6 @@ paths:
         required: true
 components:
   schemas:
-    Pagination:
-      type: object
-      properties:
-        first:
-          type: string
-          description: URI to access the first page
-        previous:
-          type: string
-          description: URI to access the previous page
-        next:
-          type: string
-          description: URI to access the next page
-        last:
-          type: string
-          description: URI to access the last page
-        total:
-          type: integer
-          description: Number of records available
-    Listings:
-      type: object
-      properties:
-        listings:
-          description: Array of listings
-          type: array
-          items:
-            $ref: '#/components/schemas/Listing'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-    AftermarketListingExpiryCreate:
-      properties:
-        domain:
-          description: Domain name
-          type: string
-        expiresAt:
-          description: Date when the domain expires
-          format: iso-datetime
-          type: string
-        losingRegistrarId:
-          default: 1
-          description: Losing registrar id for the domain
-          minimum: 1
-          type: integer
-        pageViewsMonthly:
-          description: Monthly traffic page view for the domain
-          type: integer
-        revenueMonthly:
-          description: Monthly parking revenue (in USD micro unit) for the domain
-          type: integer
-      required:
-      - domain
-      - expiresAt
-      - losingRegistrarId
     Listing:
       type: object
       required:
@@ -516,6 +464,77 @@ components:
         updatedAt:
           type: string
           format: iso-datetime
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    AftermarketListingExpiryCreate:
+      properties:
+        domain:
+          description: Domain name
+          type: string
+        expiresAt:
+          description: Date when the domain expires
+          format: iso-datetime
+          type: string
+        losingRegistrarId:
+          default: 1
+          description: Losing registrar id for the domain
+          minimum: 1
+          type: integer
+        pageViewsMonthly:
+          description: Monthly traffic page view for the domain
+          type: integer
+        revenueMonthly:
+          description: Monthly parking revenue (in USD micro unit) for the domain
+          type: integer
+      required:
+      - domain
+      - expiresAt
+      - losingRegistrarId
+    Listings:
+      type: object
+      properties:
+        listings:
+          description: Array of listings
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
     AftermarketListingAction:
       properties:
         listingActionId:
@@ -551,40 +570,21 @@ components:
       required:
       - path
       - code
-    ErrorLimit:
+    Pagination:
+      type: object
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        first:
           type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
+          description: URI to access the first page
+        previous:
           type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
+          description: URI to access the previous page
+        next:
+          type: string
+          description: URI to access the next page
+        last:
+          type: string
+          description: URI to access the last page
+        total:
           type: integer
-      required:
-      - retryAfterSec
-      - code
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
+          description: Number of records available
