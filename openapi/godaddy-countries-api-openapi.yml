@@ -101,10 +101,71 @@ paths:
       summary: Retrieves country and summary state information for provided countryKey
 components:
   schemas:
-    ArrayOfCountrySummary:
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: JSONPath referring to the field within the submitted data containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    ArrayOfCountry:
       type: array
       items:
-        $ref: '#/components/schemas/CountrySummary'
+        $ref: '#/components/schemas/Country'
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        stack:
+          description: 'Stack trace indicating where the error occurred.<br/>
+
+            NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments.
+
+            However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems'
+          items:
+            type: string
+          type: array
+      required:
+      - code
+    State:
+      properties:
+        label:
+          description: The localized name of the state, province, or territory
+          type: string
+        stateKey:
+          description: The state code
+          type: string
+    CountrySummary:
+      properties:
+        callingCode:
+          description: The calling code prefix used for phone numbers in this country
+          type: string
+        countryKey:
+          description: The ISO country-code
+          format: iso-country-code
+          type: string
+        label:
+          description: The localized name of the country
+          type: string
     ErrorLimit:
       properties:
         code:
@@ -135,18 +196,10 @@ components:
       required:
       - retryAfterSec
       - code
-    ArrayOfCountry:
+    ArrayOfCountrySummary:
       type: array
       items:
-        $ref: '#/components/schemas/Country'
-    State:
-      properties:
-        label:
-          description: The localized name of the state, province, or territory
-          type: string
-        stateKey:
-          description: The state code
-          type: string
+        $ref: '#/components/schemas/CountrySummary'
     Country:
       properties:
         callingCode:
@@ -164,56 +217,3 @@ components:
           items:
             $ref: '#/components/schemas/State'
           type: array
-    CountrySummary:
-      properties:
-        callingCode:
-          description: The calling code prefix used for phone numbers in this country
-          type: string
-        countryKey:
-          description: The ISO country-code
-          format: iso-country-code
-          type: string
-        label:
-          description: The localized name of the country
-          type: string
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        stack:
-          description: 'Stack trace indicating where the error occurred.<br/>
-
-            NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments.
-
-            However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems'
-          items:
-            type: string
-          type: array
-      required:
-      - code
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: JSONPath referring to the field within the submitted data containing an error
-          format: json-path
-          type: string
-      required:
-      - path
-      - code

@@ -795,30 +795,71 @@ paths:
         required: true
 components:
   schemas:
-    SubscriptionList:
+    ErrorField:
       properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-          description: Pagination information
-        subscriptions:
-          description: A collection of subscriptions
-          items:
-            $ref: '#/components/schemas/Subscription'
-          type: array
-      required:
-      - subscriptions
-      - pagination
-    ProductGroup:
-      properties:
-        productGroupKey:
-          description: Primary key of a grouping of related Subscriptions
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
           type: string
-        subscriptionCount:
-          description: The number of Subscriptions that the shopper owns in this group
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
           type: integer
       required:
-      - productGroupKey
-      - subscriptionCount
+      - retryAfterSec
+      - code
     Subscription:
       properties:
         addons:
@@ -885,6 +926,87 @@ components:
       - upgradeable
       - priceLocked
       - renewAuto
+    SubscriptionBilling:
+      properties:
+        commitment:
+          description: The financial commitment the customer has in the product
+          enum:
+          - PAID
+          - FREE
+          - TRIAL
+          type: string
+        pastDueTypes:
+          description: The types of charges that are past due when `status` is PAST_DUE
+          items:
+            enum:
+            - ADDON
+            - BURST
+            - SUBSCRIPTION
+            type: string
+          type: array
+        renewAt:
+          description: The point in time after which the Subscription will bill for automatic renewal
+          format: iso-datetime
+          type: string
+        status:
+          description: Whether payments are past due
+          enum:
+          - CURRENT
+          - PAST_DUE
+          type: string
+      required:
+      - renewAt
+      - status
+      - commitment
+    SubscriptionUpdate:
+      properties:
+        paymentProfileId:
+          description: Unique identifier of the payment profile you want to be used for automatic renewal
+          type: integer
+        renewAuto:
+          description: Whether or not you want the Subscription renew automatically
+          type: boolean
+    SubscriptionAddon:
+      properties:
+        commitment:
+          description: The financial commitment the customer has in the product
+          enum:
+          - PAID
+          - FREE
+          - TRIAL
+          type: string
+        pfid:
+          description: Unique identifier of the add-in product
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - pfid
+      - commitment
+      - quantity
+    SubscriptionRelations:
+      properties:
+        children:
+          description: A set of related Subscriptions that will be canceled automatically if this Subscription is canceled
+          items:
+            type: string
+          type: array
+        parent:
+          description: Unique identifier of this Subscription's parent
+          type: string
+    SubscriptionList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+          description: Pagination information
+        subscriptions:
+          description: A collection of subscriptions
+          items:
+            $ref: '#/components/schemas/Subscription'
+          type: array
+      required:
+      - subscriptions
+      - pagination
     SubscriptionProduct:
       properties:
         label:
@@ -925,139 +1047,6 @@ components:
       - productGroupKey
       - supportBillOn
       - namespace
-    SubscriptionBilling:
-      properties:
-        commitment:
-          description: The financial commitment the customer has in the product
-          enum:
-          - PAID
-          - FREE
-          - TRIAL
-          type: string
-        pastDueTypes:
-          description: The types of charges that are past due when `status` is PAST_DUE
-          items:
-            enum:
-            - ADDON
-            - BURST
-            - SUBSCRIPTION
-            type: string
-          type: array
-        renewAt:
-          description: The point in time after which the Subscription will bill for automatic renewal
-          format: iso-datetime
-          type: string
-        status:
-          description: Whether payments are past due
-          enum:
-          - CURRENT
-          - PAST_DUE
-          type: string
-      required:
-      - renewAt
-      - status
-      - commitment
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
-    SubscriptionAddon:
-      properties:
-        commitment:
-          description: The financial commitment the customer has in the product
-          enum:
-          - PAID
-          - FREE
-          - TRIAL
-          type: string
-        pfid:
-          description: Unique identifier of the add-in product
-          type: integer
-        quantity:
-          type: integer
-      required:
-      - pfid
-      - commitment
-      - quantity
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
-    SubscriptionRelations:
-      properties:
-        children:
-          description: A set of related Subscriptions that will be canceled automatically if this Subscription is canceled
-          items:
-            type: string
-          type: array
-        parent:
-          description: Unique identifier of this Subscription's parent
-          type: string
-    SubscriptionUpdate:
-      properties:
-        paymentProfileId:
-          description: Unique identifier of the payment profile you want to be used for automatic renewal
-          type: integer
-        renewAuto:
-          description: Whether or not you want the Subscription renew automatically
-          type: boolean
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
     Pagination:
       properties:
         first:
@@ -1075,3 +1064,14 @@ components:
         total:
           description: Number of records available
           type: integer
+    ProductGroup:
+      properties:
+        productGroupKey:
+          description: Primary key of a grouping of related Subscriptions
+          type: string
+        subscriptionCount:
+          description: The number of Subscriptions that the shopper owns in this group
+          type: integer
+      required:
+      - productGroupKey
+      - subscriptionCount

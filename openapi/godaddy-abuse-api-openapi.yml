@@ -360,51 +360,26 @@ paths:
       summary: Return the abuse ticket data for a given ticket id
 components:
   schemas:
-    AbuseTicketList:
+    ErrorField:
       properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        ticketIds:
-          description: A list of abuse ticket ids originated by this reporter.
-          items:
-            type: string
-          type: array
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to the field on the object referenced by `path` containing an error
+          format: json-path
+          type: string
       required:
-      - ticketIds
-    AbuseTicketCreate:
-      required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketCreateBase'
-      - type: object
-        properties:
-          type:
-            description: The type of abuse being reported.
-            enum:
-            - CHILD_ABUSE
-            - MALWARE
-            - PHISHING
-            type: string
-          proxy:
-            description: The regional location that the content needs to be viewed from.<br/>Here is a mapping of the regional codes to common countries.<br/>ARE - Pakistan, Israel, Turkey, Azerbaijan<br/>SGP - Japan, Tokyo, AU, Australia, Sydney, Singapore, India, Mumbai, New Zealand, Philippines, Korea, Indonesia, China, Malaysia, Taiwan, India<br/>ZAF - South Africa<br/>USA - Canada, United States<br/>BRA - Brazil, Argentina, Ecuador, Mexico, Peru, South America, Colombia, Chile, Guatemala, Panama<br/>DEU - Germany, France, United Kingdom, London, Italy, Belgium, Netherlands, Spain, Ukraine, Austria, Switzerland, Frankfurt, Denmark, Norway, Sweden, Finland, Iceland, Slovakia, Romania, Luxembourg, Poland, Ireland, Portugal, Moldova, Bulgaria, Slovenia, Serbia, Hungary, Lithuania, Malta, Morocco, Latvia, Estonia, Russian Federation, Sweden
-            enum:
-            - ARE
-            - SGP
-            - ZAF
-            - USA
-            - BRA
-            - DEU
-            - OTHER
-            - NOT_APPLICABLE
-            type: string
-          useragent:
-            description: The user-agent required to view the content.
-            enum:
-            - DESKTOP
-            - MOBILE
-            - OTHER
-            - NOT_APPLICABLE
-            type: string
+      - path
+      - code
     AbuseTicketId:
       description: The primary key of a newly created abuse ticket
       properties:
@@ -413,6 +388,20 @@ components:
           type: string
       required:
       - u_number
+    AbuseTicket:
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketLegacy'
+      - type: object
+        properties:
+          closeReason:
+            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
+            enum:
+            - ACTIONED
+            - FALSE_POSITIVE
+            - FORWARDED_COMPLAINT
+            - RECLASSIFIED
+            - NOT_REGISTERED_HOSTED_HERE
+            type: string
     Error:
       properties:
         code:
@@ -434,20 +423,6 @@ components:
           type: array
       required:
       - code
-    AbuseTicket:
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketLegacy'
-      - type: object
-        properties:
-          closeReason:
-            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
-            enum:
-            - ACTIONED
-            - FALSE_POSITIVE
-            - FORWARDED_COMPLAINT
-            - RECLASSIFIED
-            - NOT_REGISTERED_HOSTED_HERE
-            type: string
     AbuseTicketLegacy:
       description: The associated fields returned, given a unique abuse ticket id
       properties:
@@ -501,6 +476,51 @@ components:
       - source
       - createdAt
       - closedAt
+    AbuseTicketCreate:
+      required:
+      - type
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketCreateBase'
+      - type: object
+        properties:
+          type:
+            description: The type of abuse being reported.
+            enum:
+            - CHILD_ABUSE
+            - MALWARE
+            - PHISHING
+            type: string
+          proxy:
+            description: The regional location that the content needs to be viewed from.<br/>Here is a mapping of the regional codes to common countries.<br/>ARE - Pakistan, Israel, Turkey, Azerbaijan<br/>SGP - Japan, Tokyo, AU, Australia, Sydney, Singapore, India, Mumbai, New Zealand, Philippines, Korea, Indonesia, China, Malaysia, Taiwan, India<br/>ZAF - South Africa<br/>USA - Canada, United States<br/>BRA - Brazil, Argentina, Ecuador, Mexico, Peru, South America, Colombia, Chile, Guatemala, Panama<br/>DEU - Germany, France, United Kingdom, London, Italy, Belgium, Netherlands, Spain, Ukraine, Austria, Switzerland, Frankfurt, Denmark, Norway, Sweden, Finland, Iceland, Slovakia, Romania, Luxembourg, Poland, Ireland, Portugal, Moldova, Bulgaria, Slovenia, Serbia, Hungary, Lithuania, Malta, Morocco, Latvia, Estonia, Russian Federation, Sweden
+            enum:
+            - ARE
+            - SGP
+            - ZAF
+            - USA
+            - BRA
+            - DEU
+            - OTHER
+            - NOT_APPLICABLE
+            type: string
+          useragent:
+            description: The user-agent required to view the content.
+            enum:
+            - DESKTOP
+            - MOBILE
+            - OTHER
+            - NOT_APPLICABLE
+            type: string
+    AbuseTicketList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        ticketIds:
+          description: A list of abuse ticket ids originated by this reporter.
+          items:
+            type: string
+          type: array
+      required:
+      - ticketIds
     AbuseTicketCreateLegacy:
       required:
       - type
@@ -528,43 +548,6 @@ components:
             - PHISHING
             - SPAM
             type: string
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to the field on the object referenced by `path` containing an error
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
-    Pagination:
-      properties:
-        first:
-          description: Optional link to first list of results
-          type: string
-        last:
-          description: Optional link to last list of results
-          type: string
-        next:
-          description: Optional link to next list of results
-          type: string
-        previous:
-          description: Optional link to previous list of results
-          type: string
-        total:
-          description: Number of records available
-          type: integer
     AbuseTicketCreateBase:
       required:
       - source
@@ -582,3 +565,20 @@ components:
         target:
           description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
           type: string
+    Pagination:
+      properties:
+        first:
+          description: Optional link to first list of results
+          type: string
+        last:
+          description: Optional link to last list of results
+          type: string
+        next:
+          description: Optional link to next list of results
+          type: string
+        previous:
+          description: Optional link to previous list of results
+          type: string
+        total:
+          description: Number of records available
+          type: integer
