@@ -331,6 +331,8 @@ apis:
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -387,6 +389,8 @@ apis:
   humanURL: https://developer.godaddy.com/doc/endpoint/domains
   baseURL: https://api.godaddy.com
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -410,6 +414,9 @@ apis:
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/countries
 common:
+  - type: CapabilityMap
+    url: capabilities/godaddy-capability-edges.yml
+    name: GoDaddy Business Capability Map
   - type: AgenticAccess
     url: agentic-access/godaddy-agentic-access.yml
   - type: DomainSecurity
