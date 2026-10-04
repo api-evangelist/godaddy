@@ -360,69 +360,23 @@ paths:
       summary: Return the abuse ticket data for a given ticket id
 components:
   schemas:
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to the field on the object referenced by `path` containing an error
-          format: json-path
-          type: string
+    AbuseTicketCreateBase:
       required:
-      - path
-      - code
-    AbuseTicketId:
-      description: The primary key of a newly created abuse ticket
+      - source
       properties:
-        u_number:
-          description: Abuse ticket ID
+        info:
+          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
           type: string
-      required:
-      - u_number
-    AbuseTicket:
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketLegacy'
-      - type: object
-        properties:
-          closeReason:
-            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
-            enum:
-            - ACTIONED
-            - FALSE_POSITIVE
-            - FORWARDED_COMPLAINT
-            - RECLASSIFIED
-            - NOT_REGISTERED_HOSTED_HERE
-            type: string
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        infoUrl:
+          description: Reporter URL if housing additional information that may assist the abuse investigator
+          format: url
           type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
+        source:
+          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
           type: string
-        stack:
-          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
-          items:
-            type: string
-          type: array
-      required:
-      - code
+        target:
+          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+          type: string
     AbuseTicketLegacy:
       description: The associated fields returned, given a unique abuse ticket id
       properties:
@@ -476,6 +430,20 @@ components:
       - source
       - createdAt
       - closedAt
+    AbuseTicket:
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketLegacy'
+      - type: object
+        properties:
+          closeReason:
+            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
+            enum:
+            - ACTIONED
+            - FALSE_POSITIVE
+            - FORWARDED_COMPLAINT
+            - RECLASSIFIED
+            - NOT_REGISTERED_HOSTED_HERE
+            type: string
     AbuseTicketCreate:
       required:
       - type
@@ -510,17 +478,47 @@ components:
             - OTHER
             - NOT_APPLICABLE
             type: string
-    AbuseTicketList:
+    Error:
       properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        ticketIds:
-          description: A list of abuse ticket ids originated by this reporter.
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        stack:
+          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
           items:
             type: string
           type: array
       required:
-      - ticketIds
+      - code
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to the field on the object referenced by `path` containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
     AbuseTicketCreateLegacy:
       required:
       - type
@@ -548,23 +546,17 @@ components:
             - PHISHING
             - SPAM
             type: string
-    AbuseTicketCreateBase:
-      required:
-      - source
+    AbuseTicketList:
       properties:
-        info:
-          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
-          type: string
-        infoUrl:
-          description: Reporter URL if housing additional information that may assist the abuse investigator
-          format: url
-          type: string
-        source:
-          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
-          type: string
-        target:
-          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
-          type: string
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        ticketIds:
+          description: A list of abuse ticket ids originated by this reporter.
+          items:
+            type: string
+          type: array
+      required:
+      - ticketIds
     Pagination:
       properties:
         first:
@@ -582,3 +574,11 @@ components:
         total:
           description: Number of records available
           type: integer
+    AbuseTicketId:
+      description: The primary key of a newly created abuse ticket
+      properties:
+        u_number:
+          description: Abuse ticket ID
+          type: string
+      required:
+      - u_number

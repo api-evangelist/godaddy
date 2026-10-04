@@ -405,46 +405,6 @@ paths:
       summary: Retrieve details for specified order
 components:
   schemas:
-    Order:
-      properties:
-        billTo:
-          $ref: '#/components/schemas/BillTo'
-          description: The billing contact information that was used at the time of purchase
-        createdAt:
-          description: Date and time when the current order is created on
-          format: iso-datetime
-          type: string
-        currency:
-          description: Currency in which the order has been placed
-          format: iso-currency-code
-          type: string
-        items:
-          items:
-            $ref: '#/components/schemas/LineItem'
-          type: array
-        orderId:
-          description: Unique identifier of current order
-          type: string
-        parentOrderId:
-          description: 'Unique identifier of the parent order. All refund/chargeback orders are tied to the original order.
-
-            The orginal order''s `orderId` is the `parentOrderId` of refund/chargeback orders'
-          type: string
-        payments:
-          items:
-            $ref: '#/components/schemas/Payment'
-          type: array
-        pricing:
-          $ref: '#/components/schemas/OrderPricing'
-          description: Pricing information for current order
-      required:
-      - orderId
-      - currency
-      - createdAt
-      - pricing
-      - billTo
-      - payments
-      - items
     LineItemSummary:
       properties:
         label:
@@ -452,6 +412,38 @@ components:
           type: string
       required:
       - label
+    Contact:
+      properties:
+        addressMailing:
+          $ref: '#/components/schemas/Address'
+        email:
+          format: email
+          type: string
+        fax:
+          format: phone
+          type: string
+        jobTitle:
+          type: string
+        nameFirst:
+          format: person-name
+          type: string
+        nameLast:
+          format: person-name
+          type: string
+        nameMiddle:
+          type: string
+        organization:
+          format: organization-name
+          type: string
+        phone:
+          format: phone
+          type: string
+      required:
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+      - addressMailing
     ErrorLimit:
       properties:
         code:
@@ -509,6 +501,136 @@ components:
       - paymentProfileId
       - amount
       - category
+    LineItem:
+      properties:
+        domains:
+          description: A collection of domain names purchased if the current product is domain
+          items:
+            type: string
+          type: array
+        label:
+          description: Human readable description of the current product
+          type: string
+        period:
+          default: 1
+          format: double
+          type: number
+        periodUnit:
+          default: MONTH
+          description: The unit of time that periodCount is measured in
+          enum:
+          - MONTH
+          - QUARTER
+          - SEMI_ANNUAL
+          - YEAR
+          - ONE_TIME
+          type: string
+        pfid:
+          description: Unique identifier of the current product
+          type: integer
+        pricing:
+          $ref: '#/components/schemas/LineItemPricing'
+          description: Pricing information of the current line item
+        quantity:
+          description: Number of the current product included in the specified order
+          format: integer-positive
+          type: integer
+        taxCollector:
+          $ref: '#/components/schemas/LineItemTaxCollector'
+          description: Company that collects taxes on the sale of the product
+      required:
+      - label
+      - quantity
+      - pricing
+    LineItemPricing:
+      properties:
+        discount:
+          description: Discount off of sale price for given `quantity` and `period` <pre>`discount` = `sale` - `subtotal`</pre>
+          format: currency-micro-unit
+          type: integer
+        fees:
+          $ref: '#/components/schemas/OrderFee'
+          description: Fees for given `quantity` and `period`
+        list:
+          description: List price for given `quantity` and `period`
+          format: currency-micro-unit
+          type: integer
+        sale:
+          description: Actual price for the current product
+          format: currency-micro-unit
+          type: integer
+        savings:
+          description: Savings off of list price for given `quantity` and `period` <pre>`savings` = `list` - `subtotal`</pre>
+          format: currency-micro-unit
+          type: integer
+        subtotal:
+          description: Price with any discounts and without taxes or fees for given `quantity` and `period`
+          format: currency-micro-unit
+          type: integer
+        taxes:
+          description: Taxes for given `quantity` and `period`
+          format: currency-micro-unit
+          type: integer
+        unit:
+          description: Pricing for a single unit of the given item
+          type: object
+      required:
+      - subtotal
+      - list
+      - savings
+      - sale
+      - discount
+      - taxes
+      - fees
+      - unit
+    OrderSummaryPricing:
+      properties:
+        total:
+          description: Total amount charged for the current order. Negative for Refund and Chargeback
+          format: currency-micro-unit
+          type: string
+      required:
+      - total
+    Order:
+      properties:
+        billTo:
+          $ref: '#/components/schemas/BillTo'
+          description: The billing contact information that was used at the time of purchase
+        createdAt:
+          description: Date and time when the current order is created on
+          format: iso-datetime
+          type: string
+        currency:
+          description: Currency in which the order has been placed
+          format: iso-currency-code
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/LineItem'
+          type: array
+        orderId:
+          description: Unique identifier of current order
+          type: string
+        parentOrderId:
+          description: 'Unique identifier of the parent order. All refund/chargeback orders are tied to the original order.
+
+            The orginal order''s `orderId` is the `parentOrderId` of refund/chargeback orders'
+          type: string
+        payments:
+          items:
+            $ref: '#/components/schemas/Payment'
+          type: array
+        pricing:
+          $ref: '#/components/schemas/OrderPricing'
+          description: Pricing information for current order
+      required:
+      - orderId
+      - currency
+      - createdAt
+      - pricing
+      - billTo
+      - payments
+      - items
     LineItemPricingTaxDetail:
       properties:
         amount:
@@ -520,18 +642,6 @@ components:
           type: number
       required:
       - ''
-    OrderFee:
-      properties:
-        icann:
-          description: Domain registration transaction fee charged by ICANN
-          format: currency-micro-unit
-          type: integer
-        total:
-          description: Sum of all fees
-          format: currency-micro-unit
-          type: integer
-      required:
-      - total
     OrderPricing:
       properties:
         discount:
@@ -577,31 +687,6 @@ components:
       - discount
       - taxes
       - fees
-    OrderSummaryPricing:
-      properties:
-        total:
-          description: Total amount charged for the current order. Negative for Refund and Chargeback
-          format: currency-micro-unit
-          type: string
-      required:
-      - total
-    Pagination:
-      properties:
-        first:
-          description: URI to access the first page
-          type: string
-        last:
-          description: URI to access the last page
-          type: string
-        next:
-          description: URI to access the next page
-          type: string
-        previous:
-          description: URI to access the previous page
-          type: string
-        total:
-          description: Number of records available
-          type: integer
     Address:
       properties:
         address1:
@@ -881,6 +966,82 @@ components:
       - state
       - postalCode
       - country
+    Pagination:
+      properties:
+        first:
+          description: URI to access the first page
+          type: string
+        last:
+          description: URI to access the last page
+          type: string
+        next:
+          description: URI to access the next page
+          type: string
+        previous:
+          description: URI to access the previous page
+          type: string
+        total:
+          description: Number of records available
+          type: integer
+    LineItemTaxCollector:
+      properties:
+        taxCollectorId:
+          description: Unique identifier for the company
+          format: integer-positive
+          type: integer
+      required:
+      - taxCollectorId
+    OrderFee:
+      properties:
+        icann:
+          description: Domain registration transaction fee charged by ICANN
+          format: currency-micro-unit
+          type: integer
+        total:
+          description: Sum of all fees
+          format: currency-micro-unit
+          type: integer
+      required:
+      - total
+    BillTo:
+      properties:
+        contact:
+          $ref: '#/components/schemas/Contact'
+          description: Billing contact
+        taxId:
+          description: Tax id used for calculating the tax the customer is required to pay
+          type: string
+      required:
+      - contact
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    OrderList:
+      properties:
+        orders:
+          description: A collection of orders
+          items:
+            $ref: '#/components/schemas/OrderSummary'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+          description: Pagination information
+      required:
+      - orders
+      - pagination
     OrderSummary:
       properties:
         createdAt:
@@ -913,57 +1074,6 @@ components:
       - createdAt
       - pricing
       - items
-    BillTo:
-      properties:
-        contact:
-          $ref: '#/components/schemas/Contact'
-          description: Billing contact
-        taxId:
-          description: Tax id used for calculating the tax the customer is required to pay
-          type: string
-      required:
-      - contact
-    LineItem:
-      properties:
-        domains:
-          description: A collection of domain names purchased if the current product is domain
-          items:
-            type: string
-          type: array
-        label:
-          description: Human readable description of the current product
-          type: string
-        period:
-          default: 1
-          format: double
-          type: number
-        periodUnit:
-          default: MONTH
-          description: The unit of time that periodCount is measured in
-          enum:
-          - MONTH
-          - QUARTER
-          - SEMI_ANNUAL
-          - YEAR
-          - ONE_TIME
-          type: string
-        pfid:
-          description: Unique identifier of the current product
-          type: integer
-        pricing:
-          $ref: '#/components/schemas/LineItemPricing'
-          description: Pricing information of the current line item
-        quantity:
-          description: Number of the current product included in the specified order
-          format: integer-positive
-          type: integer
-        taxCollector:
-          $ref: '#/components/schemas/LineItemTaxCollector'
-          description: Company that collects taxes on the sale of the product
-      required:
-      - label
-      - quantity
-      - pricing
     ErrorField:
       properties:
         code:
@@ -992,113 +1102,3 @@ components:
       required:
       - path
       - code
-    LineItemTaxCollector:
-      properties:
-        taxCollectorId:
-          description: Unique identifier for the company
-          format: integer-positive
-          type: integer
-      required:
-      - taxCollectorId
-    Contact:
-      properties:
-        addressMailing:
-          $ref: '#/components/schemas/Address'
-        email:
-          format: email
-          type: string
-        fax:
-          format: phone
-          type: string
-        jobTitle:
-          type: string
-        nameFirst:
-          format: person-name
-          type: string
-        nameLast:
-          format: person-name
-          type: string
-        nameMiddle:
-          type: string
-        organization:
-          format: organization-name
-          type: string
-        phone:
-          format: phone
-          type: string
-      required:
-      - nameFirst
-      - nameLast
-      - email
-      - phone
-      - addressMailing
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
-    OrderList:
-      properties:
-        orders:
-          description: A collection of orders
-          items:
-            $ref: '#/components/schemas/OrderSummary'
-          type: array
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-          description: Pagination information
-      required:
-      - orders
-      - pagination
-    LineItemPricing:
-      properties:
-        discount:
-          description: Discount off of sale price for given `quantity` and `period` <pre>`discount` = `sale` - `subtotal`</pre>
-          format: currency-micro-unit
-          type: integer
-        fees:
-          $ref: '#/components/schemas/OrderFee'
-          description: Fees for given `quantity` and `period`
-        list:
-          description: List price for given `quantity` and `period`
-          format: currency-micro-unit
-          type: integer
-        sale:
-          description: Actual price for the current product
-          format: currency-micro-unit
-          type: integer
-        savings:
-          description: Savings off of list price for given `quantity` and `period` <pre>`savings` = `list` - `subtotal`</pre>
-          format: currency-micro-unit
-          type: integer
-        subtotal:
-          description: Price with any discounts and without taxes or fees for given `quantity` and `period`
-          format: currency-micro-unit
-          type: integer
-        taxes:
-          description: Taxes for given `quantity` and `period`
-          format: currency-micro-unit
-          type: integer
-        unit:
-          description: Pricing for a single unit of the given item
-          type: object
-      required:
-      - subtotal
-      - list
-      - savings
-      - sale
-      - discount
-      - taxes
-      - fees
-      - unit

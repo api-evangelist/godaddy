@@ -1281,28 +1281,62 @@ paths:
       - Certificates
 components:
   schemas:
-    CertificateReissueV2:
+    Guid:
+      description: A Globally Unique Identifier
+      example: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+      type: string
+    Page:
+      default: '1'
+      description: The page number.
+      format: int32
+      minimum: 1
+      type: integer
+    CertificateStatus:
+      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+      enum:
+      - ACTIVE
+      - DENIED
+      - EXPIRED
+      - PENDING
+      - REVOKED
+      type: string
+    SubscriptionCertificateIdentifier:
       properties:
-        csr:
-          default: New CSR, required for rekey only. Changes to common name or subject alternative names will be rejected.
-          description: Certificate Signing Request.
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if verified.
           type: string
-        revokeExistingCertificate:
-          default: false
-          description: Whether to revoke existing certificate upon issuance of new certificate
+        subscriptionId:
+          description: The unique identifier of the subscription owning the certificate request.
+          type: string
+        subscriptionCreatedForOrder:
+          description: Was subscription purchased for certificate order.
           type: boolean
-        delayExistingRevoke:
-          default: 72
-          description: In hours, time to delay revoking existing certificate after issuance of new certificate. If revokeExistingCertOnIssuance is enabled, this value will be ignored
-          maximum: 168
-          type: integer
-        forceDomainRevetting:
-          description: Optional field. Domain verification will be required for each domain listed here. Specify a value of * to indicate that all domains associated with the request should have their domain information reverified.
-          items:
-            type: string
-          type: array
-          uniqueItems: true
-    CertificateOrganizationCreate:
+      required:
+      - certificateId
+      - subscriptionId
+      - subscriptionCreatedForOrder
+    CertificateAction:
+      properties:
+        createdAt:
+          description: Date action created
+          format: iso-datetime
+          type: string
+        type:
+          enum:
+          - CERTIFICATE_ISSUED
+          - CERTIFICATE_ORDER_CANCELED
+          - CERTIFICATE_ORDER_CREATED
+          - CERTIFICATE_REVOKED
+          - DOMAIN_VALIDATION_COMPLETE
+          - FRAUD_DETECTED
+          - ORG_NAME_CHANGE
+          - ORG_VALIDATION_COMPLETE
+          - SAN_DROP
+          type: string
+      required:
+      - type
+      - createdAt
+    CertificateOrganization:
       properties:
         address:
           $ref: '#/components/schemas/CertificateAddress'
@@ -1310,6 +1344,9 @@ components:
         assumedName:
           description: Only for EVSSL. The DBA(does business as) name for the organization.
           type: string
+        jurisdictionOfIncorporation:
+          $ref: '#/components/schemas/JurisdictionOfIncorporation'
+          description: Jurisdiction of Incorporation
         name:
           description: Name of organization that owns common name
           type: string
@@ -1325,68 +1362,70 @@ components:
       required:
       - name
       - phone
-    CertificateDetails:
+      - address
+    CertificatesByDomainPaged:
+      allOf:
+      - $ref: '#/components/schemas/CertificatesByDomain'
+      - properties:
+          currentPage:
+            $ref: '#/components/schemas/Page'
+          data:
+            items:
+              $ref: '#/components/schemas/CertificateDetails'
+            minItems: 0
+            type: array
+          pageSize:
+            $ref: '#/components/schemas/PageSize'
+          total:
+            $ref: '#/components/schemas/Count'
+        type: object
+      required:
+      - total
+      - currentPage
+      - pageSize
+      - data
+    CertificatesByDomain:
       properties:
-        certificateId:
-          type: string
-        completionDate:
-          format: date-time
-          type: string
-        domain:
-          $ref: '#/components/schemas/Domain'
-        period:
-          type: integer
-        requestDate:
-          format: date-time
-          type: string
-        revocationDate:
-          format: date-time
-          type: string
-        sans:
-          description: This includes the common-name
+        allowedDomains:
+          description: The domains that are currently allowed on this subscription.
           items:
             $ref: '#/components/schemas/Domain'
-          minItems: 0
+          minItems: 1
           type: array
-        serialNumber:
-          type: string
-        slotSize:
-          format: int32
+        domain:
+          $ref: '#/components/schemas/Domain'
+        guid:
+          $ref: '#/components/schemas/Guid'
+        maxDomains:
+          description: The maximum number of domains allowed on this subscription.
           type: integer
-        status:
-          $ref: '#/components/schemas/CertificateStatus'
-        type:
-          $ref: '#/components/schemas/CertificateType'
-        validEndDate:
+        subscriptionEndDate:
           format: date-time
           type: string
-        validStartDate:
+        subscriptionStartDate:
           format: date-time
           type: string
-        validationType:
-          $ref: '#/components/schemas/CertificateValidationType'
-      required:
-      - certificateId
-      - domain
-      - period
-      - requestDate
-      - status
-      - type
-      - validationType
-      type: object
-    CertificateRevoke:
-      properties:
-        reason:
-          description: Reason for revocation
+        subscriptionStatus:
+          default: ACTIVE
+          description: 'The internal representation of the subscription.
+
+            A reflection of the entitlement status.
+
+            '
           enum:
-          - AFFILIATION_CHANGED
-          - CESSATION_OF_OPERATION
-          - KEY_COMPROMISE
-          - PRIVILEGE_WITHDRAWN
-          - SUPERSEDED
+          - ACTIVE
+          - SUSPENDED
+          - CANCELED
           type: string
       required:
-      - reason
+      - domain
+      - guid
+      - subscriptionStartDate
+      - subscriptionEndDate
+      - subscriptionStatus
+      - maxDomains
+      - allowedDomains
+      type: object
     CertificateReissue:
       properties:
         callbackUrl:
@@ -1426,6 +1465,34 @@ components:
             type: string
           type: array
           uniqueItems: true
+    CertificateContact:
+      properties:
+        email:
+          description: Email address of requestor contact
+          type: string
+        jobTitle:
+          description: Only used for EVSSL. Job title of requestor contact
+          type: string
+        nameFirst:
+          description: First name of requestor contact
+          type: string
+        nameLast:
+          description: Last name of requestor contact
+          type: string
+        nameMiddle:
+          description: Middle initial of requestor contact
+          type: string
+        phone:
+          description: Phone number for requestor contact
+          type: string
+        suffix:
+          description: Suffix of requestor contact
+          type: string
+      required:
+      - nameFirst
+      - nameLast
+      - email
+      - phone
     SubjectAlternativeNameDetails:
       properties:
         status:
@@ -1442,37 +1509,110 @@ components:
       required:
       - subjectAlternativeName
       - status
-    PageSize:
-      description: The page size.
-      format: int32
-      type: integer
-    CertificateOrganization:
+    Certificate:
       properties:
-        address:
-          $ref: '#/components/schemas/CertificateAddress'
-          description: Organization presence address
-        assumedName:
-          description: Only for EVSSL. The DBA(does business as) name for the organization.
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if no errors returned
           type: string
-        jurisdictionOfIncorporation:
-          $ref: '#/components/schemas/JurisdictionOfIncorporation'
-          description: Jurisdiction of Incorporation
-        name:
-          description: Name of organization that owns common name
+        commonName:
+          description: Common name of certificate
           type: string
-        phone:
-          description: Phone number for organization
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+          description: Requestor contact information
+        createdAt:
+          description: The date the certificate was ordered.
+          format: iso-datetime
           type: string
-        registrationAgent:
-          description: Only for EVSSL.
+        deniedReason:
+          description: Only present if certificate order has been denied
           type: string
-        registrationNumber:
-          description: Only for EVSSL.
+        organization:
+          $ref: '#/components/schemas/CertificateOrganization'
+          description: Organization Name in certificate
+        period:
+          description: Validity period of order. Specified in years
+          type: integer
+        productType:
+          description: Certificate product type
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CS
+          - OV_DS
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        progress:
+          description: Percentage of completion for certificate vetting
+          type: integer
+        revokedAt:
+          description: The revocation date of certificate (if revoked).
+          format: iso-datetime
+          type: string
+        rootType:
+          description: Root Type
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        serialNumber:
+          description: Serial number of certificate (if issued or revoked)
+          type: string
+        serialNumberHex:
+          description: Hexadecmial format for Serial number of certificate(if issued or revoked)
+          type: string
+        slotSize:
+          description: 'Number of subject alternative names(SAN) to be included in certificate '
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        status:
+          description: Status of certificate
+          enum:
+          - PENDING_ISSUANCE
+          - ISSUED
+          - REVOKED
+          - CANCELED
+          - DENIED
+          - PENDING_REVOCATION
+          - PENDING_REKEY
+          - UNUSED
+          - EXPIRED
+          type: string
+        subjectAlternativeNames:
+          description: Contains subject alternative names set
+          items:
+            $ref: '#/components/schemas/SubjectAlternativeNameDetails'
+          type: array
+        validEnd:
+          description: The end date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        validStart:
+          description: The start date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
           type: string
       required:
-      - name
-      - phone
-      - address
+      - certificateId
+      - status
+      - contact
+      - period
+      - createdAt
+      - productType
     CertificateAddress:
       properties:
         address1:
@@ -1738,52 +1878,13 @@ components:
       required:
       - address1
       - country
-    CertificateRenew:
+    CertificateSiteSeal:
       properties:
-        callbackUrl:
-          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
-          type: string
-        commonName:
-          default: Existing common name
-          description: The common name of certificate to be secured
-          type: string
-        csr:
-          default: Existing CSR
-          description: Certificate Signing Request.
-          type: string
-        period:
-          default: 0
-          description: Number of years for certificate validity period, if different from previous certificate
-          type: integer
-        rootType:
-          default: GODADDY_SHA_1
-          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
-          enum:
-          - GODADDY_SHA_1
-          - GODADDY_SHA_2
-          - STARFIELD_SHA_1
-          - STARFIELD_SHA_2
-          type: string
-        subjectAlternativeNames:
-          description: Only used for UCC products. An array of subject alternative names to include in certificate. Not including a subject alternative name that was in the previous certificate will remove it from the renewed certificate.
-          items:
-            type: string
-          type: array
-          uniqueItems: true
-    CertificateIdentifier:
-      properties:
-        certificateId:
-          description: The unique identifier of the certificate request. Only present if verified.
+        html:
+          description: Certificate Seal HTML
           type: string
       required:
-      - certificateId
-    CertificateValidationType:
-      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
-      enum:
-      - DV
-      - EV
-      - OV
-      type: string
+      - html
     PEMCertificates:
       properties:
         certificate:
@@ -1800,299 +1901,6 @@ components:
           type: string
       required:
       - certificate
-    Count:
-      description: The total aggregate count.
-      format: int64
-      minimum: 0
-      type: integer
-    CertificatesByDomain:
-      properties:
-        allowedDomains:
-          description: The domains that are currently allowed on this subscription.
-          items:
-            $ref: '#/components/schemas/Domain'
-          minItems: 1
-          type: array
-        domain:
-          $ref: '#/components/schemas/Domain'
-        guid:
-          $ref: '#/components/schemas/Guid'
-        maxDomains:
-          description: The maximum number of domains allowed on this subscription.
-          type: integer
-        subscriptionEndDate:
-          format: date-time
-          type: string
-        subscriptionStartDate:
-          format: date-time
-          type: string
-        subscriptionStatus:
-          default: ACTIVE
-          description: 'The internal representation of the subscription.
-
-            A reflection of the entitlement status.
-
-            '
-          enum:
-          - ACTIVE
-          - SUSPENDED
-          - CANCELED
-          type: string
-      required:
-      - domain
-      - guid
-      - subscriptionStartDate
-      - subscriptionEndDate
-      - subscriptionStatus
-      - maxDomains
-      - allowedDomains
-      type: object
-    Guid:
-      description: A Globally Unique Identifier
-      example: 217c6432-b892-4d74-a75e-0e37b5dc30a0
-      type: string
-    CertificateBundle:
-      properties:
-        pems:
-          $ref: '#/components/schemas/PEMCertificates'
-          description: Certificates in PEM format
-        serialNumber:
-          description: Serial number of certificate requested
-          type: string
-      required:
-      - serialNumber
-      - pems
-    CertificateEmailHistory:
-      properties:
-        id:
-          description: Email Id
-          type: integer
-        accountId:
-          description: Shopper Id requested certificate
-          type: integer
-        templateType:
-          description: Email template type name
-          type: string
-        fromType:
-          description: Email from address
-          type: string
-        recipients:
-          description: Email address email was sent
-          type: string
-        body:
-          description: Email message
-          type: string
-        dateEntered:
-          description: Date email sent
-          format: iso-datetime
-          type: string
-        subject:
-          description: Email subject
-          type: string
-      required:
-      - id
-      - accountId
-      - templateType
-      - fromType
-      - recipients
-      - body
-      - dateEntered
-      - subject
-    Certificate:
-      properties:
-        certificateId:
-          description: The unique identifier of the certificate request. Only present if no errors returned
-          type: string
-        commonName:
-          description: Common name of certificate
-          type: string
-        contact:
-          $ref: '#/components/schemas/CertificateContact'
-          description: Requestor contact information
-        createdAt:
-          description: The date the certificate was ordered.
-          format: iso-datetime
-          type: string
-        deniedReason:
-          description: Only present if certificate order has been denied
-          type: string
-        organization:
-          $ref: '#/components/schemas/CertificateOrganization'
-          description: Organization Name in certificate
-        period:
-          description: Validity period of order. Specified in years
-          type: integer
-        productType:
-          description: Certificate product type
-          enum:
-          - DV_SSL
-          - DV_WILDCARD_SSL
-          - EV_SSL
-          - OV_CS
-          - OV_DS
-          - OV_SSL
-          - OV_WILDCARD_SSL
-          - UCC_DV_SSL
-          - UCC_EV_SSL
-          - UCC_OV_SSL
-          type: string
-        progress:
-          description: Percentage of completion for certificate vetting
-          type: integer
-        revokedAt:
-          description: The revocation date of certificate (if revoked).
-          format: iso-datetime
-          type: string
-        rootType:
-          description: Root Type
-          enum:
-          - GODADDY_SHA_1
-          - GODADDY_SHA_2
-          - STARFIELD_SHA_1
-          - STARFIELD_SHA_2
-          type: string
-        serialNumber:
-          description: Serial number of certificate (if issued or revoked)
-          type: string
-        serialNumberHex:
-          description: Hexadecmial format for Serial number of certificate(if issued or revoked)
-          type: string
-        slotSize:
-          description: 'Number of subject alternative names(SAN) to be included in certificate '
-          enum:
-          - FIVE
-          - TEN
-          - FIFTEEN
-          - TWENTY
-          - THIRTY
-          - FOURTY
-          - FIFTY
-          - ONE_HUNDRED
-          type: string
-        status:
-          description: Status of certificate
-          enum:
-          - PENDING_ISSUANCE
-          - ISSUED
-          - REVOKED
-          - CANCELED
-          - DENIED
-          - PENDING_REVOCATION
-          - PENDING_REKEY
-          - UNUSED
-          - EXPIRED
-          type: string
-        subjectAlternativeNames:
-          description: Contains subject alternative names set
-          items:
-            $ref: '#/components/schemas/SubjectAlternativeNameDetails'
-          type: array
-        validEnd:
-          description: The end date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-        validStart:
-          description: The start date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-      required:
-      - certificateId
-      - status
-      - contact
-      - period
-      - createdAt
-      - productType
-    CertificateCreate:
-      properties:
-        callbackUrl:
-          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
-          type: string
-        commonName:
-          description: Name to be secured in certificate. If provided, CN field in CSR will be ignored.
-          type: string
-        contact:
-          $ref: '#/components/schemas/CertificateContact'
-          description: Requestor contact information
-        csr:
-          description: Certificate Signing Request
-          type: string
-        intelVPro:
-          default: false
-          description: Only used for OV
-          type: boolean
-        organization:
-          $ref: '#/components/schemas/CertificateOrganizationCreate'
-          description: Required for EVSSL, OVSSL, CS, and DS
-        period:
-          description: Number of years for certificate validity period
-          type: integer
-        productType:
-          description: Type of product requesting a certificate. Only required non-renewal
-          enum:
-          - DV_SSL
-          - DV_WILDCARD_SSL
-          - EV_SSL
-          - OV_CS
-          - OV_DS
-          - OV_SSL
-          - OV_WILDCARD_SSL
-          - UCC_DV_SSL
-          - UCC_EV_SSL
-          - UCC_OV_SSL
-          type: string
-        rootType:
-          default: STARFIELD_SHA_2
-          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
-          enum:
-          - GODADDY_SHA_1
-          - GODADDY_SHA_2
-          - STARFIELD_SHA_1
-          - STARFIELD_SHA_2
-          type: string
-        slotSize:
-          description: 'Number of subject alternative names(SAN) to be included in certificate '
-          enum:
-          - FIVE
-          - TEN
-          - FIFTEEN
-          - TWENTY
-          - THIRTY
-          - FOURTY
-          - FIFTY
-          - ONE_HUNDRED
-          type: string
-        subjectAlternativeNames:
-          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
-          items:
-            type: string
-          type: array
-          uniqueItems: true
-      required:
-      - csr
-      - productType
-      - period
-      - contact
-    CertificatesByDomainPaged:
-      allOf:
-      - $ref: '#/components/schemas/CertificatesByDomain'
-      - properties:
-          currentPage:
-            $ref: '#/components/schemas/Page'
-          data:
-            items:
-              $ref: '#/components/schemas/CertificateDetails'
-            minItems: 0
-            type: array
-          pageSize:
-            $ref: '#/components/schemas/PageSize'
-          total:
-            $ref: '#/components/schemas/Count'
-        type: object
-      required:
-      - total
-      - currentPage
-      - pageSize
-      - data
     SubscriptionCertificateCreate:
       properties:
         callbackUrl:
@@ -2168,34 +1976,122 @@ components:
           type: array
           uniqueItems: true
       required: []
-    CertificateCallback:
+    CertificateEmailHistory:
       properties:
-        callbackUrl:
-          description: Callback url registered to receive stateful actions
+        id:
+          description: Email Id
+          type: integer
+        accountId:
+          description: Shopper Id requested certificate
+          type: integer
+        templateType:
+          description: Email template type name
           type: string
-      required:
-      - callbackUrl
-    CertificateAction:
-      properties:
-        createdAt:
-          description: Date action created
+        fromType:
+          description: Email from address
+          type: string
+        recipients:
+          description: Email address email was sent
+          type: string
+        body:
+          description: Email message
+          type: string
+        dateEntered:
+          description: Date email sent
           format: iso-datetime
           type: string
-        type:
-          enum:
-          - CERTIFICATE_ISSUED
-          - CERTIFICATE_ORDER_CANCELED
-          - CERTIFICATE_ORDER_CREATED
-          - CERTIFICATE_REVOKED
-          - DOMAIN_VALIDATION_COMPLETE
-          - FRAUD_DETECTED
-          - ORG_NAME_CHANGE
-          - ORG_VALIDATION_COMPLETE
-          - SAN_DROP
+        subject:
+          description: Email subject
           type: string
       required:
-      - type
-      - createdAt
+      - id
+      - accountId
+      - templateType
+      - fromType
+      - recipients
+      - body
+      - dateEntered
+      - subject
+    CertificateIdentifier:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if verified.
+          type: string
+      required:
+      - certificateId
+    CertificateReissueV2:
+      properties:
+        csr:
+          default: New CSR, required for rekey only. Changes to common name or subject alternative names will be rejected.
+          description: Certificate Signing Request.
+          type: string
+        revokeExistingCertificate:
+          default: false
+          description: Whether to revoke existing certificate upon issuance of new certificate
+          type: boolean
+        delayExistingRevoke:
+          default: 72
+          description: In hours, time to delay revoking existing certificate after issuance of new certificate. If revokeExistingCertOnIssuance is enabled, this value will be ignored
+          maximum: 168
+          type: integer
+        forceDomainRevetting:
+          description: Optional field. Domain verification will be required for each domain listed here. Specify a value of * to indicate that all domains associated with the request should have their domain information reverified.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+    PageSize:
+      description: The page size.
+      format: int32
+      type: integer
+    CertificateType:
+      description: The type of certificate in terms of the number of applicable domains.
+      enum:
+      - SINGLE
+      - UCC
+      - WILDCARD
+      type: string
+    CertificateOrganizationCreate:
+      properties:
+        address:
+          $ref: '#/components/schemas/CertificateAddress'
+          description: Organization presence address
+        assumedName:
+          description: Only for EVSSL. The DBA(does business as) name for the organization.
+          type: string
+        name:
+          description: Name of organization that owns common name
+          type: string
+        phone:
+          description: Phone number for organization
+          type: string
+        registrationAgent:
+          description: Only for EVSSL.
+          type: string
+        registrationNumber:
+          description: Only for EVSSL.
+          type: string
+      required:
+      - name
+      - phone
+    Count:
+      description: The total aggregate count.
+      format: int64
+      minimum: 0
+      type: integer
+    JurisdictionOfIncorporation:
+      properties:
+        city:
+          type: string
+        country:
+          format: iso-country-code
+          type: string
+        county:
+          type: string
+        state:
+          type: string
+      required:
+      - country
     CertificatesByDomainPage:
       properties:
         currentPage:
@@ -2215,35 +2111,174 @@ components:
       - pageSize
       - data
       type: object
-    ErrorField:
+    CertificateDetails:
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        certificateId:
           type: string
-        message:
-          description: Description of the problem with the contents of the field
+        completionDate:
+          format: date-time
           type: string
-        path:
-          description: JSONPath referring to the field within the submitted data containing an error
-          format: json-path
+        domain:
+          $ref: '#/components/schemas/Domain'
+        period:
+          type: integer
+        requestDate:
+          format: date-time
+          type: string
+        revocationDate:
+          format: date-time
+          type: string
+        sans:
+          description: This includes the common-name
+          items:
+            $ref: '#/components/schemas/Domain'
+          minItems: 0
+          type: array
+        serialNumber:
+          type: string
+        slotSize:
+          format: int32
+          type: integer
+        status:
+          $ref: '#/components/schemas/CertificateStatus'
+        type:
+          $ref: '#/components/schemas/CertificateType'
+        validEndDate:
+          format: date-time
+          type: string
+        validStartDate:
+          format: date-time
+          type: string
+        validationType:
+          $ref: '#/components/schemas/CertificateValidationType'
+      required:
+      - certificateId
+      - domain
+      - period
+      - requestDate
+      - status
+      - type
+      - validationType
+      type: object
+    CertificateRevoke:
+      properties:
+        reason:
+          description: Reason for revocation
+          enum:
+          - AFFILIATION_CHANGED
+          - CESSATION_OF_OPERATION
+          - KEY_COMPROMISE
+          - PRIVILEGE_WITHDRAWN
+          - SUPERSEDED
           type: string
       required:
-      - path
-      - code
-    JurisdictionOfIncorporation:
+      - reason
+    CertificateCreate:
       properties:
-        city:
+        callbackUrl:
+          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
           type: string
-        country:
-          format: iso-country-code
+        commonName:
+          description: Name to be secured in certificate. If provided, CN field in CSR will be ignored.
           type: string
-        county:
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+          description: Requestor contact information
+        csr:
+          description: Certificate Signing Request
           type: string
-        state:
+        intelVPro:
+          default: false
+          description: Only used for OV
+          type: boolean
+        organization:
+          $ref: '#/components/schemas/CertificateOrganizationCreate'
+          description: Required for EVSSL, OVSSL, CS, and DS
+        period:
+          description: Number of years for certificate validity period
+          type: integer
+        productType:
+          description: Type of product requesting a certificate. Only required non-renewal
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CS
+          - OV_DS
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
           type: string
+        rootType:
+          default: STARFIELD_SHA_2
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        slotSize:
+          description: 'Number of subject alternative names(SAN) to be included in certificate '
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        subjectAlternativeNames:
+          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
       required:
-      - country
+      - csr
+      - productType
+      - period
+      - contact
+    ArrayOfCertificateAction:
+      type: array
+      items:
+        $ref: '#/components/schemas/CertificateAction'
+    CertificateRenew:
+      properties:
+        callbackUrl:
+          description: Required if client would like to receive stateful actions via callback during certificate lifecyle
+          type: string
+        commonName:
+          default: Existing common name
+          description: The common name of certificate to be secured
+          type: string
+        csr:
+          default: Existing CSR
+          description: Certificate Signing Request.
+          type: string
+        period:
+          default: 0
+          description: Number of years for certificate validity period, if different from previous certificate
+          type: integer
+        rootType:
+          default: GODADDY_SHA_1
+          description: Root Type. Depending on certificate expiration date, SHA_1 not be allowed. Will default to SHA_2 if expiration date exceeds sha1 allowed date
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        subjectAlternativeNames:
+          description: Only used for UCC products. An array of subject alternative names to include in certificate. Not including a subject alternative name that was in the previous certificate will remove it from the renewed certificate.
+          items:
+            type: string
+          type: array
+          uniqueItems: true
     Error:
       properties:
         code:
@@ -2260,96 +2295,120 @@ components:
           type: string
       required:
       - code
-    SubscriptionCertificateIdentifier:
-      properties:
-        certificateId:
-          description: The unique identifier of the certificate request. Only present if verified.
-          type: string
-        subscriptionId:
-          description: The unique identifier of the subscription owning the certificate request.
-          type: string
-        subscriptionCreatedForOrder:
-          description: Was subscription purchased for certificate order.
-          type: boolean
-      required:
-      - certificateId
-      - subscriptionId
-      - subscriptionCreatedForOrder
-    CertificateSiteSeal:
-      properties:
-        html:
-          description: Certificate Seal HTML
-          type: string
-      required:
-      - html
-    CertificateStatus:
-      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
-      enum:
-      - ACTIVE
-      - DENIED
-      - EXPIRED
-      - PENDING
-      - REVOKED
-      type: string
-    Page:
-      default: '1'
-      description: The page number.
-      format: int32
-      minimum: 1
-      type: integer
-    CertificateType:
-      description: The type of certificate in terms of the number of applicable domains.
-      enum:
-      - SINGLE
-      - UCC
-      - WILDCARD
-      type: string
-    CertificateContact:
-      properties:
-        email:
-          description: Email address of requestor contact
-          type: string
-        jobTitle:
-          description: Only used for EVSSL. Job title of requestor contact
-          type: string
-        nameFirst:
-          description: First name of requestor contact
-          type: string
-        nameLast:
-          description: Last name of requestor contact
-          type: string
-        nameMiddle:
-          description: Middle initial of requestor contact
-          type: string
-        phone:
-          description: Phone number for requestor contact
-          type: string
-        suffix:
-          description: Suffix of requestor contact
-          type: string
-      required:
-      - nameFirst
-      - nameLast
-      - email
-      - phone
     Domain:
       description: 'A domain, subject alternative name, or alias.
 
         '
       example: example.com
       type: string
-    ArrayOfCertificateAction:
-      type: array
-      items:
-        $ref: '#/components/schemas/CertificateAction'
+    CertificateBundle:
+      properties:
+        pems:
+          $ref: '#/components/schemas/PEMCertificates'
+          description: Certificates in PEM format
+        serialNumber:
+          description: Serial number of certificate requested
+          type: string
+      required:
+      - serialNumber
+      - pems
+    CertificateCallback:
+      properties:
+        callbackUrl:
+          description: Callback url registered to receive stateful actions
+          type: string
+      required:
+      - callbackUrl
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Description of the problem with the contents of the field
+          type: string
+        path:
+          description: JSONPath referring to the field within the submitted data containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    CertificateValidationType:
+      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+      enum:
+      - DV
+      - EV
+      - OV
+      type: string
   parameters:
-    SubscriptionPageSize:
-      description: 'The number of records to return per query.
+    PageParam:
+      name: page
+      in: query
+      required: false
+      description: 'The page number. <b>(First page is <i>one</i> instead of zero.)</b>
 
         '
+      schema:
+        type: integer
+        format: int32
+        default: '1'
+        minimum: 1
+    SubscriptionGuidParam:
+      description: The Subscription GUID containing the certificates being requested.
+      in: path
+      name: guid
+      required: true
+      schema:
+        type: string
+        default: 217c6432-b892-4d74-a75e-0e37b5dc30a0
+    CertificateTypeParam:
       in: query
-      name: pageSize
+      name: type
       required: false
+      description: The type of certificate in terms of the number of applicable domains.
+      schema:
+        type: string
+        enum:
+        - ANY
+        - SINGLE
+        - UCC
+        - WILDCARD
+        default: ANY
+    CertificateStatusParam:
+      in: query
+      name: status
+      required: false
+      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
+      schema:
+        type: string
+        enum:
+        - ANY
+        - ACTIVE
+        - DENIED
+        - EXPIRED
+        - PENDING
+        - REVOKED
+        default: ANY
+    CertificateValidationTypeParam:
+      in: query
+      name: validation
+      required: false
+      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
+      schema:
+        type: string
+        enum:
+        - ANY
+        - DV
+        - EV
+        - OV
+        default: ANY
+    PageSizeParam:
+      name: pageSize
+      in: query
+      required: false
+      description: The number of records to return per query.
       schema:
         type: integer
         format: int32
@@ -2367,73 +2426,14 @@ components:
         '
       schema:
         type: string
-    CertificateStatusParam:
+    SubscriptionPageSize:
+      description: 'The number of records to return per query.
+
+        '
       in: query
-      name: status
-      required: false
-      description: "The certificate lifecycle stage. <br>\nActive, Expired, and Revoked are all Issued certificates. <br>\nActive means the validity period includes today. <br>\nExpired means the validity period was prior to today. <br>\nRevoked means that the certificate has been revoked. <br>\nPending means that the certificate is still going through the issuance process and has not been signed or issued yet. <br>\nDenied means that the certificate went from pending to denied for any valid denial reason. \n(Customer canceled request, CAA records exist for the domain, fraud, etc...)\n"
-      schema:
-        type: string
-        enum:
-        - ANY
-        - ACTIVE
-        - DENIED
-        - EXPIRED
-        - PENDING
-        - REVOKED
-        default: ANY
-    PageSizeParam:
       name: pageSize
-      in: query
       required: false
-      description: The number of records to return per query.
       schema:
         type: integer
         format: int32
         default: '15'
-    CertificateTypeParam:
-      in: query
-      name: type
-      required: false
-      description: The type of certificate in terms of the number of applicable domains.
-      schema:
-        type: string
-        enum:
-        - ANY
-        - SINGLE
-        - UCC
-        - WILDCARD
-        default: ANY
-    PageParam:
-      name: page
-      in: query
-      required: false
-      description: 'The page number. <b>(First page is <i>one</i> instead of zero.)</b>
-
-        '
-      schema:
-        type: integer
-        format: int32
-        default: '1'
-        minimum: 1
-    CertificateValidationTypeParam:
-      in: query
-      name: validation
-      required: false
-      description: "The validation type for the certificate. \nStandard/Basic Validation (DV). \nOrganizational/Deluxe Vetting (OV).\nExtended/Premium Validation (EV).\n"
-      schema:
-        type: string
-        enum:
-        - ANY
-        - DV
-        - EV
-        - OV
-        default: ANY
-    SubscriptionGuidParam:
-      description: The Subscription GUID containing the certificates being requested.
-      in: path
-      name: guid
-      required: true
-      schema:
-        type: string
-        default: 217c6432-b892-4d74-a75e-0e37b5dc30a0

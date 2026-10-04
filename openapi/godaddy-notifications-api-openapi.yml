@@ -384,6 +384,71 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    JsonSchema:
+      properties:
+        id:
+          type: string
+        models:
+          items:
+            $ref: '#/components/schemas/JsonSchema'
+          type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/JsonProperty'
+          type: object
+        required:
+          items:
+            type: string
+          type: array
+      required:
+      - id
+      - properties
+      - required
+      - models
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    JsonProperty:
+      properties:
+        defaultValue:
+          type: string
+        format:
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/JsonDataType'
+          type: object
+        maxItems:
+          type: integer
+        maximum:
+          type: integer
+        minItems:
+          type: integer
+        minimum:
+          type: integer
+        pattern:
+          type: string
+        required:
+          type: boolean
+        type:
+          type: string
+      required:
+      - type
+      - $ref
+      - required
     ErrorField:
       properties:
         code:
@@ -412,22 +477,17 @@ components:
       required:
       - path
       - code
-    Error:
+    JsonDataType:
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        format:
           type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
+        pattern:
+          type: string
+        type:
           type: string
       required:
-      - code
+      - type
+      - $ref
     DomainNotification:
       properties:
         notificationId:
@@ -525,55 +585,6 @@ components:
       - resourceType
       - status
       - addedAt
-    JsonSchema:
-      properties:
-        id:
-          type: string
-        models:
-          items:
-            $ref: '#/components/schemas/JsonSchema'
-          type: object
-        properties:
-          items:
-            $ref: '#/components/schemas/JsonProperty'
-          type: object
-        required:
-          items:
-            type: string
-          type: array
-      required:
-      - id
-      - properties
-      - required
-      - models
-    JsonProperty:
-      properties:
-        defaultValue:
-          type: string
-        format:
-          type: string
-        items:
-          items:
-            $ref: '#/components/schemas/JsonDataType'
-          type: object
-        maxItems:
-          type: integer
-        maximum:
-          type: integer
-        minItems:
-          type: integer
-        minimum:
-          type: integer
-        pattern:
-          type: string
-        required:
-          type: boolean
-        type:
-          type: string
-      required:
-      - type
-      - $ref
-      - required
     ErrorLimit:
       properties:
         code:
@@ -595,14 +606,3 @@ components:
       required:
       - retryAfterSec
       - code
-    JsonDataType:
-      properties:
-        format:
-          type: string
-        pattern:
-          type: string
-        type:
-          type: string
-      required:
-      - type
-      - $ref

@@ -7296,6 +7296,200 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    DomainContactsCreateV2:
+      additionalProperties: false
+      type: object
+      properties:
+        admin:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        adminId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain admin contact. This can be specified instead of the `admin` property.
+
+            '
+          type: string
+        billing:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        billingId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain billing contact. This can be specified instead of the `billing` property.
+
+            '
+          type: string
+        registrant:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        registrantId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain registrant contact. This can be specified instead of the `registrant` property.
+
+            '
+          type: string
+        tech:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        techId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain tech contact. This can be specified instead of the `tech` property.
+
+            '
+          type: string
+    ConsentRedemption:
+      additionalProperties: false
+      properties:
+        price:
+          type: integer
+          format: currency-micro-unit
+          description: Price for the domain renewal (if domain renewal required for redemption). Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the redemption price and currency for the domain
+        fee:
+          type: integer
+          format: currency-micro-unit
+          description: Fee charged for the domain redemption. Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the redemption fee and currency for the domain
+        currency:
+          type: string
+          format: iso-currency-code
+          default: USD
+          pattern: ^[A-Z][A-Z][A-Z]$
+          description: Currency in which the `price` and `fee` are listed
+        agreedBy:
+          type: string
+          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
+        agreedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the end-user consented to these legal agreements
+      required:
+      - price
+      - fee
+      - currency
+      - agreedBy
+      - agreedAt
+    DomainTransferInV2:
+      additionalProperties: false
+      properties:
+        authCode:
+          type: string
+          description: Authorization code from registrar for transferring a domain
+        period:
+          type: integer
+          format: integer-positive
+          default: 1
+          minimum: 1
+          maximum: 10
+          pattern: ^[0-9]+$
+          description: Can be more than 1 but no more than 10 years total including current registration length
+        renewAuto:
+          type: boolean
+          default: true
+          description: Whether or not the domain should be configured to automatically renew
+        privacy:
+          type: boolean
+          default: false
+          description: Whether or not privacy has been requested
+        identityDocumentId:
+          type: string
+          description: Unique identifier of the identify document that the user wants to associate with the domain being transferred in. This is required only if the gaining registry has a requirement for an approved identity document
+        consent:
+          $ref: '#/components/schemas/ConsentV2'
+          description: Required agreements can be retrieved via the GET ./domains/agreements endpoint
+        contacts:
+          $ref: '#/components/schemas/DomainContactsCreateV2'
+          description: Contacts for the domain registration
+        metadata:
+          type: object
+          description: The domain eligibility data fields as specified by GET /v2/customers/{customerId}/domains/register/schema/{tld}
+      required:
+      - authCode
+      - consent
+    ConsentDomainUpdate:
+      properties:
+        agreedAt:
+          description: Timestamp indicating when the end-user consented to these agreements
+          format: iso-datetime
+          type: string
+        agreedBy:
+          description: Originating client IP address of the end-user's computer when they consented to the agreements
+          type: string
+        agreementKeys:
+          description: 'Unique identifiers of the agreements to which the end-user has agreed, as required by the elements being updated<br/><ul><li><strong style=''margin-left: 12px;''>EXPOSE_REGISTRANT_ORGANIZATION</strong> - Required when the exposeRegistrantOrganization field is updated to true</li><li><strong style=''margin-left: 12px;''>EXPOSE_WHOIS</strong> - Required when the exposeWhois field is updated to true</li></ul>'
+          items:
+            enum:
+            - EXPOSE_REGISTRANT_ORGANIZATION
+            - EXPOSE_WHOIS
+            type: string
+          type: array
+      required:
+      - agreementKeys
+      - agreedBy
+      - agreedAt
+    Consent:
+      properties:
+        agreedAt:
+          description: Timestamp indicating when the end-user consented to these legal agreements
+          format: iso-datetime
+          type: string
+        agreedBy:
+          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
+          type: string
+        agreementKeys:
+          description: Unique identifiers of the legal agreements to which the end-user has agreed, as returned from the/domains/agreements endpoint
+          items:
+            type: string
+          type: array
+      required:
+      - agreementKeys
+      - agreedBy
+      - agreedAt
+    VerificationsDomainV2:
+      additionalProperties: false
+      properties:
+        icann:
+          type: string
+          enum:
+          - COMPLETED
+          - PENDING
+          - UNABLE_TO_RETRIEVE_STATUS
+          description: 'Status of the Icann verification of domain registrant contact by completing email and/or phone verification<br/><ul><li><strong style=''margin-left: 12px;''>COMPLETED</strong> - Icann verification has been completed.</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - Icann verification has not been completed.</li><li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Icann verification not supported for specified TLD.</li></ul>'
+        realName:
+          type: string
+          enum:
+          - APPROVED
+          - PENDING
+          - REJECTED_DOCUMENT_OUTDATED
+          - REJECTED_EXPIRED_BUSINESS_LICENSE
+          - REJECTED_EXPIRED_ORGANIZATION_CODE
+          - REJECTED_ILLEGIBLE_DOCUMENT_NAME
+          - REJECTED_ILLEGIBLE_IDENTIFICATION
+          - REJECTED_INCOMPLETE_IDENTIFICATION
+          - REJECTED_INCOMPLETE_REGISTRATION_LETTER
+          - REJECTED_INCONSISTENT_IDENTITY_CARD
+          - REJECTED_INCONSISTENT_ORGANIZATION_CODE
+          - REJECTED_INCONSISTENT_REGISTRANT_NAME
+          - REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE
+          - REJECTED_INVALID_DOCUMENT
+          - REJECTED_MISMATCH_BUSINESS_ID
+          - REJECTED_MISMATCH_BUSINESS_NAME
+          - REJECTED_MISMATCH_DOCUMENT_ID
+          - REJECTED_MISMATCH_DOCUMENT_NAME
+          - REJECTED_MISMATCH_DOCUMENT_TYPE
+          - REJECTED_MISMATCH_REGISTRANT_INFO
+          - REJECTED_MISMATCH_REGISTRANT_LOCALITY
+          - REJECTED_MISMATCH_REGISTRANT_NAME
+          - REJECTED_UNABLE_TO_OPEN
+          - REJECTED_UNABLE_TO_VERIFY
+          - REJECTED_UNKNOWN_ERROR
+          - UNABLE_TO_RETRIEVE_STATUS
+          description: 'Status of the real name verification of an identity by comparing registration data against government issued documents<br/><ul><li><strong style=''margin-left: 12px;''>APPROVED</strong> - All is well</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - Real name verification is working its way through the workflow</li><li><strong style=''margin-left: 12px;''>REJECTED_DOCUMENT_OUTDATED</strong> - Local government verification shows there is a newer version of your document.  Upload the latest version of the document and retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_BUSINESS_LICENSE</strong> - Business license is expired</li><li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_ORGANIZATION_CODE</strong> - Organization code certificate number has expired</li><li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_DOCUMENT_NAME</strong> - There isn’t a clear name on your uploaded document, please upload a different document to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_IDENTIFICATION</strong> - Registrant identification is not clear.  Upload a better image to retry</li><li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_IDENTIFICATION</strong> - Registrant identification is incomplete</li><li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_REGISTRATION_LETTER</strong> - Registration letter is incomplete</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_IDENTITY_CARD</strong> - Provided identity card is inconsistent with the identity card on record</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_ORGANIZATION_CODE</strong> - Provided organization information is inconsistent with the results obtained using the submitted organization code</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_REGISTRANT_NAME</strong> - Name on the registrant identification does not match the name in the system</li><li><strong style=''margin-left: 12px;''>REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE</strong> - Your document contains an invalid business license or organization code certificate number</li><li><strong style=''margin-left: 12px;''>REJECTED_INVALID_DOCUMENT</strong> - Document is invalid.  Please upload another document to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_ID</strong> - Business id does not match the business id in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_NAME</strong> - Business name does not match the business name in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_ID</strong> - Document id does not match the id in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_NAME</strong> - Document name does not match the name in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_TYPE</strong> - Document type does not match the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_INFO</strong> - The information provided for the registrant does not match the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_LOCALITY</strong> - Registrant region is overseas, but a local identity document was provided</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_NAME</strong> - Registrant name has been changed, so the request must be resubmitted</li><li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_OPEN</strong> - Registrant identification could not be opened.  Please upload the document again to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_VERIFY</strong> - Unable to initiate verification.  Please upload the document again to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_UNKNOWN_ERROR</strong> - Document was rejected due to an unknown error. For more information, contact customer support</li><li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Unable to retrieve status for the real name verification process.  Retry, if this status persists, contact customer support</li></ul>'
+        domainName:
+          type: string
+          enum:
+          - APPROVED
+          - PENDING
+          - REJECTED
+          - UNABLE_TO_RETRIEVE_STATUS
+          description: Status of the verification of the domain name against a prohibited list maintained by the government
+    DomainNameServerUpdateV2:
+      additionalProperties: false
+      properties:
+        nameServers:
+          type: array
+          items:
+            type: string
+          description: Fully-qualified domain names for name servers to associate with the domain
     DomainUpdate:
       properties:
         locked:
@@ -7320,6 +7514,38 @@ components:
           type: boolean
         consent:
           $ref: '#/components/schemas/ConsentDomainUpdate'
+    Contact:
+      properties:
+        addressMailing:
+          $ref: '#/components/schemas/Address'
+        email:
+          format: email
+          type: string
+        fax:
+          format: phone
+          type: string
+        jobTitle:
+          type: string
+        nameFirst:
+          format: person-name
+          type: string
+        nameLast:
+          format: person-name
+          type: string
+        nameMiddle:
+          type: string
+        organization:
+          format: organization-name
+          type: string
+        phone:
+          format: phone
+          type: string
+      required:
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+      - addressMailing
     MaintenanceDetail:
       additionalProperties: false
       properties:
@@ -7391,286 +7617,6 @@ components:
       - status
       - summary
       - type
-    DomainTransferAuthCode:
-      type: object
-      additionalProperties: false
-      properties:
-        authCode:
-          description: Authorization code for transferring the Domain
-          type: string
-      required:
-      - authCode
-    DomainPurchase:
-      properties:
-        consent:
-          $ref: '#/components/schemas/Consent'
-        contactAdmin:
-          $ref: '#/components/schemas/Contact'
-        contactBilling:
-          $ref: '#/components/schemas/Contact'
-        contactRegistrant:
-          $ref: '#/components/schemas/Contact'
-        contactTech:
-          $ref: '#/components/schemas/Contact'
-        domain:
-          description: For internationalized domain names with non-ascii characters, the domain name is converted to punycode before format and pattern validation rules are checked
-          format: domain
-          type: string
-        nameServers:
-          items:
-            format: host-name
-            type: string
-          type: array
-        period:
-          default: 1
-          format: integer-positive
-          maximum: 10
-          minimum: 1
-          type: integer
-        privacy:
-          default: false
-          type: boolean
-        renewAuto:
-          default: true
-          type: boolean
-      required:
-      - domain
-      - consent
-    MaintenanceSystem:
-      additionalProperties: false
-      properties:
-        name:
-          type: string
-          enum:
-          - DOMAIN_CHECKS
-          - DOMAIN_MANAGEMENT
-          - DOMAIN_REGISTRATION
-          - DOMAIN_REGISTRATION_DATA
-          - DOMAIN_RESOLUTION
-          - RESELLER_ADMIN_PORTAL
-          - RESELLER_STOREFRONT
-          description: 'The name of the system affected by the maintenance<br/><ul><li><strong style=''margin-left: 12px;''>DOMAIN_CHECKS</strong> - Refers to domain availability checks.</li><li><strong style=''margin-left: 12px;''>DOMAIN_MANAGEMENT</strong> - Refers to domain management options including various update options on the domain, contacts, records, etc.</li><li><strong style=''margin-left: 12px;''>DOMAIN_REGISTRATION</strong> - Refers to domain registrations, renewals, transfers.</li><li><strong style=''margin-left: 12px;''>DOMAIN_REGISTRATION_DATA</strong> - Refers to RDAP and WHOIS Service queries for domains.</li><li><strong style=''margin-left: 12px;''>DOMAIN_RESOLUTION</strong> - Refers to DNS resolution for domains.</li><li><strong style=''margin-left: 12px;''>RESELLER_ADMIN_PORTAL</strong> - Refers to Admin portals to manage the reseller account and settings.</li><li><strong style=''margin-left: 12px;''>RESELLER_STOREFRONT</strong> - Refers to the Reseller Storefront features (Standard and Custom).</li></ul>'
-        impact:
-          type: array
-          items:
-            type: string
-            enum:
-            - DELAYED
-            - DOWN
-            - NON_AUTHORITATIVE
-            - PARTIAL
-          description: 'The impact of the maintenance to the system<br/><ul><li><strong style=''margin-left: 12px;''>DELAYED</strong> - This response generally applies to systems where the request is queued up and processed once the system is back online.</li><li><strong style=''margin-left: 12px;''>DOWN</strong> - The system will be entirely offline; errors are expected.</li><li><strong style=''margin-left: 12px;''>NON_AUTHORITATIVE</strong> - This response generally applies to DOMAIN_CHECKS and DOMAIN_MANAGEMENT `system` values where a cached answer will be supplied.</li><li><strong style=''margin-left: 12px;''>PARTIAL</strong> - The system will experience partial feature outages; some errors are expected.</li></ul>'
-      required:
-      - name
-      - impact
-    DomainRenewV2:
-      additionalProperties: false
-      properties:
-        expires:
-          type: string
-          format: iso-datetime
-          description: Current date when this domain will expire
-        consent:
-          $ref: '#/components/schemas/ConsentRenew'
-        period:
-          type: integer
-          description: Number of years to extend the Domain. Must not exceed maximum for TLD. When omitted, defaults to `period` specified during original purchase
-          format: integer-positive
-          minimum: 1
-          maximum: 10
-          pattern: ^[0-9]+$
-      required:
-      - consent
-      - expires
-    DomainPrivacyForwarding:
-      properties:
-        privateEmail:
-          type: string
-          description: The private email
-        forwardingEmail:
-          type: string
-          description: The email that it forwards to
-        emailPreference:
-          type: string
-          enum:
-          - EMAIL_FILTER
-          - EMAIL_SEND_ALL
-          - EMAIL_SEND_NONE
-          description: 'The email forwarding preference for the domain<br/><ul><li><strong style=''margin-left: 12px;''>EMAIL_FILTER</strong> - Filter for spam and forward email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_ALL</strong> - Forward all email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_NONE</strong> - Don''t forward email.</li></ul>'
-    DomainAvailableError:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        domain:
-          description: Domain name
-          type: string
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        status:
-          description: HTTP status code that would return for a single check
-          type: integer
-      required:
-      - code
-      - domain
-      - path
-      - status
-    DomainTransferIn:
-      properties:
-        authCode:
-          description: Authorization code from registrar for transferring a domain
-          type: string
-        consent:
-          $ref: '#/components/schemas/Consent'
-          description: Required agreements can be retrieved via the GET ./domains/agreements endpoint
-        period:
-          default: 1
-          description: Can be more than 1 but no more than 10 years total including current registration length
-          format: integer-positive
-          maximum: 10
-          minimum: 1
-          type: integer
-        privacy:
-          default: false
-          description: Whether or not privacy has been requested
-          type: boolean
-        renewAuto:
-          default: true
-          description: Whether or not the domain should be configured to automatically renew
-          type: boolean
-        contactAdmin:
-          $ref: '#/components/schemas/Contact'
-          description: The contact to use for the domain admin contact. Depending on the tld of the domain being transferred, this field may be required.
-        contactBilling:
-          $ref: '#/components/schemas/Contact'
-          description: The contact to use for the domain billing contact. Depending on the tld of the domain being transferred, this field may be required.
-        contactRegistrant:
-          $ref: '#/components/schemas/Contact'
-          description: The contact to use for the domain registrant contact. Depending on the tld of the domain being transferred, this field may be required.
-        contactTech:
-          $ref: '#/components/schemas/Contact'
-          description: The contact to use for the domain tech contact. Depending on the tld of the domain being transferred, this field may be required.
-      required:
-      - authCode
-      - consent
-    VerificationRealName:
-      properties:
-        status:
-          description: 'Status of the real name verification<br/><ul> <li><strong style=''margin-left: 12px;''>APPROVED</strong> - All is well</li> <li><strong style=''margin-left: 12px;''>PENDING</strong> - Real name verification is working its way through the workflow</li> <li><strong style=''margin-left: 12px;''>REJECTED_DOCUMENT_OUTDATED</strong> - Local government verification shows there is a newer version of your document.  Upload the latest version of the document and retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_BUSINESS_LICENSE</strong> - Business license is expired</li> <li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_ORGANIZATION_CODE</strong> - Organization code certificate number has expired</li> <li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_DOCUMENT_NAME</strong> - There isn’t a clear name on your uploaded document, please upload a different document to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_IDENTIFICATION</strong> - Registrant identification is not clear.  Upload a better image to retry</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_IDENTIFICATION</strong> - Registrant identification is incomplete</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_REGISTRATION_LETTER</strong> - Registration letter is incomplete</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_IDENTITY_CARD</strong> - Provided identity card is inconsistent with the identity card on record</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_ORGANIZATION_CODE</strong> - Provided organization information is inconsistent with the results obtained using the submitted organization code</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_REGISTRANT_NAME</strong> - Name on the registrant identification does not match the name in the system</li> <li><strong style=''margin-left: 12px;''>REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE</strong> - Your document contains an invalid business license or organization code certificate number</li> <li><strong style=''margin-left: 12px;''>REJECTED_INVALID_DOCUMENT</strong> - Document is invalid.  Please upload another document to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_ID</strong> - Business id does not match the business id in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_NAME</strong> - Business name does not match the business name in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_ID</strong> - Document id does not match the id in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_NAME</strong> - Document name does not match the name in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_TYPE</strong> - Document type does not match the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_INFO</strong> - The information provided for the registrant does not match the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_LOCALITY</strong> - Registrant region is overseas, but a local identity document was provided</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_NAME</strong> - Registrant name has been changed, so the request must be resubmitted</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_OPEN</strong> - Registrant identification could not be opened.  Please upload the document again to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_VERIFY</strong> - Unable to initiate verification.  Please upload the document again to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNKNOWN_ERROR</strong> - Document was rejected due to an unknown error. For more information, contact customer support</li> <li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Unable to retrieve status for the real name verification process.  Retry, if this status persists, contact customer support</li> </ul>'
-          enum:
-          - APPROVED
-          - PENDING
-          - REJECTED_DOCUMENT_OUTDATED
-          - REJECTED_EXPIRED_BUSINESS_LICENSE
-          - REJECTED_EXPIRED_ORGANIZATION_CODE
-          - REJECTED_ILLEGIBLE_DOCUMENT_NAME
-          - REJECTED_ILLEGIBLE_IDENTIFICATION
-          - REJECTED_INCOMPLETE_IDENTIFICATION
-          - REJECTED_INCOMPLETE_REGISTRATION_LETTER
-          - REJECTED_INCONSISTENT_IDENTITY_CARD
-          - REJECTED_INCONSISTENT_ORGANIZATION_CODE
-          - REJECTED_INCONSISTENT_REGISTRANT_NAME
-          - REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE
-          - REJECTED_INVALID_DOCUMENT
-          - REJECTED_MISMATCH_BUSINESS_ID
-          - REJECTED_MISMATCH_BUSINESS_NAME
-          - REJECTED_MISMATCH_DOCUMENT_ID
-          - REJECTED_MISMATCH_DOCUMENT_NAME
-          - REJECTED_MISMATCH_DOCUMENT_TYPE
-          - REJECTED_MISMATCH_REGISTRANT_INFO
-          - REJECTED_MISMATCH_REGISTRANT_LOCALITY
-          - REJECTED_MISMATCH_REGISTRANT_NAME
-          - REJECTED_UNABLE_TO_OPEN
-          - REJECTED_UNABLE_TO_VERIFY
-          - REJECTED_UNKNOWN_ERROR
-          - UNABLE_TO_RETRIEVE_STATUS
-          type: string
-      required:
-      - status
-    DomainDnssec:
-      properties:
-        algorithm:
-          description: 'This identifies the cryptographic algorithm used to generate the signature<br/><ul><li><strong style=''margin-left: 12px;''>RSAMD5</strong> - [01] DRSA/MD5 </li><li><strong style=''margin-left: 12px;''>DSA</strong> - [03] DSA/SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA1</strong> - [05] RSA/SHA-1</li><li><strong style=''margin-left: 12px;''>DSA_NSEC3_SHA1</strong> - [06] DSA-NSEC3-SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA1_NSEC3_SHA1</strong> - [07] RSASHA1-NSEC3-SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA256</strong> - [08] RSA/SHA-256</li><li><strong style=''margin-left: 12px;''>RSASHA512</strong> - [10] RSA/SHA-512</li><li><strong style=''margin-left: 12px;''>ECC_GOST</strong> - [12] GOST R 34.10-2001</li><li><strong style=''margin-left: 12px;''>ECDSAP256SHA256</strong> - [13] ECDSA Curve P-256 with SHA-256</li><li><strong style=''margin-left: 12px;''>ECDSAP384SHA384</strong> - [14] ECDSA Curve P-384 with SHA-384</li><li><strong style=''margin-left: 12px;''>ED25519</strong> - [15] Ed25519</li><li><strong style=''margin-left: 12px;''>ED448</strong> - [16] Ed448</li></ul>'
-          enum:
-          - RSAMD5
-          - DH
-          - DSA
-          - RSASHA1
-          - DSA_NSEC3_SHA1
-          - RSASHA1_NSEC3_SHA1
-          - RSASHA256
-          - RSASHA512
-          - ECC_GOST
-          - ECDSAP256SHA256
-          - ECDSAP384SHA384
-          - ED25519
-          - ED448
-          - PRIVATEDNS
-          - PRIVATEOID
-          type: string
-        keyTag:
-          description: This is an integer value less than 65536 used to identify the DNSSEC record for the domain name.
-          type: integer
-          format: integer-positive
-          maximum: 65536
-        digestType:
-          description: 'This identifies the algorithm used to construct the digest<br/><ul><li><strong style=''margin-left: 12px;''>SHA1</strong> - [01] SHA-1</li><li><strong style=''margin-left: 12px;''>SHA256</strong> - [02] SHA-256</li><li><strong style=''margin-left: 12px;''>GOST</strong> - [03] GOST R 34.11-94</li><li><strong style=''margin-left: 12px;''>SHA384</strong> - [04] SHA-384</li></ul>'
-          enum:
-          - SHA1
-          - SHA256
-          - GOST
-          - SHA384
-          type: string
-        digest:
-          type: string
-          description: The digest is an alpha-numeric value
-        flags:
-          description: 'This identifies the key type; either a Zone-Signing Key or a Key-Signing Key<br/><ul><li><strong style=''margin-left: 12px;''>ZSK</strong> - [256] Zone-Signing Key</li><li><strong style=''margin-left: 12px;''>KSK</strong> - [257] Key-Signing Key</li></ul>'
-          enum:
-          - ZSK
-          - KSK
-          type: string
-        publicKey:
-          type: string
-          description: Registries use this value to encrypt DS records. Decryption requires a matching public key
-        maxSignatureLife:
-          type: integer
-          format: integer-positive
-          description: This specifies the validity period for the signature. The value is expressed in seconds. You can use any integer value larger than zero
-      required:
-      - algorithm
-    ActionReason:
-      additionalProperties: false
-      properties:
-        code:
-          type: string
-          format: constant
-          pattern: ^[A-Z_][A-Z0-9_]*$
-          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
-        message:
-          type: string
-          description: Human-readable, English description of the code
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          description: List of the specific fields, and the errors found with their contents
-      required:
-      - code
     ErrorLimit:
       properties:
         code:
@@ -7692,375 +7638,49 @@ components:
       required:
       - retryAfterSec
       - code
-    DomainSummary:
+    JsonSchema:
       properties:
-        authCode:
-          description: Authorization code for transferring the Domain
+        id:
           type: string
-        contactAdmin:
-          $ref: '#/components/schemas/Contact'
-          description: Administrative contact for the domain registration
-        contactBilling:
-          $ref: '#/components/schemas/Contact'
-          description: Billing contact for the domain registration
-        contactRegistrant:
-          $ref: '#/components/schemas/Contact'
-          description: Registration contact for the domain
-        contactTech:
-          $ref: '#/components/schemas/Contact'
-          description: Technical contact for the domain registration
-        createdAt:
-          description: Date and time when this domain was created
-          format: date-time
-          type: string
-        deletedAt:
-          description: Date and time when this domain was deleted
-          format: date-time
-          type: string
-        transferAwayEligibleAt:
-          description: Date and time when this domain is eligible to transfer
-          format: date-time
-          type: string
-        domain:
-          description: Name of the domain
-          type: string
-        domainId:
-          description: Unique identifier for this Domain
-          format: double
-          type: number
-        expirationProtected:
-          description: Whether or not the domain is protected from expiration
-          type: boolean
-        expires:
-          description: Date and time when this domain will expire
-          format: date-time
-          type: string
-        exposeWhois:
-          description: Whether or not the domain contact details should be shown in the WHOIS
-          type: boolean
-        holdRegistrar:
-          description: Whether or not the domain is on-hold by the registrar
-          type: boolean
-        locked:
-          description: Whether or not the domain is locked to prevent transfers
-          type: boolean
-        nameServers:
-          description: Fully-qualified domain names for DNS servers
+        models:
           items:
-            format: host-name
+            $ref: '#/components/schemas/JsonSchema'
+          type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/JsonProperty'
+          type: object
+        required:
+          items:
             type: string
           type: array
-        privacy:
-          description: Whether or not the domain has privacy protection
-          type: boolean
-        registrarCreatedAt:
-          type: string
-          format: iso-datetime
-          description: Date and time when this domain was created by the registrar
-        renewAuto:
-          description: Whether or not the domain is configured to automatically renew
-          type: boolean
-        renewDeadline:
-          description: Date the domain must renew on
-          format: date-time
-          type: string
-        renewable:
-          description: Whether or not the domain is eligble for renewal based on status
-          type: boolean
-        status:
-          description: 'Processing status of the domain<br/><ul>
-
-            <li><strong style=''margin-left: 12px;''>ACTIVE</strong> - All is well</li>
-
-            <li><strong style=''margin-left: 12px;''>AWAITING*</strong> - System is waiting for the end-user to complete an action</li>
-
-            <li><strong style=''margin-left: 12px;''>CANCELLED*</strong> - Domain has been cancelled, and may or may not be reclaimable</li>
-
-            <li><strong style=''margin-left: 12px;''>CONFISCATED</strong> - Domain has been confiscated, usually for abuse, chargeback, or fraud</li>
-
-            <li><strong style=''margin-left: 12px;''>DISABLED*</strong> - Domain has been disabled</li>
-
-            <li><strong style=''margin-left: 12px;''>EXCLUDED*</strong> - Domain has been excluded from Firehose registration</li>
-
-            <li><strong style=''margin-left: 12px;''>EXPIRED*</strong> - Domain has expired</li>
-
-            <li><strong style=''margin-left: 12px;''>FAILED*</strong> - Domain has failed a required action, and the system is no longer retrying</li>
-
-            <li><strong style=''margin-left: 12px;''>HELD*</strong> - Domain has been placed on hold, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>LOCKED*</strong> - Domain has been locked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>PARKED*</strong> - Domain has been parked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>PENDING*</strong> - Domain is working its way through an automated workflow</li>
-
-            <li><strong style=''margin-left: 12px;''>RESERVED*</strong> - Domain is reserved, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>REVERTED</strong> - Domain has been reverted, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>SUSPENDED*</strong> - Domain has been suspended, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>TRANSFERRED*</strong> - Domain has been transferred out</li>
-
-            <li><strong style=''margin-left: 12px;''>UNKNOWN</strong> - Domain is in an unknown state</li>
-
-            <li><strong style=''margin-left: 12px;''>UNLOCKED*</strong> - Domain has been unlocked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>UNPARKED*</strong> - Domain has been unparked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>UPDATED*</strong> - Domain ownership has been transferred to another account</li>
-
-            </ul>'
-          type: string
-        transferProtected:
-          description: Whether or not the domain is protected from transfer
-          type: boolean
       required:
-      - domainId
-      - domain
-      - status
-      - expirationProtected
-      - holdRegistrar
-      - locked
-      - privacy
-      - renewAuto
-      - renewDeadline
-      - transferProtected
-      - createdAt
-      - contactRegistrant
-    DomainsContactsBulk:
+      - id
+      - properties
+      - required
+      - models
+    ContactRegistrantChange:
       properties:
-        contactAdmin:
-          $ref: '#/components/schemas/Contact'
-        contactBilling:
-          $ref: '#/components/schemas/Contact'
-        contactPresence:
-          $ref: '#/components/schemas/Contact'
-        contactRegistrant:
-          $ref: '#/components/schemas/Contact'
-        contactTech:
-          $ref: '#/components/schemas/Contact'
-        domains:
-          description: An array of domain names to be validated against. Alternatively, you can specify the extracted tlds. However, full domain names are required if the tld is `uk`
-          items:
-            format: domain
-            type: string
-          type: array
-        entityType:
-          description: Canadian Presence Requirement (CA)
-          enum:
-          - ABORIGINAL
-          - ASSOCIATION
-          - CITIZEN
-          - CORPORATION
-          - EDUCATIONAL
-          - GOVERNMENT
-          - HOSPITAL
-          - INDIAN_BAND
-          - LEGAL_REPRESENTATIVE
-          - LIBRARY_ARCHIVE_MUSEUM
-          - MARK_REGISTERED
-          - MARK_TRADE
-          - PARTNERSHIP
-          - POLITICAL_PARTY
-          - RESIDENT_PERMANENT
-          - TRUST
-          - UNION
+        email:
           type: string
+          format: email
+          maxLength: 80
+        firstName:
+          type: string
+          format: person-name
+          maxLength: 30
+        lastName:
+          type: string
+          format: person-name
+          maxLength: 30
+        organization:
+          type: string
+          format: organization-name
+          maxLength: 100
       required:
-      - domains
-    DomainForwardingMask:
-      properties:
-        title:
-          type: string
-          description: Displays at the top of the browser window and in search results.
-        description:
-          type: string
-          description: A short description of your website to display in search engine results.
-        keywords:
-          type: string
-          description: A list of comma-separated keywords that describes the content and purpose of your website.
-    DomainNameServerUpdateV2:
-      additionalProperties: false
-      properties:
-        nameServers:
-          type: array
-          items:
-            type: string
-          description: Fully-qualified domain names for name servers to associate with the domain
-    DomainDetail:
-      properties:
-        authCode:
-          description: Authorization code for transferring the Domain
-          type: string
-        contactAdmin:
-          $ref: '#/components/schemas/Contact'
-          description: Administrative contact for the domain registration
-        contactBilling:
-          $ref: '#/components/schemas/Contact'
-          description: Billing contact for the domain registration
-        contactRegistrant:
-          $ref: '#/components/schemas/Contact'
-          description: Registration contact for the domain
-        contactTech:
-          $ref: '#/components/schemas/Contact'
-          description: Technical contact for the domain registration
-        createdAt:
-          description: Date and time when this domain was created
-          format: date-time
-          type: string
-        deletedAt:
-          description: Date and time when this domain was deleted
-          format: date-time
-          type: string
-        transferAwayEligibleAt:
-          description: Date and time when this domain is eligible to transfer
-          format: date-time
-          type: string
-        domain:
-          description: Name of the domain
-          type: string
-        domainId:
-          description: Unique identifier for this Domain
-          format: double
-          type: number
-        expirationProtected:
-          description: Whether or not the domain is protected from expiration
-          type: boolean
-        expires:
-          description: Date and time when this domain will expire
-          format: date-time
-          type: string
-        exposeRegistrantOrganization:
-          type: boolean
-          description: Whether or not the domain registrant contact organization field should be shown in the WHOIS
-        exposeWhois:
-          description: Whether or not the domain contact details should be shown in the WHOIS
-          type: boolean
-        holdRegistrar:
-          description: Whether or not the domain is on-hold by the registrar
-          type: boolean
-        locked:
-          description: Whether or not the domain is locked to prevent transfers
-          type: boolean
-        nameServers:
-          description: Fully-qualified domain names for DNS servers
-          items:
-            format: host-name
-            type: string
-          type: array
-        privacy:
-          description: Whether or not the domain has privacy protection
-          type: boolean
-        registrarCreatedAt:
-          type: string
-          format: iso-datetime
-          description: Date and time when this domain was created by the registrar
-        renewAuto:
-          description: Whether or not the domain is configured to automatically renew
-          type: boolean
-        renewDeadline:
-          description: Date the domain must renew on
-          format: date-time
-          type: string
-        status:
-          description: 'Processing status of the domain<br/><ul>
-
-            <li><strong style=''margin-left: 12px;''>ACTIVE</strong> - All is well</li>
-
-            <li><strong style=''margin-left: 12px;''>AWAITING*</strong> - System is waiting for the end-user to complete an action</li>
-
-            <li><strong style=''margin-left: 12px;''>CANCELLED*</strong> - Domain has been cancelled, and may or may not be reclaimable</li>
-
-            <li><strong style=''margin-left: 12px;''>CONFISCATED</strong> - Domain has been confiscated, usually for abuse, chargeback, or fraud</li>
-
-            <li><strong style=''margin-left: 12px;''>DISABLED*</strong> - Domain has been disabled</li>
-
-            <li><strong style=''margin-left: 12px;''>EXCLUDED*</strong> - Domain has been excluded from Firehose registration</li>
-
-            <li><strong style=''margin-left: 12px;''>EXPIRED*</strong> - Domain has expired</li>
-
-            <li><strong style=''margin-left: 12px;''>FAILED*</strong> - Domain has failed a required action, and the system is no longer retrying</li>
-
-            <li><strong style=''margin-left: 12px;''>HELD*</strong> - Domain has been placed on hold, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>LOCKED*</strong> - Domain has been locked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>PARKED*</strong> - Domain has been parked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>PENDING*</strong> - Domain is working its way through an automated workflow</li>
-
-            <li><strong style=''margin-left: 12px;''>RESERVED*</strong> - Domain is reserved, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>REVERTED</strong> - Domain has been reverted, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>SUSPENDED*</strong> - Domain has been suspended, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>TRANSFERRED*</strong> - Domain has been transferred out</li>
-
-            <li><strong style=''margin-left: 12px;''>UNKNOWN</strong> - Domain is in an unknown state</li>
-
-            <li><strong style=''margin-left: 12px;''>UNLOCKED*</strong> - Domain has been unlocked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>UNPARKED*</strong> - Domain has been unparked, and likely requires intervention from Support</li>
-
-            <li><strong style=''margin-left: 12px;''>UPDATED*</strong> - Domain ownership has been transferred to another account</li>
-
-            </ul>'
-          type: string
-        subaccountId:
-          description: Reseller subaccount shopperid who can manage the domain
-          type: string
-        transferProtected:
-          description: Whether or not the domain is protected from transfer
-          type: boolean
-        verifications:
-          $ref: '#/components/schemas/VerificationsDomain'
-          description: Progress and status for each of the verification processes requested for this domain
-      required:
-      - domainId
-      - domain
-      - status
-      - expirationProtected
-      - holdRegistrar
-      - locked
-      - privacy
-      - renewAuto
-      - renewDeadline
-      - transferProtected
-      - createdAt
-      - authCode
-      - nameServers
-      - contactRegistrant
-      - contactBilling
-      - contactAdmin
-      - contactTech
-    ErrorFieldDomainContactsValidate:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        domains:
-          description: An array of domain names the error is for. If tlds are specified in the request, `domains` will contain tlds. For example, if `domains` in request is ["test1.com", "test2.uk", "net"], and the field is invalid for com and net, then one of the `fields` in response will have ["test1.com", "net"] as `domains`
-          items:
-            type: string
-          type: array
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to the field on the object referenced by `path` containing an error
-          format: json-path
-          type: string
-      required:
-      - code
-      - domains
-      - path
+      - email
+      - firstName
+      - lastName
     UsageMonthlyDetail:
       additionalProperties: false
       properties:
@@ -8073,79 +7693,70 @@ components:
       required:
       - path
       - total
-    DomainAvailableResponse:
-      properties:
-        available:
-          description: Whether or not the domain name is available
-          type: boolean
-        currency:
-          default: USD
-          description: Currency in which the `price` is listed. Only returned if tld is offered
-          format: iso-currency-code
-          type: string
-        definitive:
-          description: Whether or not the `available` answer has been definitively verified with the registry
-          type: boolean
-        domain:
-          description: Domain name
-          type: string
-        period:
-          description: Number of years included in the price. Only returned if tld is offered
-          format: integer-positive
-          type: integer
-        price:
-          description: Price of the domain excluding taxes or fees. Only returned if tld is offered
-          format: currency-micro-unit
-          type: integer
-      required:
-      - domain
-      - available
-      - definitive
-    VerificationsDomain:
-      properties:
-        domainName:
-          $ref: '#/components/schemas/VerificationDomainName'
-          description: Verification of domain name against a prohibited list maintained by the government
-        realName:
-          $ref: '#/components/schemas/VerificationRealName'
-          description: Verification of identity by comparing registration data against government issued documents
-    ConsentV2:
+    ActionReason:
       additionalProperties: false
       properties:
-        agreementKeys:
+        code:
+          type: string
+          format: constant
+          pattern: ^[A-Z_][A-Z0-9_]*$
+          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
+        message:
+          type: string
+          description: Human-readable, English description of the code
+        fields:
           type: array
           items:
-            type: string
-          description: Unique identifiers of the legal agreements to which the end-user has agreed, as returned from the/domains/agreements endpoint
+            $ref: '#/components/schemas/ErrorField'
+          description: List of the specific fields, and the errors found with their contents
+      required:
+      - code
+    DomainRenewV2:
+      additionalProperties: false
+      properties:
+        expires:
+          type: string
+          format: iso-datetime
+          description: Current date when this domain will expire
+        consent:
+          $ref: '#/components/schemas/ConsentRenew'
+        period:
+          type: integer
+          description: Number of years to extend the Domain. Must not exceed maximum for TLD. When omitted, defaults to `period` specified during original purchase
+          format: integer-positive
+          minimum: 1
+          maximum: 10
+          pattern: ^[0-9]+$
+      required:
+      - consent
+      - expires
+    RenewalDetails:
+      properties:
+        renewable:
+          type: boolean
+          description: Whether or not the domain is eligble for renewal based on status
         price:
           type: integer
           format: currency-micro-unit
-          description: Price of the domain excluding taxes or fees. Please use GET /v1/domains/available to retrieve the price and currency for the domain
+          description: Price for the domain renewal excluding taxes or fees
         currency:
           type: string
           format: iso-currency-code
           default: USD
           pattern: ^[A-Z][A-Z][A-Z]$
           description: Currency in which the `price` is listed
-        registryPremiumPricing:
-          type: boolean
-          description: Only required for hosted registrar if domain is premium. If true indicates that the `price` and `currency` listed are the registry premium price and currency for the domain
-        agreedBy:
-          type: string
-          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
-        agreedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the end-user consented to these legal agreements
-        claimToken:
-          description: The trademark claim token, only needed if the domain has an active trademark claim
-          type: string
       required:
-      - agreementKeys
       - price
       - currency
-      - agreedBy
-      - agreedAt
+    DomainAvailableBulk:
+      properties:
+        domains:
+          description: Domain available response array
+          items:
+            $ref: '#/components/schemas/DomainAvailableResponse'
+          type: array
+      required:
+      - domains
     ContactDomain:
       properties:
         contactId:
@@ -8224,142 +7835,64 @@ components:
       - addressMailing
       - exposeWhois
       - exposeRegistrantOrganization
-    DomainRenew:
+    DomainAvailableBulkMixed:
       properties:
-        period:
-          description: Number of years to extend the Domain. Must not exceed maximum for TLD. When omitted, defaults to `period` specified during original purchase
-          format: integer-positive
-          maximum: 10
-          minimum: 1
-          type: integer
-    UsageMonthly:
+        domains:
+          description: Domain available response array
+          items:
+            $ref: '#/components/schemas/DomainAvailableResponse'
+          type: array
+        errors:
+          description: Errors encountered while performing a domain available check
+          items:
+            $ref: '#/components/schemas/DomainAvailableError'
+          type: array
+      required:
+      - domains
+    DomainTransferAuthCode:
+      type: object
       additionalProperties: false
       properties:
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/UsageMonthlyDetail'
-          description: List of total request counts per endpoint.
-        quota:
-          type: integer
-          description: The total number of allowed requests in the month.  See https://developer.godaddy.com/getstarted for more information on api quotas and access limits.
-        total:
-          type: integer
-          description: The total number of requests in the month.
-        yyyymm:
+        authCode:
+          description: Authorization code for transferring the Domain
           type: string
-          description: The year/month timeframe for the request counts (in the format yyyy-mm)
       required:
-      - total
-      - yyyymm
-    JsonProperty:
+      - authCode
+    DomainForwarding:
       properties:
-        defaultValue:
+        fqdn:
           type: string
+          description: The fqdn (domain or sub domain) to forward (ex somedomain.com or sub.somedomain.com)
+        type:
+          type: string
+          default: REDIRECT_PERMANENT
+          enum:
+          - MASKED
+          - REDIRECT_PERMANENT
+          - REDIRECT_TEMPORARY
+          description: 'The type of fowarding to implement<br/><ul><li><strong style=''margin-left: 12px;''>MASKED</strong> - Prevents the forwarded domain or subdomain URL from displaying in the browser''s address bar.</li><li><strong style=''margin-left: 12px;''>REDIRECT_PERMANENT*</strong> - Redirects to the url you specified in the forwardTo field using a `301 Moved Permanently` HTTP response. The HTTP 301 response code tells user-agents (including search engines) that the location has permanently moved.</li><li><strong style=''margin-left: 12px;''>REDIRECT_TEMPORARY</strong> - Redirects to the url you specified in the forwardTo field using a `302 Found` HTTP response. The HTTP 302 response code tells user-agents (including search engines) that the location has temporarily moved.</li></ul>'
+        url:
+          type: string
+          format: url
+          description: Forwards http(s) traffic to this destination url (ex. http://www.somedomain.com/)
+        mask:
+          $ref: '#/components/schemas/DomainForwardingMask'
+          description: Additional configuration that can be provided when type = 'MASKED'
+      required:
+      - fqdn
+      - type
+      - url
+    JsonDataType:
+      properties:
         format:
           type: string
-        items:
-          items:
-            $ref: '#/components/schemas/JsonDataType'
-          type: object
-        maxItems:
-          type: integer
-        maximum:
-          type: integer
-        minItems:
-          type: integer
-        minimum:
-          type: integer
         pattern:
           type: string
-        required:
-          type: boolean
         type:
           type: string
       required:
       - type
       - $ref
-      - required
-    ContactDomainCreate:
-      additionalProperties: false
-      properties:
-        encoding:
-          type: string
-          default: ASCII
-          enum:
-          - ASCII
-          - UTF-8
-          description: 'The encoding of the contact data<br/><ul><li><strong style=''margin-left: 12px;''>ASCII</strong> - Data contains only ASCII characters that are not region or language specific</li><li><strong style=''margin-left: 12px;''>UTF-8</strong> - Data contains characters that are specific to a region or language</li></ul>'
-        nameFirst:
-          type: string
-          format: person-name
-          maxLength: 30
-        nameMiddle:
-          type: string
-        nameLast:
-          type: string
-          format: person-name
-          maxLength: 30
-        organization:
-          type: string
-          format: organization-name
-          maxLength: 100
-        jobTitle:
-          type: string
-        email:
-          type: string
-          format: email
-          maxLength: 80
-        phone:
-          type: string
-          format: phone
-          maxLength: 17
-        fax:
-          type: string
-          format: phone
-          maxLength: 17
-        addressMailing:
-          $ref: '#/components/schemas/Address'
-        metadata:
-          type: object
-          description: The contact eligibility data fields as specified by GET /v2/customers/{customerId}/domains/contacts/schema/{tld}
-      required:
-      - encoding
-      - nameFirst
-      - nameLast
-      - email
-      - phone
-      - addressMailing
-    ConsentRedemption:
-      additionalProperties: false
-      properties:
-        price:
-          type: integer
-          format: currency-micro-unit
-          description: Price for the domain renewal (if domain renewal required for redemption). Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the redemption price and currency for the domain
-        fee:
-          type: integer
-          format: currency-micro-unit
-          description: Fee charged for the domain redemption. Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the redemption fee and currency for the domain
-        currency:
-          type: string
-          format: iso-currency-code
-          default: USD
-          pattern: ^[A-Z][A-Z][A-Z]$
-          description: Currency in which the `price` and `fee` are listed
-        agreedBy:
-          type: string
-          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
-        agreedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the end-user consented to these legal agreements
-      required:
-      - price
-      - fee
-      - currency
-      - agreedBy
-      - agreedAt
     DNSRecord:
       properties:
         data:
@@ -8404,6 +7937,534 @@ components:
       - type
       - name
       - data
+    DomainContactsV2:
+      additionalProperties: false
+      properties:
+        registrant:
+          $ref: '#/components/schemas/ContactDomain'
+          description: Registrant contact for the domain
+        admin:
+          $ref: '#/components/schemas/ContactDomain'
+          description: Administrative contact for the domain
+        tech:
+          $ref: '#/components/schemas/ContactDomain'
+          description: Technical contact for the domain
+        billing:
+          $ref: '#/components/schemas/ContactDomain'
+          description: Billing contact for the domain
+    DomainPurchase:
+      properties:
+        consent:
+          $ref: '#/components/schemas/Consent'
+        contactAdmin:
+          $ref: '#/components/schemas/Contact'
+        contactBilling:
+          $ref: '#/components/schemas/Contact'
+        contactRegistrant:
+          $ref: '#/components/schemas/Contact'
+        contactTech:
+          $ref: '#/components/schemas/Contact'
+        domain:
+          description: For internationalized domain names with non-ascii characters, the domain name is converted to punycode before format and pattern validation rules are checked
+          format: domain
+          type: string
+        nameServers:
+          items:
+            format: host-name
+            type: string
+          type: array
+        period:
+          default: 1
+          format: integer-positive
+          maximum: 10
+          minimum: 1
+          type: integer
+        privacy:
+          default: false
+          type: boolean
+        renewAuto:
+          default: true
+          type: boolean
+      required:
+      - domain
+      - consent
+    ErrorDomainContactsValidate:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorFieldDomainContactsValidate'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        stack:
+          description: 'Stack trace indicating where the error occurred.<br/>NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems'
+          items:
+            type: string
+          type: array
+      required:
+      - code
+    ErrorFieldDomainContactsValidate:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        domains:
+          description: An array of domain names the error is for. If tlds are specified in the request, `domains` will contain tlds. For example, if `domains` in request is ["test1.com", "test2.uk", "net"], and the field is invalid for com and net, then one of the `fields` in response will have ["test1.com", "net"] as `domains`
+          items:
+            type: string
+          type: array
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to the field on the object referenced by `path` containing an error
+          format: json-path
+          type: string
+      required:
+      - code
+      - domains
+      - path
+    Maintenance:
+      additionalProperties: false
+      properties:
+        createdAt:
+          description: Date and time (UTC) when this maintenance was created
+          type: string
+          format: iso-datetime
+        endsAt:
+          description: Date and time (UTC) when this maintenance will complete
+          type: string
+          format: iso-datetime
+        environment:
+          type: string
+          enum:
+          - OTE
+          - PRODUCTION
+          description: 'The environment on which the maintenance will be performed<br/><ul><li><strong style=''margin-left: 12px;''>OTE</strong> - The Operational Testing Environment.</li><li><strong style=''margin-left: 12px;''>PRODUCTION</strong> - The Live Production Environment.</li></ul>'
+        maintenanceId:
+          type: string
+          description: The identifier for the system maintenance
+        modifiedAt:
+          type: string
+          format: iso-datetime
+          description: Date and time (UTC) when this maintenance was last modified
+        reason:
+          type: string
+          enum:
+          - EMERGENCY
+          - PLANNED
+          description: 'The reason for the maintenance being performed<br/><ul><li><strong style=''margin-left: 12px;''>EMERGENCY</strong> - Unexpected Emergency maintenance.</li><li><strong style=''margin-left: 12px;''>PLANNED</strong> - Planned system maintenance.</li></ul>'
+        startsAt:
+          type: string
+          format: iso-datetime
+          description: Date and time (UTC) when this maintenance will start
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - CANCELLED
+          description: 'The status of maintenance<br/><ul><li><strong style=''margin-left: 12px;''>ACTIVE</strong> - The upcoming maintenance is active.</li><li><strong style=''margin-left: 12px;''>CANCELLED</strong> - The upcoming maintenance has been cancelled.</li></ul>'
+        summary:
+          type: string
+          description: A brief description of what is being performed
+        tlds:
+          type: array
+          items:
+            type: string
+          description: List of tlds that are in maintenance.  Generally only applies when `type` is REGISTRY
+        type:
+          type: string
+          enum:
+          - API
+          - REGISTRY
+          - UI
+          description: 'The type of maintenance being performed<br/><ul><li><strong style=''margin-left: 12px;''>API</strong> - Programmatic Api components.</li><li><strong style=''margin-left: 12px;''>REGISTRY</strong> - The underlying Registry providing the tld(s).</li><li><strong style=''margin-left: 12px;''>UI</strong> - User Interface components.</li></ul>'
+      required:
+      - createdAt
+      - endsAt
+      - environment
+      - maintenanceId
+      - modifiedAt
+      - reason
+      - startsAt
+      - status
+      - summary
+      - type
+    VerificationRealName:
+      properties:
+        status:
+          description: 'Status of the real name verification<br/><ul> <li><strong style=''margin-left: 12px;''>APPROVED</strong> - All is well</li> <li><strong style=''margin-left: 12px;''>PENDING</strong> - Real name verification is working its way through the workflow</li> <li><strong style=''margin-left: 12px;''>REJECTED_DOCUMENT_OUTDATED</strong> - Local government verification shows there is a newer version of your document.  Upload the latest version of the document and retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_BUSINESS_LICENSE</strong> - Business license is expired</li> <li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_ORGANIZATION_CODE</strong> - Organization code certificate number has expired</li> <li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_DOCUMENT_NAME</strong> - There isn’t a clear name on your uploaded document, please upload a different document to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_IDENTIFICATION</strong> - Registrant identification is not clear.  Upload a better image to retry</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_IDENTIFICATION</strong> - Registrant identification is incomplete</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_REGISTRATION_LETTER</strong> - Registration letter is incomplete</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_IDENTITY_CARD</strong> - Provided identity card is inconsistent with the identity card on record</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_ORGANIZATION_CODE</strong> - Provided organization information is inconsistent with the results obtained using the submitted organization code</li> <li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_REGISTRANT_NAME</strong> - Name on the registrant identification does not match the name in the system</li> <li><strong style=''margin-left: 12px;''>REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE</strong> - Your document contains an invalid business license or organization code certificate number</li> <li><strong style=''margin-left: 12px;''>REJECTED_INVALID_DOCUMENT</strong> - Document is invalid.  Please upload another document to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_ID</strong> - Business id does not match the business id in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_NAME</strong> - Business name does not match the business name in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_ID</strong> - Document id does not match the id in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_NAME</strong> - Document name does not match the name in the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_TYPE</strong> - Document type does not match the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_INFO</strong> - The information provided for the registrant does not match the document</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_LOCALITY</strong> - Registrant region is overseas, but a local identity document was provided</li> <li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_NAME</strong> - Registrant name has been changed, so the request must be resubmitted</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_OPEN</strong> - Registrant identification could not be opened.  Please upload the document again to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_VERIFY</strong> - Unable to initiate verification.  Please upload the document again to retry real name verification</li> <li><strong style=''margin-left: 12px;''>REJECTED_UNKNOWN_ERROR</strong> - Document was rejected due to an unknown error. For more information, contact customer support</li> <li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Unable to retrieve status for the real name verification process.  Retry, if this status persists, contact customer support</li> </ul>'
+          enum:
+          - APPROVED
+          - PENDING
+          - REJECTED_DOCUMENT_OUTDATED
+          - REJECTED_EXPIRED_BUSINESS_LICENSE
+          - REJECTED_EXPIRED_ORGANIZATION_CODE
+          - REJECTED_ILLEGIBLE_DOCUMENT_NAME
+          - REJECTED_ILLEGIBLE_IDENTIFICATION
+          - REJECTED_INCOMPLETE_IDENTIFICATION
+          - REJECTED_INCOMPLETE_REGISTRATION_LETTER
+          - REJECTED_INCONSISTENT_IDENTITY_CARD
+          - REJECTED_INCONSISTENT_ORGANIZATION_CODE
+          - REJECTED_INCONSISTENT_REGISTRANT_NAME
+          - REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE
+          - REJECTED_INVALID_DOCUMENT
+          - REJECTED_MISMATCH_BUSINESS_ID
+          - REJECTED_MISMATCH_BUSINESS_NAME
+          - REJECTED_MISMATCH_DOCUMENT_ID
+          - REJECTED_MISMATCH_DOCUMENT_NAME
+          - REJECTED_MISMATCH_DOCUMENT_TYPE
+          - REJECTED_MISMATCH_REGISTRANT_INFO
+          - REJECTED_MISMATCH_REGISTRANT_LOCALITY
+          - REJECTED_MISMATCH_REGISTRANT_NAME
+          - REJECTED_UNABLE_TO_OPEN
+          - REJECTED_UNABLE_TO_VERIFY
+          - REJECTED_UNKNOWN_ERROR
+          - UNABLE_TO_RETRIEVE_STATUS
+          type: string
+      required:
+      - status
+    ConsentV2:
+      additionalProperties: false
+      properties:
+        agreementKeys:
+          type: array
+          items:
+            type: string
+          description: Unique identifiers of the legal agreements to which the end-user has agreed, as returned from the/domains/agreements endpoint
+        price:
+          type: integer
+          format: currency-micro-unit
+          description: Price of the domain excluding taxes or fees. Please use GET /v1/domains/available to retrieve the price and currency for the domain
+        currency:
+          type: string
+          format: iso-currency-code
+          default: USD
+          pattern: ^[A-Z][A-Z][A-Z]$
+          description: Currency in which the `price` is listed
+        registryPremiumPricing:
+          type: boolean
+          description: Only required for hosted registrar if domain is premium. If true indicates that the `price` and `currency` listed are the registry premium price and currency for the domain
+        agreedBy:
+          type: string
+          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
+        agreedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the end-user consented to these legal agreements
+        claimToken:
+          description: The trademark claim token, only needed if the domain has an active trademark claim
+          type: string
+      required:
+      - agreementKeys
+      - price
+      - currency
+      - agreedBy
+      - agreedAt
+    DomainDnssec:
+      properties:
+        algorithm:
+          description: 'This identifies the cryptographic algorithm used to generate the signature<br/><ul><li><strong style=''margin-left: 12px;''>RSAMD5</strong> - [01] DRSA/MD5 </li><li><strong style=''margin-left: 12px;''>DSA</strong> - [03] DSA/SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA1</strong> - [05] RSA/SHA-1</li><li><strong style=''margin-left: 12px;''>DSA_NSEC3_SHA1</strong> - [06] DSA-NSEC3-SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA1_NSEC3_SHA1</strong> - [07] RSASHA1-NSEC3-SHA1</li><li><strong style=''margin-left: 12px;''>RSASHA256</strong> - [08] RSA/SHA-256</li><li><strong style=''margin-left: 12px;''>RSASHA512</strong> - [10] RSA/SHA-512</li><li><strong style=''margin-left: 12px;''>ECC_GOST</strong> - [12] GOST R 34.10-2001</li><li><strong style=''margin-left: 12px;''>ECDSAP256SHA256</strong> - [13] ECDSA Curve P-256 with SHA-256</li><li><strong style=''margin-left: 12px;''>ECDSAP384SHA384</strong> - [14] ECDSA Curve P-384 with SHA-384</li><li><strong style=''margin-left: 12px;''>ED25519</strong> - [15] Ed25519</li><li><strong style=''margin-left: 12px;''>ED448</strong> - [16] Ed448</li></ul>'
+          enum:
+          - RSAMD5
+          - DH
+          - DSA
+          - RSASHA1
+          - DSA_NSEC3_SHA1
+          - RSASHA1_NSEC3_SHA1
+          - RSASHA256
+          - RSASHA512
+          - ECC_GOST
+          - ECDSAP256SHA256
+          - ECDSAP384SHA384
+          - ED25519
+          - ED448
+          - PRIVATEDNS
+          - PRIVATEOID
+          type: string
+        keyTag:
+          description: This is an integer value less than 65536 used to identify the DNSSEC record for the domain name.
+          type: integer
+          format: integer-positive
+          maximum: 65536
+        digestType:
+          description: 'This identifies the algorithm used to construct the digest<br/><ul><li><strong style=''margin-left: 12px;''>SHA1</strong> - [01] SHA-1</li><li><strong style=''margin-left: 12px;''>SHA256</strong> - [02] SHA-256</li><li><strong style=''margin-left: 12px;''>GOST</strong> - [03] GOST R 34.11-94</li><li><strong style=''margin-left: 12px;''>SHA384</strong> - [04] SHA-384</li></ul>'
+          enum:
+          - SHA1
+          - SHA256
+          - GOST
+          - SHA384
+          type: string
+        digest:
+          type: string
+          description: The digest is an alpha-numeric value
+        flags:
+          description: 'This identifies the key type; either a Zone-Signing Key or a Key-Signing Key<br/><ul><li><strong style=''margin-left: 12px;''>ZSK</strong> - [256] Zone-Signing Key</li><li><strong style=''margin-left: 12px;''>KSK</strong> - [257] Key-Signing Key</li></ul>'
+          enum:
+          - ZSK
+          - KSK
+          type: string
+        publicKey:
+          type: string
+          description: Registries use this value to encrypt DS records. Decryption requires a matching public key
+        maxSignatureLife:
+          type: integer
+          format: integer-positive
+          description: This specifies the validity period for the signature. The value is expressed in seconds. You can use any integer value larger than zero
+      required:
+      - algorithm
+    DomainAvailableResponse:
+      properties:
+        available:
+          description: Whether or not the domain name is available
+          type: boolean
+        currency:
+          default: USD
+          description: Currency in which the `price` is listed. Only returned if tld is offered
+          format: iso-currency-code
+          type: string
+        definitive:
+          description: Whether or not the `available` answer has been definitively verified with the registry
+          type: boolean
+        domain:
+          description: Domain name
+          type: string
+        period:
+          description: Number of years included in the price. Only returned if tld is offered
+          format: integer-positive
+          type: integer
+        price:
+          description: Price of the domain excluding taxes or fees. Only returned if tld is offered
+          format: currency-micro-unit
+          type: integer
+      required:
+      - domain
+      - available
+      - definitive
+    ConsentRenew:
+      additionalProperties: false
+      properties:
+        price:
+          type: integer
+          format: currency-micro-unit
+          description: Price of the domain excluding taxes or fees. Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the renewal price and currency for the domain
+        currency:
+          type: string
+          format: iso-currency-code
+          default: USD
+          pattern: ^[A-Z][A-Z][A-Z]$
+          description: Currency in which the `price` is listed
+        registryPremiumPricing:
+          type: boolean
+          description: Only required for hosted registrar if domain is premium. If true indicates that the `price` and `currency` listed are the registry premium price and currency for the domain
+        agreedBy:
+          type: string
+          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
+        agreedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the end-user consented to these legal agreements
+      required:
+      - price
+      - currency
+      - agreedBy
+      - agreedAt
+    MaintenanceSystem:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          enum:
+          - DOMAIN_CHECKS
+          - DOMAIN_MANAGEMENT
+          - DOMAIN_REGISTRATION
+          - DOMAIN_REGISTRATION_DATA
+          - DOMAIN_RESOLUTION
+          - RESELLER_ADMIN_PORTAL
+          - RESELLER_STOREFRONT
+          description: 'The name of the system affected by the maintenance<br/><ul><li><strong style=''margin-left: 12px;''>DOMAIN_CHECKS</strong> - Refers to domain availability checks.</li><li><strong style=''margin-left: 12px;''>DOMAIN_MANAGEMENT</strong> - Refers to domain management options including various update options on the domain, contacts, records, etc.</li><li><strong style=''margin-left: 12px;''>DOMAIN_REGISTRATION</strong> - Refers to domain registrations, renewals, transfers.</li><li><strong style=''margin-left: 12px;''>DOMAIN_REGISTRATION_DATA</strong> - Refers to RDAP and WHOIS Service queries for domains.</li><li><strong style=''margin-left: 12px;''>DOMAIN_RESOLUTION</strong> - Refers to DNS resolution for domains.</li><li><strong style=''margin-left: 12px;''>RESELLER_ADMIN_PORTAL</strong> - Refers to Admin portals to manage the reseller account and settings.</li><li><strong style=''margin-left: 12px;''>RESELLER_STOREFRONT</strong> - Refers to the Reseller Storefront features (Standard and Custom).</li></ul>'
+        impact:
+          type: array
+          items:
+            type: string
+            enum:
+            - DELAYED
+            - DOWN
+            - NON_AUTHORITATIVE
+            - PARTIAL
+          description: 'The impact of the maintenance to the system<br/><ul><li><strong style=''margin-left: 12px;''>DELAYED</strong> - This response generally applies to systems where the request is queued up and processed once the system is back online.</li><li><strong style=''margin-left: 12px;''>DOWN</strong> - The system will be entirely offline; errors are expected.</li><li><strong style=''margin-left: 12px;''>NON_AUTHORITATIVE</strong> - This response generally applies to DOMAIN_CHECKS and DOMAIN_MANAGEMENT `system` values where a cached answer will be supplied.</li><li><strong style=''margin-left: 12px;''>PARTIAL</strong> - The system will experience partial feature outages; some errors are expected.</li></ul>'
+      required:
+      - name
+      - impact
+    UsageMonthly:
+      additionalProperties: false
+      properties:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageMonthlyDetail'
+          description: List of total request counts per endpoint.
+        quota:
+          type: integer
+          description: The total number of allowed requests in the month.  See https://developer.godaddy.com/getstarted for more information on api quotas and access limits.
+        total:
+          type: integer
+          description: The total number of requests in the month.
+        yyyymm:
+          type: string
+          description: The year/month timeframe for the request counts (in the format yyyy-mm)
+      required:
+      - total
+      - yyyymm
+    LegalAgreement:
+      properties:
+        agreementKey:
+          description: Unique identifier for the legal agreement
+          type: string
+        content:
+          description: Contents of the legal agreement, suitable for embedding
+          type: string
+        title:
+          description: Title of the legal agreement
+          type: string
+        url:
+          description: URL to a page containing the legal agreement
+          format: url
+          type: string
+      required:
+      - agreementKey
+      - title
+      - content
+    DomainRedeemV2:
+      additionalProperties: false
+      properties:
+        consent:
+          $ref: '#/components/schemas/ConsentRedemption'
+      required:
+      - consent
+    DomainRenew:
+      properties:
+        period:
+          description: Number of years to extend the Domain. Must not exceed maximum for TLD. When omitted, defaults to `period` specified during original purchase
+          format: integer-positive
+          maximum: 10
+          minimum: 1
+          type: integer
+    Action:
+      properties:
+        type:
+          type: string
+          description: 'The type of action being performed<br/><ul><li><strong style=''margin-left: 12px;''>AUTH_CODE_PURCHASE</strong> - Request for an auth code for a .de domain via POST /v2/customers/{customerId}/domains/{domain}/purchaseAuthCode.</li><li><strong style=''margin-left: 12px;''>AUTH_CODE_REGENERATE</strong> - Request to regenerate the authCode for a domain via POST /v2/customers/{customerId}/domains/{domain}/regenerateAuthCode</li><li><strong style=''margin-left: 12px;''>AUTO_RENEWAL</strong> - A Domain Auto Renew is in progress.</li><li><strong style=''margin-left: 12px;''>BACKORDER_PURCHASE</strong> - Request to purchase a domain backorder via POST /v2/customers/{customerId}/domains/backorders/purchase.</li><li><strong style=''margin-left: 12px;''>BACKORDER_DELETE</strong> - Request to cancel the current domain backorder via DELETE /v2/customers/{customerId}/domains/backorders/{domain}.</li><li><strong style=''margin-left: 12px;''>BACKORDER_UPDATE</strong> - Request update the current domain backorder via PATCH /v2/customers/{customerId}/domains/backorders/{domain}.</li><li><strong style=''margin-left: 12px;''>CHANGE_OF_REGISTRANT_DELETE</strong> - Request to delete a change of registrant request via DELETE /v2/customers/{customerId}/domains/{domain}/changeOfRegistrant.</li><li><strong style=''margin-left: 12px;''>CONTACT_CREATE</strong> - Request to create a contact via POST /v2/customers/{customerId}/domains/contacts.</li><li><strong style=''margin-left: 12px;''>CONTACT_DELETE</strong> - Request to delete a contact via DELETE /v2/customers/{customerId}/domains/contacts/{contactId}</li><li><strong style=''margin-left: 12px;''>CONTACT_UPDATE</strong> - Request to update a contact via PATCH /v2/customers/{customerId}/domains/contacts/{contactId}</li><li><strong style=''margin-left: 12px;''>DNS_VERIFICATION</strong> - Domain requires zone file setup.</li><li><strong style=''margin-left: 12px;''>DNSSEC_CREATE</strong> - Request to create DNSSEC record for the domain via PATCH /v2/customers/{customerId}/domains/{domain}/dnssecRecords.</li><li><strong style=''margin-left: 12px;''>DNSSEC_DELETE</strong> - Request to delete DNSSEC record for the domain via DELETE /v2/customers/{customerId}/domains/{domain}/dnssecRecords.</li><li><strong style=''margin-left: 12px;''>DOMAIN_DELETE</strong> - Request to delete the domain via DELETE /v2/customers/{customerId}/domains/{domain}</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE</strong> - Request to update the domain via PATCH /v2/customers/{customerId}/domains/{domain}</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE_CONTACTS</strong> -Request to update the domain contacts via PATCH /v2/customers/{customerId}/domains/{domain}/contacts</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE_NAME_SERVERS</strong> - Request to update the domain name servers via PUT /v2/customers/{customerId}/domains/{domain}/nameServers</li><li><strong style=''margin-left: 12px;''>EXPIRY</strong> - A Domain Expiration is in progress.</li><li><strong style=''margin-left: 12px;''>HOST_CREATE</strong> - Request to create a hostname via PUT /v2/customers/{customerId}/domains/{domain}/hosts/{hostname}</li><li><strong style=''margin-left: 12px;''>HOST_DELETE</strong> - Request to delete a hostname via DELETE /v2/customers/{customerId}/domains/{domain}/hosts/{hostname}</li><li><strong style=''margin-left: 12px;''>ICANN_VERIFICATION</strong> - Domain requires registrant verification for Icann.</li><li><strong style=''margin-left: 12px;''>PREMIUM</strong> - Premium Domain domain sale is in progress.</li><li><strong style=''margin-left: 12px;''>PRIVACY_FORWARDING_UPDATE</strong> - Request to update privacy forwarding information via PATCH /v2/customers/{customerId}/domains/{domain}/privacy/forwarding.</li><li><strong style=''margin-left: 12px;’>PRIVACY_PURCHASE</strong> - Request to purchase privacy for a domain via POST /v2/customers/{customerId}/domains/{domain}/privacy/purchase</li><li><strong style=''margin-left: 12px;''>PRIVACY_DELETE</strong> - Request to remove privacy from a domain via DELETE /v2/customers/{customerId}/domains/{domain}/privacy</li><li><strong style=''margin-left: 12px;''>REDEEM</strong> - Request to redeem a domain via POST /v2/customers/{customerId}/domains/{domain}/redeem</li><li><strong style=''margin-left: 12px;''>REGISTER</strong> - Request to register a domain via POST /v2/customers/{customerId}/domains/{domain}/register</li><li><strong style=''margin-left: 12px;''>RENEW</strong> - Request to renew a domain via POST /v2/customers/{customerId}/domains/{domain}/renew</li><li><strong style=''margin-left: 12px;''>RENEW_UNDO</strong> - Request to undo a renewal for a uk domain via POST /v2/customers/{customerId}/domains/{domain}/undoRenew</li><li><strong style=''margin-left: 12px;''>TRADE</strong> - A domain trade request is in progress</li><li><strong style=''margin-left: 12px;''>TRADE_CANCEL</strong> - Request to cancel a trade for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradeCancel</li><li><strong style=''margin-left: 12px;''>TRADE_PURCHASE</strong> - Request to purchase a trade for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradePurchase</li><li><strong style=''margin-left: 12px;''>TRADE_PURCHASE_AUTH_TEXT_MESSAGE</strong> - Request for a trade purchase text message for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradePurchaseAuthorizationTextMessage</li><li><strong style=''margin-left: 12px;''>TRADE_RESEND_AUTH_EMAIL</strong> - Request to resend the trade auth email message for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradeResendAuthorizationEmail</li><li><strong style=''margin-left: 12px;''>TRANSFER</strong> - Request to transfer a domain via POST /v2/customers/{customerId}/domains/{domain}/transfer</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN</strong> - A domain transfer in request is in progress.</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_ACCEPT</strong> - Request to accept a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInAccept</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_CANCEL</strong> - Request to cancel a domain transfer via POST /v2/customers/{customerId}/domains/{domain}/transferInCancel</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_RESTART</strong> - Request to restart a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInRestart</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_RETRY</strong> - Request to retry a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInRetry</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT</strong> - A domain transfer out request is in progress.</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_ACCEPT</strong> - Request to accept a transfer out request for a domain via POST /v2/customers/{customerId}/domains/{domain}/transferOutAccept</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_REJECT</strong> - Request to reject a transfer out request for a domain via POST /v2/customers/{customerId}/domains/{domain}/transferOutReject</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_REQUESTED</strong> - Request to transfer out for a domain (.de) via POST /v2/customers/{customerId}/domains/{domain}/transferOut</li><li><strong style=''margin-left: 12px;''>TRANSIT</strong> - Request to transit a de or at domain at the registry via POST /v2/customers/{customerId}/domains/{domain}/transit</li></ul>'
+          enum:
+          - AUTH_CODE_PURCHASE
+          - AUTH_CODE_REGENERATE
+          - AUTO_RENEWAL
+          - BACKORDER_PURCHASE
+          - BACKORDER_DELETE
+          - BACKORDER_UPDATE
+          - CHANGE_OF_REGISTRANT_DELETE
+          - CONTACT_CREATE
+          - CONTACT_DELETE
+          - CONTACT_UPDATE
+          - DNS_VERIFICATION
+          - DNSSEC_CREATE
+          - DNSSEC_DELETE
+          - DOMAIN_DELETE
+          - DOMAIN_UPDATE
+          - DOMAIN_UPDATE_CONTACTS
+          - DOMAIN_UPDATE_NAME_SERVERS
+          - EXPIRY
+          - HOST_CREATE
+          - HOST_DELETE
+          - ICANN_VERIFICATION
+          - MIGRATE
+          - MIGRATE_IN
+          - PREMIUM
+          - PRIVACY_FORWARDING_UPDATE
+          - PRIVACY_PURCHASE
+          - PRIVACY_DELETE
+          - REDEEM
+          - REGISTER
+          - RENEW
+          - RENEW_UNDO
+          - TRADE
+          - TRADE_CANCEL
+          - TRADE_PURCHASE
+          - TRADE_PURCHASE_AUTH_TEXT_MESSAGE
+          - TRADE_RESEND_AUTH_EMAIL
+          - TRANSFER
+          - TRANSFER_IN
+          - TRANSFER_IN_ACCEPT
+          - TRANSFER_IN_CANCEL
+          - TRANSFER_IN_RESTART
+          - TRANSFER_IN_RETRY
+          - TRANSFER_OUT
+          - TRANSFER_OUT_ACCEPT
+          - TRANSFER_OUT_REJECT
+          - TRANSFER_OUT_REQUESTED
+          - TRANSIT
+        origination:
+          type: string
+          enum:
+          - USER
+          - SYSTEM
+          description: 'The origination of the action<br/><ul><li><strong style=''margin-left: 12px;''>USER</strong> - These are user requests.</li><li><strong style=''margin-left: 12px;''>SYSTEM</strong> - These are system processing actions.</li></ul>'
+        createdAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the action was created
+        startedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the action was started
+        completedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the action was completed
+        modifiedAt:
+          type: string
+          format: iso-datetime
+          description: Timestamp indicating when the action was last modified
+        status:
+          type: string
+          default: ACCEPTED
+          enum:
+          - ACCEPTED
+          - AWAITING
+          - CANCELLED
+          - FAILED
+          - PENDING
+          - SUCCESS
+          description: 'The current status of the action<br/><ul><li><strong style=''margin-left: 12px;''>ACCEPTED</strong> - The action has been queued, processing has not started.</li><li><strong style=''margin-left: 12px;''>AWAITING</strong> - The action is waiting on a user input.</li><li><strong style=''margin-left: 12px;''>CANCELLED</strong> - The action has been cancelled by the user.</li><li><strong style=''margin-left: 12px;''>FAILED</strong> - An error occurred while the action was processing, no more processing will be performed.</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - The action is being processed.</li><li><strong style=''margin-left: 12px;''>SUCCESS</strong> - The action has completed, no additional processing is required.</li></ul>'
+        reason:
+          $ref: '#/components/schemas/ActionReason'
+          description: The detailed reason for the status
+        requestId:
+          type: string
+          description: A client provided identifier (via X-Request-Id header) used for tracking individual requests
+      required:
+      - type
+      - origination
+      - createdAt
+      - status
+    PrivacyPurchase:
+      properties:
+        consent:
+          $ref: '#/components/schemas/Consent'
+          description: Specify agreement `DNPA`.  Required agreements can be retrieved via the GET ./domains/agreements endpoint
+      required:
+      - consent
     Address:
       properties:
         address1:
@@ -8701,468 +8762,55 @@ components:
           description: 'The current registry transfer status codes of the domain<br/><ul><li><strong style=''margin-left: 12px;''>CLIENT_APPROVED</strong> - The losing registrar approved the transfer.</li><li><strong style=''margin-left: 12px;''>CLIENT_CANCELLED</strong> - The gaining registrar cancelled the transfer.</li><li><strong style=''margin-left: 12px;''>CLIENT_REJECTED</strong> - The losing registrar rejected the transfer.</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - The transfer is pending at the registry.</li><li><strong style=''margin-left: 12px;''>SERVER_APPROVED</strong> - The registry approved the transfer, auto-approve.</li><li><strong style=''margin-left: 12px;''>SERVER_CANCELLED</strong> - The registry cancelled the transfer.</li></ul>'
       required:
       - transferStatusCodes
-    Consent:
-      properties:
-        agreedAt:
-          description: Timestamp indicating when the end-user consented to these legal agreements
-          format: iso-datetime
-          type: string
-        agreedBy:
-          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
-          type: string
-        agreementKeys:
-          description: Unique identifiers of the legal agreements to which the end-user has agreed, as returned from the/domains/agreements endpoint
-          items:
-            type: string
-          type: array
-      required:
-      - agreementKeys
-      - agreedBy
-      - agreedAt
-    ConsentRenew:
-      additionalProperties: false
-      properties:
-        price:
-          type: integer
-          format: currency-micro-unit
-          description: Price of the domain excluding taxes or fees. Please use GET /v2/customers/{customerId}/domains/{domain} to retrieve the renewal price and currency for the domain
-        currency:
-          type: string
-          format: iso-currency-code
-          default: USD
-          pattern: ^[A-Z][A-Z][A-Z]$
-          description: Currency in which the `price` is listed
-        registryPremiumPricing:
-          type: boolean
-          description: Only required for hosted registrar if domain is premium. If true indicates that the `price` and `currency` listed are the registry premium price and currency for the domain
-        agreedBy:
-          type: string
-          description: Originating client IP address of the end-user's computer when they consented to these legal agreements
-        agreedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the end-user consented to these legal agreements
-      required:
-      - price
-      - currency
-      - agreedBy
-      - agreedAt
-    DomainContactsV2:
-      additionalProperties: false
-      properties:
-        registrant:
-          $ref: '#/components/schemas/ContactDomain'
-          description: Registrant contact for the domain
-        admin:
-          $ref: '#/components/schemas/ContactDomain'
-          description: Administrative contact for the domain
-        tech:
-          $ref: '#/components/schemas/ContactDomain'
-          description: Technical contact for the domain
-        billing:
-          $ref: '#/components/schemas/ContactDomain'
-          description: Billing contact for the domain
-    DomainForwarding:
-      properties:
-        fqdn:
-          type: string
-          description: The fqdn (domain or sub domain) to forward (ex somedomain.com or sub.somedomain.com)
-        type:
-          type: string
-          default: REDIRECT_PERMANENT
-          enum:
-          - MASKED
-          - REDIRECT_PERMANENT
-          - REDIRECT_TEMPORARY
-          description: 'The type of fowarding to implement<br/><ul><li><strong style=''margin-left: 12px;''>MASKED</strong> - Prevents the forwarded domain or subdomain URL from displaying in the browser''s address bar.</li><li><strong style=''margin-left: 12px;''>REDIRECT_PERMANENT*</strong> - Redirects to the url you specified in the forwardTo field using a `301 Moved Permanently` HTTP response. The HTTP 301 response code tells user-agents (including search engines) that the location has permanently moved.</li><li><strong style=''margin-left: 12px;''>REDIRECT_TEMPORARY</strong> - Redirects to the url you specified in the forwardTo field using a `302 Found` HTTP response. The HTTP 302 response code tells user-agents (including search engines) that the location has temporarily moved.</li></ul>'
-        url:
-          type: string
-          format: url
-          description: Forwards http(s) traffic to this destination url (ex. http://www.somedomain.com/)
-        mask:
-          $ref: '#/components/schemas/DomainForwardingMask'
-          description: Additional configuration that can be provided when type = 'MASKED'
-      required:
-      - fqdn
-      - type
-      - url
-    RenewalDetails:
-      properties:
-        renewable:
-          type: boolean
-          description: Whether or not the domain is eligble for renewal based on status
-        price:
-          type: integer
-          format: currency-micro-unit
-          description: Price for the domain renewal excluding taxes or fees
-        currency:
-          type: string
-          format: iso-currency-code
-          default: USD
-          pattern: ^[A-Z][A-Z][A-Z]$
-          description: Currency in which the `price` is listed
-      required:
-      - price
-      - currency
-    LegalAgreement:
-      properties:
-        agreementKey:
-          description: Unique identifier for the legal agreement
-          type: string
-        content:
-          description: Contents of the legal agreement, suitable for embedding
-          type: string
-        title:
-          description: Title of the legal agreement
-          type: string
-        url:
-          description: URL to a page containing the legal agreement
-          format: url
-          type: string
-      required:
-      - agreementKey
-      - title
-      - content
-    DomainContactsCreateV2:
-      additionalProperties: false
-      type: object
-      properties:
-        admin:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        adminId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain admin contact. This can be specified instead of the `admin` property.
-
-            '
-          type: string
-        billing:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        billingId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain billing contact. This can be specified instead of the `billing` property.
-
-            '
-          type: string
-        registrant:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        registrantId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain registrant contact. This can be specified instead of the `registrant` property.
-
-            '
-          type: string
-        tech:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        techId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain tech contact. This can be specified instead of the `tech` property.
-
-            '
-          type: string
-    DomainRedeemV2:
-      additionalProperties: false
-      properties:
-        consent:
-          $ref: '#/components/schemas/ConsentRedemption'
-      required:
-      - consent
-    ArrayOfDNSRecord:
-      type: array
-      items:
-        $ref: '#/components/schemas/DNSRecord'
-    DomainForwardingCreate:
-      properties:
-        type:
-          type: string
-          default: REDIRECT_PERMANENT
-          enum:
-          - MASKED
-          - REDIRECT_PERMANENT
-          - REDIRECT_TEMPORARY
-          description: 'The type of fowarding to implement<br/><ul><li><strong style=''margin-left: 12px;''>MASKED</strong> - Prevents the forwarded domain or subdomain URL from displaying in the browser''s address bar.</li><li><strong style=''margin-left: 12px;''>REDIRECT_PERMANENT*</strong> - Redirects to the url you specified in the forwardTo field using a `301 Moved Permanently` HTTP response. The HTTP 301 response code tells user-agents (including search engines) that the location has permanently moved.</li><li><strong style=''margin-left: 12px;''>REDIRECT_TEMPORARY</strong> - Redirects to the url you specified in the forwardTo field using a `302 Found` HTTP response. The HTTP 302 response code tells user-agents (including search engines) that the location has temporarily moved.</li></ul>'
-        url:
-          type: string
-          format: url
-          description: Forwards http(s) traffic to this destination url (ex. http://www.somedomain.com/)
-        mask:
-          $ref: '#/components/schemas/DomainForwardingMask'
-          description: Additional configuration that can be provided when type = 'MASKED'
-      required:
-      - type
-      - url
-    ErrorDomainContactsValidate:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorFieldDomainContactsValidate'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        stack:
-          description: 'Stack trace indicating where the error occurred.<br/>NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems'
-          items:
-            type: string
-          type: array
-      required:
-      - code
-    VerificationsDomainV2:
-      additionalProperties: false
-      properties:
-        icann:
-          type: string
-          enum:
-          - COMPLETED
-          - PENDING
-          - UNABLE_TO_RETRIEVE_STATUS
-          description: 'Status of the Icann verification of domain registrant contact by completing email and/or phone verification<br/><ul><li><strong style=''margin-left: 12px;''>COMPLETED</strong> - Icann verification has been completed.</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - Icann verification has not been completed.</li><li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Icann verification not supported for specified TLD.</li></ul>'
-        realName:
-          type: string
-          enum:
-          - APPROVED
-          - PENDING
-          - REJECTED_DOCUMENT_OUTDATED
-          - REJECTED_EXPIRED_BUSINESS_LICENSE
-          - REJECTED_EXPIRED_ORGANIZATION_CODE
-          - REJECTED_ILLEGIBLE_DOCUMENT_NAME
-          - REJECTED_ILLEGIBLE_IDENTIFICATION
-          - REJECTED_INCOMPLETE_IDENTIFICATION
-          - REJECTED_INCOMPLETE_REGISTRATION_LETTER
-          - REJECTED_INCONSISTENT_IDENTITY_CARD
-          - REJECTED_INCONSISTENT_ORGANIZATION_CODE
-          - REJECTED_INCONSISTENT_REGISTRANT_NAME
-          - REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE
-          - REJECTED_INVALID_DOCUMENT
-          - REJECTED_MISMATCH_BUSINESS_ID
-          - REJECTED_MISMATCH_BUSINESS_NAME
-          - REJECTED_MISMATCH_DOCUMENT_ID
-          - REJECTED_MISMATCH_DOCUMENT_NAME
-          - REJECTED_MISMATCH_DOCUMENT_TYPE
-          - REJECTED_MISMATCH_REGISTRANT_INFO
-          - REJECTED_MISMATCH_REGISTRANT_LOCALITY
-          - REJECTED_MISMATCH_REGISTRANT_NAME
-          - REJECTED_UNABLE_TO_OPEN
-          - REJECTED_UNABLE_TO_VERIFY
-          - REJECTED_UNKNOWN_ERROR
-          - UNABLE_TO_RETRIEVE_STATUS
-          description: 'Status of the real name verification of an identity by comparing registration data against government issued documents<br/><ul><li><strong style=''margin-left: 12px;''>APPROVED</strong> - All is well</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - Real name verification is working its way through the workflow</li><li><strong style=''margin-left: 12px;''>REJECTED_DOCUMENT_OUTDATED</strong> - Local government verification shows there is a newer version of your document.  Upload the latest version of the document and retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_BUSINESS_LICENSE</strong> - Business license is expired</li><li><strong style=''margin-left: 12px;''>REJECTED_EXPIRED_ORGANIZATION_CODE</strong> - Organization code certificate number has expired</li><li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_DOCUMENT_NAME</strong> - There isn’t a clear name on your uploaded document, please upload a different document to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_ILLEGIBLE_IDENTIFICATION</strong> - Registrant identification is not clear.  Upload a better image to retry</li><li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_IDENTIFICATION</strong> - Registrant identification is incomplete</li><li><strong style=''margin-left: 12px;''>REJECTED_INCOMPLETE_REGISTRATION_LETTER</strong> - Registration letter is incomplete</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_IDENTITY_CARD</strong> - Provided identity card is inconsistent with the identity card on record</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_ORGANIZATION_CODE</strong> - Provided organization information is inconsistent with the results obtained using the submitted organization code</li><li><strong style=''margin-left: 12px;''>REJECTED_INCONSISTENT_REGISTRANT_NAME</strong> - Name on the registrant identification does not match the name in the system</li><li><strong style=''margin-left: 12px;''>REJECTED_INVALID_BUSINESS_LICENSE_OR_ORGANIZATION_CODE</strong> - Your document contains an invalid business license or organization code certificate number</li><li><strong style=''margin-left: 12px;''>REJECTED_INVALID_DOCUMENT</strong> - Document is invalid.  Please upload another document to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_ID</strong> - Business id does not match the business id in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_BUSINESS_NAME</strong> - Business name does not match the business name in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_ID</strong> - Document id does not match the id in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_NAME</strong> - Document name does not match the name in the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_DOCUMENT_TYPE</strong> - Document type does not match the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_INFO</strong> - The information provided for the registrant does not match the document</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_LOCALITY</strong> - Registrant region is overseas, but a local identity document was provided</li><li><strong style=''margin-left: 12px;''>REJECTED_MISMATCH_REGISTRANT_NAME</strong> - Registrant name has been changed, so the request must be resubmitted</li><li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_OPEN</strong> - Registrant identification could not be opened.  Please upload the document again to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_UNABLE_TO_VERIFY</strong> - Unable to initiate verification.  Please upload the document again to retry real name verification</li><li><strong style=''margin-left: 12px;''>REJECTED_UNKNOWN_ERROR</strong> - Document was rejected due to an unknown error. For more information, contact customer support</li><li><strong style=''margin-left: 12px;''>UNABLE_TO_RETRIEVE_STATUS</strong> - Unable to retrieve status for the real name verification process.  Retry, if this status persists, contact customer support</li></ul>'
-        domainName:
-          type: string
-          enum:
-          - APPROVED
-          - PENDING
-          - REJECTED
-          - UNABLE_TO_RETRIEVE_STATUS
-          description: Status of the verification of the domain name against a prohibited list maintained by the government
-    Action:
-      properties:
-        type:
-          type: string
-          description: 'The type of action being performed<br/><ul><li><strong style=''margin-left: 12px;''>AUTH_CODE_PURCHASE</strong> - Request for an auth code for a .de domain via POST /v2/customers/{customerId}/domains/{domain}/purchaseAuthCode.</li><li><strong style=''margin-left: 12px;''>AUTH_CODE_REGENERATE</strong> - Request to regenerate the authCode for a domain via POST /v2/customers/{customerId}/domains/{domain}/regenerateAuthCode</li><li><strong style=''margin-left: 12px;''>AUTO_RENEWAL</strong> - A Domain Auto Renew is in progress.</li><li><strong style=''margin-left: 12px;''>BACKORDER_PURCHASE</strong> - Request to purchase a domain backorder via POST /v2/customers/{customerId}/domains/backorders/purchase.</li><li><strong style=''margin-left: 12px;''>BACKORDER_DELETE</strong> - Request to cancel the current domain backorder via DELETE /v2/customers/{customerId}/domains/backorders/{domain}.</li><li><strong style=''margin-left: 12px;''>BACKORDER_UPDATE</strong> - Request update the current domain backorder via PATCH /v2/customers/{customerId}/domains/backorders/{domain}.</li><li><strong style=''margin-left: 12px;''>CHANGE_OF_REGISTRANT_DELETE</strong> - Request to delete a change of registrant request via DELETE /v2/customers/{customerId}/domains/{domain}/changeOfRegistrant.</li><li><strong style=''margin-left: 12px;''>CONTACT_CREATE</strong> - Request to create a contact via POST /v2/customers/{customerId}/domains/contacts.</li><li><strong style=''margin-left: 12px;''>CONTACT_DELETE</strong> - Request to delete a contact via DELETE /v2/customers/{customerId}/domains/contacts/{contactId}</li><li><strong style=''margin-left: 12px;''>CONTACT_UPDATE</strong> - Request to update a contact via PATCH /v2/customers/{customerId}/domains/contacts/{contactId}</li><li><strong style=''margin-left: 12px;''>DNS_VERIFICATION</strong> - Domain requires zone file setup.</li><li><strong style=''margin-left: 12px;''>DNSSEC_CREATE</strong> - Request to create DNSSEC record for the domain via PATCH /v2/customers/{customerId}/domains/{domain}/dnssecRecords.</li><li><strong style=''margin-left: 12px;''>DNSSEC_DELETE</strong> - Request to delete DNSSEC record for the domain via DELETE /v2/customers/{customerId}/domains/{domain}/dnssecRecords.</li><li><strong style=''margin-left: 12px;''>DOMAIN_DELETE</strong> - Request to delete the domain via DELETE /v2/customers/{customerId}/domains/{domain}</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE</strong> - Request to update the domain via PATCH /v2/customers/{customerId}/domains/{domain}</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE_CONTACTS</strong> -Request to update the domain contacts via PATCH /v2/customers/{customerId}/domains/{domain}/contacts</li><li><strong style=''margin-left: 12px;''>DOMAIN_UPDATE_NAME_SERVERS</strong> - Request to update the domain name servers via PUT /v2/customers/{customerId}/domains/{domain}/nameServers</li><li><strong style=''margin-left: 12px;''>EXPIRY</strong> - A Domain Expiration is in progress.</li><li><strong style=''margin-left: 12px;''>HOST_CREATE</strong> - Request to create a hostname via PUT /v2/customers/{customerId}/domains/{domain}/hosts/{hostname}</li><li><strong style=''margin-left: 12px;''>HOST_DELETE</strong> - Request to delete a hostname via DELETE /v2/customers/{customerId}/domains/{domain}/hosts/{hostname}</li><li><strong style=''margin-left: 12px;''>ICANN_VERIFICATION</strong> - Domain requires registrant verification for Icann.</li><li><strong style=''margin-left: 12px;''>PREMIUM</strong> - Premium Domain domain sale is in progress.</li><li><strong style=''margin-left: 12px;''>PRIVACY_FORWARDING_UPDATE</strong> - Request to update privacy forwarding information via PATCH /v2/customers/{customerId}/domains/{domain}/privacy/forwarding.</li><li><strong style=''margin-left: 12px;’>PRIVACY_PURCHASE</strong> - Request to purchase privacy for a domain via POST /v2/customers/{customerId}/domains/{domain}/privacy/purchase</li><li><strong style=''margin-left: 12px;''>PRIVACY_DELETE</strong> - Request to remove privacy from a domain via DELETE /v2/customers/{customerId}/domains/{domain}/privacy</li><li><strong style=''margin-left: 12px;''>REDEEM</strong> - Request to redeem a domain via POST /v2/customers/{customerId}/domains/{domain}/redeem</li><li><strong style=''margin-left: 12px;''>REGISTER</strong> - Request to register a domain via POST /v2/customers/{customerId}/domains/{domain}/register</li><li><strong style=''margin-left: 12px;''>RENEW</strong> - Request to renew a domain via POST /v2/customers/{customerId}/domains/{domain}/renew</li><li><strong style=''margin-left: 12px;''>RENEW_UNDO</strong> - Request to undo a renewal for a uk domain via POST /v2/customers/{customerId}/domains/{domain}/undoRenew</li><li><strong style=''margin-left: 12px;''>TRADE</strong> - A domain trade request is in progress</li><li><strong style=''margin-left: 12px;''>TRADE_CANCEL</strong> - Request to cancel a trade for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradeCancel</li><li><strong style=''margin-left: 12px;''>TRADE_PURCHASE</strong> - Request to purchase a trade for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradePurchase</li><li><strong style=''margin-left: 12px;''>TRADE_PURCHASE_AUTH_TEXT_MESSAGE</strong> - Request for a trade purchase text message for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradePurchaseAuthorizationTextMessage</li><li><strong style=''margin-left: 12px;''>TRADE_RESEND_AUTH_EMAIL</strong> - Request to resend the trade auth email message for a domain via POST /v2/customers/{customerId}/domains/{domain}/tradeResendAuthorizationEmail</li><li><strong style=''margin-left: 12px;''>TRANSFER</strong> - Request to transfer a domain via POST /v2/customers/{customerId}/domains/{domain}/transfer</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN</strong> - A domain transfer in request is in progress.</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_ACCEPT</strong> - Request to accept a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInAccept</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_CANCEL</strong> - Request to cancel a domain transfer via POST /v2/customers/{customerId}/domains/{domain}/transferInCancel</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_RESTART</strong> - Request to restart a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInRestart</li><li><strong style=''margin-left: 12px;''>TRANSFER_IN_RETRY</strong> - Request to retry a domain transfer in via POST /v2/customers/{customerId}/domains/{domain}/transferInRetry</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT</strong> - A domain transfer out request is in progress.</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_ACCEPT</strong> - Request to accept a transfer out request for a domain via POST /v2/customers/{customerId}/domains/{domain}/transferOutAccept</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_REJECT</strong> - Request to reject a transfer out request for a domain via POST /v2/customers/{customerId}/domains/{domain}/transferOutReject</li><li><strong style=''margin-left: 12px;''>TRANSFER_OUT_REQUESTED</strong> - Request to transfer out for a domain (.de) via POST /v2/customers/{customerId}/domains/{domain}/transferOut</li><li><strong style=''margin-left: 12px;''>TRANSIT</strong> - Request to transit a de or at domain at the registry via POST /v2/customers/{customerId}/domains/{domain}/transit</li></ul>'
-          enum:
-          - AUTH_CODE_PURCHASE
-          - AUTH_CODE_REGENERATE
-          - AUTO_RENEWAL
-          - BACKORDER_PURCHASE
-          - BACKORDER_DELETE
-          - BACKORDER_UPDATE
-          - CHANGE_OF_REGISTRANT_DELETE
-          - CONTACT_CREATE
-          - CONTACT_DELETE
-          - CONTACT_UPDATE
-          - DNS_VERIFICATION
-          - DNSSEC_CREATE
-          - DNSSEC_DELETE
-          - DOMAIN_DELETE
-          - DOMAIN_UPDATE
-          - DOMAIN_UPDATE_CONTACTS
-          - DOMAIN_UPDATE_NAME_SERVERS
-          - EXPIRY
-          - HOST_CREATE
-          - HOST_DELETE
-          - ICANN_VERIFICATION
-          - MIGRATE
-          - MIGRATE_IN
-          - PREMIUM
-          - PRIVACY_FORWARDING_UPDATE
-          - PRIVACY_PURCHASE
-          - PRIVACY_DELETE
-          - REDEEM
-          - REGISTER
-          - RENEW
-          - RENEW_UNDO
-          - TRADE
-          - TRADE_CANCEL
-          - TRADE_PURCHASE
-          - TRADE_PURCHASE_AUTH_TEXT_MESSAGE
-          - TRADE_RESEND_AUTH_EMAIL
-          - TRANSFER
-          - TRANSFER_IN
-          - TRANSFER_IN_ACCEPT
-          - TRANSFER_IN_CANCEL
-          - TRANSFER_IN_RESTART
-          - TRANSFER_IN_RETRY
-          - TRANSFER_OUT
-          - TRANSFER_OUT_ACCEPT
-          - TRANSFER_OUT_REJECT
-          - TRANSFER_OUT_REQUESTED
-          - TRANSIT
-        origination:
-          type: string
-          enum:
-          - USER
-          - SYSTEM
-          description: 'The origination of the action<br/><ul><li><strong style=''margin-left: 12px;''>USER</strong> - These are user requests.</li><li><strong style=''margin-left: 12px;''>SYSTEM</strong> - These are system processing actions.</li></ul>'
-        createdAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the action was created
-        startedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the action was started
-        completedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the action was completed
-        modifiedAt:
-          type: string
-          format: iso-datetime
-          description: Timestamp indicating when the action was last modified
-        status:
-          type: string
-          default: ACCEPTED
-          enum:
-          - ACCEPTED
-          - AWAITING
-          - CANCELLED
-          - FAILED
-          - PENDING
-          - SUCCESS
-          description: 'The current status of the action<br/><ul><li><strong style=''margin-left: 12px;''>ACCEPTED</strong> - The action has been queued, processing has not started.</li><li><strong style=''margin-left: 12px;''>AWAITING</strong> - The action is waiting on a user input.</li><li><strong style=''margin-left: 12px;''>CANCELLED</strong> - The action has been cancelled by the user.</li><li><strong style=''margin-left: 12px;''>FAILED</strong> - An error occurred while the action was processing, no more processing will be performed.</li><li><strong style=''margin-left: 12px;''>PENDING</strong> - The action is being processed.</li><li><strong style=''margin-left: 12px;''>SUCCESS</strong> - The action has completed, no additional processing is required.</li></ul>'
-        reason:
-          $ref: '#/components/schemas/ActionReason'
-          description: The detailed reason for the status
-        requestId:
-          type: string
-          description: A client provided identifier (via X-Request-Id header) used for tracking individual requests
-      required:
-      - type
-      - origination
-      - createdAt
-      - status
-    DomainAvailableBulkMixed:
-      properties:
-        domains:
-          description: Domain available response array
-          items:
-            $ref: '#/components/schemas/DomainAvailableResponse'
-          type: array
-        errors:
-          description: Errors encountered while performing a domain available check
-          items:
-            $ref: '#/components/schemas/DomainAvailableError'
-          type: array
-      required:
-      - domains
-    DomainPurchaseResponse:
-      properties:
-        currency:
-          default: USD
-          description: Currency in which the `total` is listed
-          format: iso-currency-code
-          type: string
-        itemCount:
-          description: Number items included in the order
-          format: integer-positive
-          type: integer
-        orderId:
-          description: Unique identifier of the order processed to purchase the domain
-          format: int64
-          type: integer
-        total:
-          description: Total cost of the domain and any selected add-ons
-          format: currency-micro-unit
-          type: integer
-      required:
-      - orderId
-      - itemCount
-      - total
-    DomainTransferInV2:
-      additionalProperties: false
+    DomainTransferIn:
       properties:
         authCode:
-          type: string
           description: Authorization code from registrar for transferring a domain
+          type: string
+        consent:
+          $ref: '#/components/schemas/Consent'
+          description: Required agreements can be retrieved via the GET ./domains/agreements endpoint
         period:
-          type: integer
-          format: integer-positive
           default: 1
-          minimum: 1
-          maximum: 10
-          pattern: ^[0-9]+$
           description: Can be more than 1 but no more than 10 years total including current registration length
-        renewAuto:
-          type: boolean
-          default: true
-          description: Whether or not the domain should be configured to automatically renew
+          format: integer-positive
+          maximum: 10
+          minimum: 1
+          type: integer
         privacy:
-          type: boolean
           default: false
           description: Whether or not privacy has been requested
-        identityDocumentId:
-          type: string
-          description: Unique identifier of the identify document that the user wants to associate with the domain being transferred in. This is required only if the gaining registry has a requirement for an approved identity document
-        consent:
-          $ref: '#/components/schemas/ConsentV2'
-          description: Required agreements can be retrieved via the GET ./domains/agreements endpoint
-        contacts:
-          $ref: '#/components/schemas/DomainContactsCreateV2'
-          description: Contacts for the domain registration
-        metadata:
-          type: object
-          description: The domain eligibility data fields as specified by GET /v2/customers/{customerId}/domains/register/schema/{tld}
+          type: boolean
+        renewAuto:
+          default: true
+          description: Whether or not the domain should be configured to automatically renew
+          type: boolean
+        contactAdmin:
+          $ref: '#/components/schemas/Contact'
+          description: The contact to use for the domain admin contact. Depending on the tld of the domain being transferred, this field may be required.
+        contactBilling:
+          $ref: '#/components/schemas/Contact'
+          description: The contact to use for the domain billing contact. Depending on the tld of the domain being transferred, this field may be required.
+        contactRegistrant:
+          $ref: '#/components/schemas/Contact'
+          description: The contact to use for the domain registrant contact. Depending on the tld of the domain being transferred, this field may be required.
+        contactTech:
+          $ref: '#/components/schemas/Contact'
+          description: The contact to use for the domain tech contact. Depending on the tld of the domain being transferred, this field may be required.
       required:
       - authCode
       - consent
-    DomainSuggestion:
-      properties:
-        domain:
-          description: Suggested domain name
-          type: string
-      required:
-      - domain
-    ContactRegistrantChange:
-      properties:
-        email:
-          type: string
-          format: email
-          maxLength: 80
-        firstName:
-          type: string
-          format: person-name
-          maxLength: 30
-        lastName:
-          type: string
-          format: person-name
-          maxLength: 30
-        organization:
-          type: string
-          format: organization-name
-          maxLength: 100
-      required:
-      - email
-      - firstName
-      - lastName
-    ErrorField:
+    DomainAvailableError:
       properties:
         code:
           description: Short identifier for the error, suitable for indicating the specific error within client code
           format: constant
           type: string
+        domain:
+          description: Domain name
+          type: string
         message:
-          description: Human-readable, English description of the problem with the contents of the field
+          description: Human-readable, English description of the error
           type: string
         path:
           description: '<ul>
@@ -9176,13 +8824,270 @@ components:
             </ul>'
           format: json-path
           type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
+        status:
+          description: HTTP status code that would return for a single check
+          type: integer
+      required:
+      - code
+      - domain
+      - path
+      - status
+    ContactDomainCreate:
+      additionalProperties: false
+      properties:
+        encoding:
+          type: string
+          default: ASCII
+          enum:
+          - ASCII
+          - UTF-8
+          description: 'The encoding of the contact data<br/><ul><li><strong style=''margin-left: 12px;''>ASCII</strong> - Data contains only ASCII characters that are not region or language specific</li><li><strong style=''margin-left: 12px;''>UTF-8</strong> - Data contains characters that are specific to a region or language</li></ul>'
+        nameFirst:
+          type: string
+          format: person-name
+          maxLength: 30
+        nameMiddle:
+          type: string
+        nameLast:
+          type: string
+          format: person-name
+          maxLength: 30
+        organization:
+          type: string
+          format: organization-name
+          maxLength: 100
+        jobTitle:
+          type: string
+        email:
+          type: string
+          format: email
+          maxLength: 80
+        phone:
+          type: string
+          format: phone
+          maxLength: 17
+        fax:
+          type: string
+          format: phone
+          maxLength: 17
+        addressMailing:
+          $ref: '#/components/schemas/Address'
+        metadata:
+          type: object
+          description: The contact eligibility data fields as specified by GET /v2/customers/{customerId}/domains/contacts/schema/{tld}
+      required:
+      - encoding
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+      - addressMailing
+    DomainSummary:
+      properties:
+        authCode:
+          description: Authorization code for transferring the Domain
+          type: string
+        contactAdmin:
+          $ref: '#/components/schemas/Contact'
+          description: Administrative contact for the domain registration
+        contactBilling:
+          $ref: '#/components/schemas/Contact'
+          description: Billing contact for the domain registration
+        contactRegistrant:
+          $ref: '#/components/schemas/Contact'
+          description: Registration contact for the domain
+        contactTech:
+          $ref: '#/components/schemas/Contact'
+          description: Technical contact for the domain registration
+        createdAt:
+          description: Date and time when this domain was created
+          format: date-time
+          type: string
+        deletedAt:
+          description: Date and time when this domain was deleted
+          format: date-time
+          type: string
+        transferAwayEligibleAt:
+          description: Date and time when this domain is eligible to transfer
+          format: date-time
+          type: string
+        domain:
+          description: Name of the domain
+          type: string
+        domainId:
+          description: Unique identifier for this Domain
+          format: double
+          type: number
+        expirationProtected:
+          description: Whether or not the domain is protected from expiration
+          type: boolean
+        expires:
+          description: Date and time when this domain will expire
+          format: date-time
+          type: string
+        exposeWhois:
+          description: Whether or not the domain contact details should be shown in the WHOIS
+          type: boolean
+        holdRegistrar:
+          description: Whether or not the domain is on-hold by the registrar
+          type: boolean
+        locked:
+          description: Whether or not the domain is locked to prevent transfers
+          type: boolean
+        nameServers:
+          description: Fully-qualified domain names for DNS servers
+          items:
+            format: host-name
+            type: string
+          type: array
+        privacy:
+          description: Whether or not the domain has privacy protection
+          type: boolean
+        registrarCreatedAt:
+          type: string
+          format: iso-datetime
+          description: Date and time when this domain was created by the registrar
+        renewAuto:
+          description: Whether or not the domain is configured to automatically renew
+          type: boolean
+        renewDeadline:
+          description: Date the domain must renew on
+          format: date-time
+          type: string
+        renewable:
+          description: Whether or not the domain is eligble for renewal based on status
+          type: boolean
+        status:
+          description: 'Processing status of the domain<br/><ul>
+
+            <li><strong style=''margin-left: 12px;''>ACTIVE</strong> - All is well</li>
+
+            <li><strong style=''margin-left: 12px;''>AWAITING*</strong> - System is waiting for the end-user to complete an action</li>
+
+            <li><strong style=''margin-left: 12px;''>CANCELLED*</strong> - Domain has been cancelled, and may or may not be reclaimable</li>
+
+            <li><strong style=''margin-left: 12px;''>CONFISCATED</strong> - Domain has been confiscated, usually for abuse, chargeback, or fraud</li>
+
+            <li><strong style=''margin-left: 12px;''>DISABLED*</strong> - Domain has been disabled</li>
+
+            <li><strong style=''margin-left: 12px;''>EXCLUDED*</strong> - Domain has been excluded from Firehose registration</li>
+
+            <li><strong style=''margin-left: 12px;''>EXPIRED*</strong> - Domain has expired</li>
+
+            <li><strong style=''margin-left: 12px;''>FAILED*</strong> - Domain has failed a required action, and the system is no longer retrying</li>
+
+            <li><strong style=''margin-left: 12px;''>HELD*</strong> - Domain has been placed on hold, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>LOCKED*</strong> - Domain has been locked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>PARKED*</strong> - Domain has been parked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>PENDING*</strong> - Domain is working its way through an automated workflow</li>
+
+            <li><strong style=''margin-left: 12px;''>RESERVED*</strong> - Domain is reserved, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>REVERTED</strong> - Domain has been reverted, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>SUSPENDED*</strong> - Domain has been suspended, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>TRANSFERRED*</strong> - Domain has been transferred out</li>
+
+            <li><strong style=''margin-left: 12px;''>UNKNOWN</strong> - Domain is in an unknown state</li>
+
+            <li><strong style=''margin-left: 12px;''>UNLOCKED*</strong> - Domain has been unlocked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>UNPARKED*</strong> - Domain has been unparked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>UPDATED*</strong> - Domain ownership has been transferred to another account</li>
+
+            </ul>'
+          type: string
+        transferProtected:
+          description: Whether or not the domain is protected from transfer
+          type: boolean
+      required:
+      - domainId
+      - domain
+      - status
+      - expirationProtected
+      - holdRegistrar
+      - locked
+      - privacy
+      - renewAuto
+      - renewDeadline
+      - transferProtected
+      - createdAt
+      - contactRegistrant
+    DomainPrivacyForwardingUpdate:
+      properties:
+        privateEmailType:
+          type: string
+          enum:
+          - DEFAULT
+          - RANDOM
+          description: 'The private email type<br/><ul><li><strong style=''margin-left: 12px;''>DEFAULT</strong> - Use default email address (example: domainname.com@domainsbyproxy.com)</li><li><strong style=''margin-left: 12px;''>RANDOM</strong> - Randomize email address, we’ll create a private email address using random characters to further protect you from unwanted spam. (5f9e6c9368a64565bf2b2cf8db91aea4@domainsbyproxy.com)</li></ul>'
+        forwardingEmail:
+          type: string
+          description: The email that it forwards to
+        emailPreference:
+          type: string
+          enum:
+          - EMAIL_FILTER
+          - EMAIL_SEND_ALL
+          - EMAIL_SEND_NONE
+          description: 'The email forwarding preference for the domain<br/><ul><li><strong style=''margin-left: 12px;''>EMAIL_FILTER</strong> - Filter for spam and forward email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_ALL</strong> - Forward all email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_NONE</strong> - Don''t forward email.</li></ul>'
+      required:
+      - privateEmailType
+      - emailPreference
+    VerificationDomainName:
+      properties:
+        status:
+          description: Status of the domain name verification
+          enum:
+          - APPROVED
+          - PENDING
+          - REJECTED
+          - UNABLE_TO_RETRIEVE_STATUS
           type: string
       required:
-      - path
-      - code
+      - status
+    DomainSuggestion:
+      properties:
+        domain:
+          description: Suggested domain name
+          type: string
+      required:
+      - domain
+    DomainChangeOfRegistrant:
+      properties:
+        createDate:
+          type: string
+          format: iso-datetime
+        gainingContact:
+          $ref: '#/components/schemas/ContactRegistrantChange'
+        losingContact:
+          $ref: '#/components/schemas/ContactRegistrantChange'
+        otherDomainsAffected:
+          type: integer
+          format: integer-positive
+        shopperEmail:
+          type: string
+          format: email
+      required:
+      - createDate
+      - gainingContact
+      - losingContact
+    DomainForwardingMask:
+      properties:
+        title:
+          type: string
+          description: Displays at the top of the browser window and in search results.
+        description:
+          type: string
+          description: A short description of your website to display in search engine results.
+        keywords:
+          type: string
+          description: A list of comma-separated keywords that describes the content and purpose of your website.
     DomainDetailV2:
       additionalProperties: false
       properties:
@@ -9338,6 +9243,18 @@ components:
       - authCode
       - nameServers
       - contacts
+    DomainContacts:
+      properties:
+        contactAdmin:
+          $ref: '#/components/schemas/Contact'
+        contactBilling:
+          $ref: '#/components/schemas/Contact'
+        contactRegistrant:
+          $ref: '#/components/schemas/Contact'
+        contactTech:
+          $ref: '#/components/schemas/Contact'
+      required:
+      - contactRegistrant
     TldSummary:
       properties:
         name:
@@ -9354,18 +9271,86 @@ components:
       required:
       - name
       - type
-    DomainContacts:
+    DomainsContactsBulk:
       properties:
         contactAdmin:
           $ref: '#/components/schemas/Contact'
         contactBilling:
           $ref: '#/components/schemas/Contact'
+        contactPresence:
+          $ref: '#/components/schemas/Contact'
         contactRegistrant:
           $ref: '#/components/schemas/Contact'
         contactTech:
           $ref: '#/components/schemas/Contact'
+        domains:
+          description: An array of domain names to be validated against. Alternatively, you can specify the extracted tlds. However, full domain names are required if the tld is `uk`
+          items:
+            format: domain
+            type: string
+          type: array
+        entityType:
+          description: Canadian Presence Requirement (CA)
+          enum:
+          - ABORIGINAL
+          - ASSOCIATION
+          - CITIZEN
+          - CORPORATION
+          - EDUCATIONAL
+          - GOVERNMENT
+          - HOSPITAL
+          - INDIAN_BAND
+          - LEGAL_REPRESENTATIVE
+          - LIBRARY_ARCHIVE_MUSEUM
+          - MARK_REGISTERED
+          - MARK_TRADE
+          - PARTNERSHIP
+          - POLITICAL_PARTY
+          - RESIDENT_PERMANENT
+          - TRUST
+          - UNION
+          type: string
       required:
-      - contactRegistrant
+      - domains
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    DomainPrivacyForwarding:
+      properties:
+        privateEmail:
+          type: string
+          description: The private email
+        forwardingEmail:
+          type: string
+          description: The email that it forwards to
+        emailPreference:
+          type: string
+          enum:
+          - EMAIL_FILTER
+          - EMAIL_SEND_ALL
+          - EMAIL_SEND_NONE
+          description: 'The email forwarding preference for the domain<br/><ul><li><strong style=''margin-left: 12px;''>EMAIL_FILTER</strong> - Filter for spam and forward email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_ALL</strong> - Forward all email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_NONE</strong> - Don''t forward email.</li></ul>'
+    VerificationsDomain:
+      properties:
+        domainName:
+          $ref: '#/components/schemas/VerificationDomainName'
+          description: Verification of domain name against a prohibited list maintained by the government
+        realName:
+          $ref: '#/components/schemas/VerificationRealName'
+          description: Verification of identity by comparing registration data against government issued documents
     DomainPurchaseV2:
       additionalProperties: false
       properties:
@@ -9404,63 +9389,30 @@ components:
       required:
       - domain
       - consent
-    DomainAvailableBulk:
+    DomainForwardingCreate:
       properties:
-        domains:
-          description: Domain available response array
-          items:
-            $ref: '#/components/schemas/DomainAvailableResponse'
-          type: array
+        type:
+          type: string
+          default: REDIRECT_PERMANENT
+          enum:
+          - MASKED
+          - REDIRECT_PERMANENT
+          - REDIRECT_TEMPORARY
+          description: 'The type of fowarding to implement<br/><ul><li><strong style=''margin-left: 12px;''>MASKED</strong> - Prevents the forwarded domain or subdomain URL from displaying in the browser''s address bar.</li><li><strong style=''margin-left: 12px;''>REDIRECT_PERMANENT*</strong> - Redirects to the url you specified in the forwardTo field using a `301 Moved Permanently` HTTP response. The HTTP 301 response code tells user-agents (including search engines) that the location has permanently moved.</li><li><strong style=''margin-left: 12px;''>REDIRECT_TEMPORARY</strong> - Redirects to the url you specified in the forwardTo field using a `302 Found` HTTP response. The HTTP 302 response code tells user-agents (including search engines) that the location has temporarily moved.</li></ul>'
+        url:
+          type: string
+          format: url
+          description: Forwards http(s) traffic to this destination url (ex. http://www.somedomain.com/)
+        mask:
+          $ref: '#/components/schemas/DomainForwardingMask'
+          description: Additional configuration that can be provided when type = 'MASKED'
       required:
-      - domains
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
-    Contact:
-      properties:
-        addressMailing:
-          $ref: '#/components/schemas/Address'
-        email:
-          format: email
-          type: string
-        fax:
-          format: phone
-          type: string
-        jobTitle:
-          type: string
-        nameFirst:
-          format: person-name
-          type: string
-        nameLast:
-          format: person-name
-          type: string
-        nameMiddle:
-          type: string
-        organization:
-          format: organization-name
-          type: string
-        phone:
-          format: phone
-          type: string
-      required:
-      - nameFirst
-      - nameLast
-      - email
-      - phone
-      - addressMailing
+      - type
+      - url
+    ArrayOfDNSRecord:
+      type: array
+      items:
+        $ref: '#/components/schemas/DNSRecord'
     DNSRecordCreateTypeName:
       properties:
         data:
@@ -9489,6 +9441,57 @@ components:
           type: integer
       required:
       - data
+    DomainPurchaseResponse:
+      properties:
+        currency:
+          default: USD
+          description: Currency in which the `total` is listed
+          format: iso-currency-code
+          type: string
+        itemCount:
+          description: Number items included in the order
+          format: integer-positive
+          type: integer
+        orderId:
+          description: Unique identifier of the order processed to purchase the domain
+          format: int64
+          type: integer
+        total:
+          description: Total cost of the domain and any selected add-ons
+          format: currency-micro-unit
+          type: integer
+      required:
+      - orderId
+      - itemCount
+      - total
+    JsonProperty:
+      properties:
+        defaultValue:
+          type: string
+        format:
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/JsonDataType'
+          type: object
+        maxItems:
+          type: integer
+        maximum:
+          type: integer
+        minItems:
+          type: integer
+        minimum:
+          type: integer
+        pattern:
+          type: string
+        required:
+          type: boolean
+        type:
+          type: string
+      required:
+      - type
+      - $ref
+      - required
     DNSRecordCreateType:
       properties:
         data:
@@ -9521,181 +9524,178 @@ components:
       required:
       - name
       - data
-    Maintenance:
-      additionalProperties: false
+    ErrorField:
       properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    DomainDetail:
+      properties:
+        authCode:
+          description: Authorization code for transferring the Domain
+          type: string
+        contactAdmin:
+          $ref: '#/components/schemas/Contact'
+          description: Administrative contact for the domain registration
+        contactBilling:
+          $ref: '#/components/schemas/Contact'
+          description: Billing contact for the domain registration
+        contactRegistrant:
+          $ref: '#/components/schemas/Contact'
+          description: Registration contact for the domain
+        contactTech:
+          $ref: '#/components/schemas/Contact'
+          description: Technical contact for the domain registration
         createdAt:
-          description: Date and time (UTC) when this maintenance was created
+          description: Date and time when this domain was created
+          format: date-time
           type: string
-          format: iso-datetime
-        endsAt:
-          description: Date and time (UTC) when this maintenance will complete
+        deletedAt:
+          description: Date and time when this domain was deleted
+          format: date-time
           type: string
-          format: iso-datetime
-        environment:
+        transferAwayEligibleAt:
+          description: Date and time when this domain is eligible to transfer
+          format: date-time
           type: string
-          enum:
-          - OTE
-          - PRODUCTION
-          description: 'The environment on which the maintenance will be performed<br/><ul><li><strong style=''margin-left: 12px;''>OTE</strong> - The Operational Testing Environment.</li><li><strong style=''margin-left: 12px;''>PRODUCTION</strong> - The Live Production Environment.</li></ul>'
-        maintenanceId:
+        domain:
+          description: Name of the domain
           type: string
-          description: The identifier for the system maintenance
-        modifiedAt:
+        domainId:
+          description: Unique identifier for this Domain
+          format: double
+          type: number
+        expirationProtected:
+          description: Whether or not the domain is protected from expiration
+          type: boolean
+        expires:
+          description: Date and time when this domain will expire
+          format: date-time
           type: string
-          format: iso-datetime
-          description: Date and time (UTC) when this maintenance was last modified
-        reason:
-          type: string
-          enum:
-          - EMERGENCY
-          - PLANNED
-          description: 'The reason for the maintenance being performed<br/><ul><li><strong style=''margin-left: 12px;''>EMERGENCY</strong> - Unexpected Emergency maintenance.</li><li><strong style=''margin-left: 12px;''>PLANNED</strong> - Planned system maintenance.</li></ul>'
-        startsAt:
-          type: string
-          format: iso-datetime
-          description: Date and time (UTC) when this maintenance will start
-        status:
-          type: string
-          enum:
-          - ACTIVE
-          - CANCELLED
-          description: 'The status of maintenance<br/><ul><li><strong style=''margin-left: 12px;''>ACTIVE</strong> - The upcoming maintenance is active.</li><li><strong style=''margin-left: 12px;''>CANCELLED</strong> - The upcoming maintenance has been cancelled.</li></ul>'
-        summary:
-          type: string
-          description: A brief description of what is being performed
-        tlds:
-          type: array
+        exposeRegistrantOrganization:
+          type: boolean
+          description: Whether or not the domain registrant contact organization field should be shown in the WHOIS
+        exposeWhois:
+          description: Whether or not the domain contact details should be shown in the WHOIS
+          type: boolean
+        holdRegistrar:
+          description: Whether or not the domain is on-hold by the registrar
+          type: boolean
+        locked:
+          description: Whether or not the domain is locked to prevent transfers
+          type: boolean
+        nameServers:
+          description: Fully-qualified domain names for DNS servers
           items:
+            format: host-name
             type: string
-          description: List of tlds that are in maintenance.  Generally only applies when `type` is REGISTRY
-        type:
+          type: array
+        privacy:
+          description: Whether or not the domain has privacy protection
+          type: boolean
+        registrarCreatedAt:
           type: string
-          enum:
-          - API
-          - REGISTRY
-          - UI
-          description: 'The type of maintenance being performed<br/><ul><li><strong style=''margin-left: 12px;''>API</strong> - Programmatic Api components.</li><li><strong style=''margin-left: 12px;''>REGISTRY</strong> - The underlying Registry providing the tld(s).</li><li><strong style=''margin-left: 12px;''>UI</strong> - User Interface components.</li></ul>'
+          format: iso-datetime
+          description: Date and time when this domain was created by the registrar
+        renewAuto:
+          description: Whether or not the domain is configured to automatically renew
+          type: boolean
+        renewDeadline:
+          description: Date the domain must renew on
+          format: date-time
+          type: string
+        status:
+          description: 'Processing status of the domain<br/><ul>
+
+            <li><strong style=''margin-left: 12px;''>ACTIVE</strong> - All is well</li>
+
+            <li><strong style=''margin-left: 12px;''>AWAITING*</strong> - System is waiting for the end-user to complete an action</li>
+
+            <li><strong style=''margin-left: 12px;''>CANCELLED*</strong> - Domain has been cancelled, and may or may not be reclaimable</li>
+
+            <li><strong style=''margin-left: 12px;''>CONFISCATED</strong> - Domain has been confiscated, usually for abuse, chargeback, or fraud</li>
+
+            <li><strong style=''margin-left: 12px;''>DISABLED*</strong> - Domain has been disabled</li>
+
+            <li><strong style=''margin-left: 12px;''>EXCLUDED*</strong> - Domain has been excluded from Firehose registration</li>
+
+            <li><strong style=''margin-left: 12px;''>EXPIRED*</strong> - Domain has expired</li>
+
+            <li><strong style=''margin-left: 12px;''>FAILED*</strong> - Domain has failed a required action, and the system is no longer retrying</li>
+
+            <li><strong style=''margin-left: 12px;''>HELD*</strong> - Domain has been placed on hold, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>LOCKED*</strong> - Domain has been locked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>PARKED*</strong> - Domain has been parked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>PENDING*</strong> - Domain is working its way through an automated workflow</li>
+
+            <li><strong style=''margin-left: 12px;''>RESERVED*</strong> - Domain is reserved, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>REVERTED</strong> - Domain has been reverted, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>SUSPENDED*</strong> - Domain has been suspended, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>TRANSFERRED*</strong> - Domain has been transferred out</li>
+
+            <li><strong style=''margin-left: 12px;''>UNKNOWN</strong> - Domain is in an unknown state</li>
+
+            <li><strong style=''margin-left: 12px;''>UNLOCKED*</strong> - Domain has been unlocked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>UNPARKED*</strong> - Domain has been unparked, and likely requires intervention from Support</li>
+
+            <li><strong style=''margin-left: 12px;''>UPDATED*</strong> - Domain ownership has been transferred to another account</li>
+
+            </ul>'
+          type: string
+        subaccountId:
+          description: Reseller subaccount shopperid who can manage the domain
+          type: string
+        transferProtected:
+          description: Whether or not the domain is protected from transfer
+          type: boolean
+        verifications:
+          $ref: '#/components/schemas/VerificationsDomain'
+          description: Progress and status for each of the verification processes requested for this domain
       required:
+      - domainId
+      - domain
+      - status
+      - expirationProtected
+      - holdRegistrar
+      - locked
+      - privacy
+      - renewAuto
+      - renewDeadline
+      - transferProtected
       - createdAt
-      - endsAt
-      - environment
-      - maintenanceId
-      - modifiedAt
-      - reason
-      - startsAt
-      - status
-      - summary
-      - type
-    PrivacyPurchase:
-      properties:
-        consent:
-          $ref: '#/components/schemas/Consent'
-          description: Specify agreement `DNPA`.  Required agreements can be retrieved via the GET ./domains/agreements endpoint
-      required:
-      - consent
-    VerificationDomainName:
-      properties:
-        status:
-          description: Status of the domain name verification
-          enum:
-          - APPROVED
-          - PENDING
-          - REJECTED
-          - UNABLE_TO_RETRIEVE_STATUS
-          type: string
-      required:
-      - status
-    DomainPrivacyForwardingUpdate:
-      properties:
-        privateEmailType:
-          type: string
-          enum:
-          - DEFAULT
-          - RANDOM
-          description: 'The private email type<br/><ul><li><strong style=''margin-left: 12px;''>DEFAULT</strong> - Use default email address (example: domainname.com@domainsbyproxy.com)</li><li><strong style=''margin-left: 12px;''>RANDOM</strong> - Randomize email address, we’ll create a private email address using random characters to further protect you from unwanted spam. (5f9e6c9368a64565bf2b2cf8db91aea4@domainsbyproxy.com)</li></ul>'
-        forwardingEmail:
-          type: string
-          description: The email that it forwards to
-        emailPreference:
-          type: string
-          enum:
-          - EMAIL_FILTER
-          - EMAIL_SEND_ALL
-          - EMAIL_SEND_NONE
-          description: 'The email forwarding preference for the domain<br/><ul><li><strong style=''margin-left: 12px;''>EMAIL_FILTER</strong> - Filter for spam and forward email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_ALL</strong> - Forward all email.</li><li><strong style=''margin-left: 12px;''>EMAIL_SEND_NONE</strong> - Don''t forward email.</li></ul>'
-      required:
-      - privateEmailType
-      - emailPreference
-    JsonSchema:
-      properties:
-        id:
-          type: string
-        models:
-          items:
-            $ref: '#/components/schemas/JsonSchema'
-          type: object
-        properties:
-          items:
-            $ref: '#/components/schemas/JsonProperty'
-          type: object
-        required:
-          items:
-            type: string
-          type: array
-      required:
-      - id
-      - properties
-      - required
-      - models
-    DomainChangeOfRegistrant:
-      properties:
-        createDate:
-          type: string
-          format: iso-datetime
-        gainingContact:
-          $ref: '#/components/schemas/ContactRegistrantChange'
-        losingContact:
-          $ref: '#/components/schemas/ContactRegistrantChange'
-        otherDomainsAffected:
-          type: integer
-          format: integer-positive
-        shopperEmail:
-          type: string
-          format: email
-      required:
-      - createDate
-      - gainingContact
-      - losingContact
-    JsonDataType:
-      properties:
-        format:
-          type: string
-        pattern:
-          type: string
-        type:
-          type: string
-      required:
-      - type
-      - $ref
-    ConsentDomainUpdate:
-      properties:
-        agreedAt:
-          description: Timestamp indicating when the end-user consented to these agreements
-          format: iso-datetime
-          type: string
-        agreedBy:
-          description: Originating client IP address of the end-user's computer when they consented to the agreements
-          type: string
-        agreementKeys:
-          description: 'Unique identifiers of the agreements to which the end-user has agreed, as required by the elements being updated<br/><ul><li><strong style=''margin-left: 12px;''>EXPOSE_REGISTRANT_ORGANIZATION</strong> - Required when the exposeRegistrantOrganization field is updated to true</li><li><strong style=''margin-left: 12px;''>EXPOSE_WHOIS</strong> - Required when the exposeWhois field is updated to true</li></ul>'
-          items:
-            enum:
-            - EXPOSE_REGISTRANT_ORGANIZATION
-            - EXPOSE_WHOIS
-            type: string
-          type: array
-      required:
-      - agreementKeys
-      - agreedBy
-      - agreedAt
+      - authCode
+      - nameServers
+      - contactRegistrant
+      - contactBilling
+      - contactAdmin
+      - contactTech

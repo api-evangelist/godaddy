@@ -96,50 +96,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
     DomainContactsCreateV2:
       additionalProperties: false
       type: object
@@ -180,57 +136,7 @@ components:
           description: Unique identifier of the identify document that the user wants to associate with the domain whose registrant contact is being updated. This is required only if user is trying to update registrant contact and the owning registry has a requirement for an approved identity document
         contacts:
           $ref: '#/components/schemas/DomainContactsCreateV2'
-    ContactDomainCreate:
-      additionalProperties: false
-      properties:
-        encoding:
-          type: string
-          default: ASCII
-          enum:
-          - ASCII
-          - UTF-8
-          description: 'The encoding of the contact data<br/><ul><li><strong style=''margin-left: 12px;''>ASCII</strong> - Data contains only ASCII characters that are not region or language specific</li><li><strong style=''margin-left: 12px;''>UTF-8</strong> - Data contains characters that are specific to a region or language</li></ul>'
-        nameFirst:
-          type: string
-          format: person-name
-          maxLength: 30
-        nameMiddle:
-          type: string
-        nameLast:
-          type: string
-          format: person-name
-          maxLength: 30
-        organization:
-          type: string
-          format: organization-name
-          maxLength: 100
-        jobTitle:
-          type: string
-        email:
-          type: string
-          format: email
-          maxLength: 80
-        phone:
-          type: string
-          format: phone
-          maxLength: 17
-        fax:
-          type: string
-          format: phone
-          maxLength: 17
-        addressMailing:
-          $ref: '#/components/schemas/Address'
-        metadata:
-          type: object
-          description: The contact eligibility data fields as specified by GET /v2/customers/{customerId}/domains/contacts/schema/{tld}
-      required:
-      - encoding
-      - nameFirst
-      - nameLast
-      - email
-      - phone
-      - addressMailing
-    ErrorLimit:
+    Error:
       properties:
         code:
           description: Short identifier for the error, suitable for indicating the specific error within client code
@@ -244,12 +150,7 @@ components:
         message:
           description: Human-readable, English description of the error
           type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
       required:
-      - retryAfterSec
       - code
     Address:
       properties:
@@ -530,3 +431,102 @@ components:
       - state
       - postalCode
       - country
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    ContactDomainCreate:
+      additionalProperties: false
+      properties:
+        encoding:
+          type: string
+          default: ASCII
+          enum:
+          - ASCII
+          - UTF-8
+          description: 'The encoding of the contact data<br/><ul><li><strong style=''margin-left: 12px;''>ASCII</strong> - Data contains only ASCII characters that are not region or language specific</li><li><strong style=''margin-left: 12px;''>UTF-8</strong> - Data contains characters that are specific to a region or language</li></ul>'
+        nameFirst:
+          type: string
+          format: person-name
+          maxLength: 30
+        nameMiddle:
+          type: string
+        nameLast:
+          type: string
+          format: person-name
+          maxLength: 30
+        organization:
+          type: string
+          format: organization-name
+          maxLength: 100
+        jobTitle:
+          type: string
+        email:
+          type: string
+          format: email
+          maxLength: 80
+        phone:
+          type: string
+          format: phone
+          maxLength: 17
+        fax:
+          type: string
+          format: phone
+          maxLength: 17
+        addressMailing:
+          $ref: '#/components/schemas/Address'
+        metadata:
+          type: object
+          description: The contact eligibility data fields as specified by GET /v2/customers/{customerId}/domains/contacts/schema/{tld}
+      required:
+      - encoding
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+      - addressMailing

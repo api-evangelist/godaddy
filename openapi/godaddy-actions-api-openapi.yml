@@ -301,48 +301,22 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorField:
+    ActionReason:
+      additionalProperties: false
       properties:
         code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
           type: string
+          format: constant
+          pattern: ^[A-Z_][A-Z0-9_]*$
+          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
         message:
-          description: Human-readable, English description of the problem with the contents of the field
           type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
+          description: Human-readable, English description of the code
         fields:
-          description: List of the specific fields, and the errors found with their contents
+          type: array
           items:
             $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
+          description: List of the specific fields, and the errors found with their contents
       required:
       - code
     Action:
@@ -442,23 +416,49 @@ components:
       - origination
       - createdAt
       - status
-    ActionReason:
-      additionalProperties: false
+    Error:
       properties:
         code:
-          type: string
+          description: Short identifier for the error, suitable for indicating the specific error within client code
           format: constant
-          pattern: ^[A-Z_][A-Z0-9_]*$
-          description: Short identifier, suitable for indicating the reason for the current status and how to handle within client code
-        message:
           type: string
-          description: Human-readable, English description of the code
         fields:
-          type: array
+          description: List of the specific fields, and the errors found with their contents
           items:
             $ref: '#/components/schemas/ErrorField'
-          description: List of the specific fields, and the errors found with their contents
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
       required:
+      - code
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
       - code
     ErrorLimit:
       properties:

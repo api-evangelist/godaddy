@@ -877,79 +877,32 @@ paths:
         required: true
 components:
   schemas:
-    ErrorField:
+    Shopper:
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
+        customerId:
+          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
           type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
+        email:
+          format: email
           type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
+        externalId:
+          type: integer
+        marketId:
+          default: en-US
+          format: bcp-47
           type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+        shopperId:
           type: string
       required:
-      - path
-      - code
-    ShopperStatus:
-      properties:
-        billingState:
-          type: string
-          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
-          enum:
-          - ABANDONED
-          - INACTIVE
-          - ACTIVE
-    PasswordError:
-      properties:
-        type:
-          description: Response type, always 'error'
-          type: string
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-          enum:
-          - PW_BLACK_LIST
-          - PW_TOO_SHORT
-          - PW_TOO_LONG
-          - PW_MISSING_UC
-          - PW_MISSING_NUM
-          - PW_RECENTLY_USED
-          - PW_NOT_UNIQUE
-        message:
-          description: Human-readable, English description of the error
-          type: string
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
+      - shopperId
+      - nameFirst
+      - nameLast
+      - email
+      - marketId
     SubaccountCreate:
       properties:
         email:
@@ -1037,32 +990,109 @@ components:
           description: The secret value used to set a subaccount's password
           type: string
           example: P@55w0rd+
-    Shopper:
+    PasswordError:
+      properties:
+        type:
+          description: Response type, always 'error'
+          type: string
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+          enum:
+          - PW_BLACK_LIST
+          - PW_TOO_SHORT
+          - PW_TOO_LONG
+          - PW_MISSING_UC
+          - PW_MISSING_NUM
+          - PW_RECENTLY_USED
+          - PW_NOT_UNIQUE
+        message:
+          description: Human-readable, English description of the error
+          type: string
+    ShopperStatus:
+      properties:
+        billingState:
+          type: string
+          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
+          enum:
+          - ABANDONED
+          - INACTIVE
+          - ACTIVE
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
+      - code
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    ShopperId:
       properties:
         customerId:
           description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
-          type: string
-        email:
-          format: email
-          type: string
-        externalId:
-          type: integer
-        marketId:
-          default: en-US
-          format: bcp-47
-          type: string
-        nameFirst:
-          type: string
-        nameLast:
           type: string
         shopperId:
           type: string
       required:
       - shopperId
-      - nameFirst
-      - nameLast
-      - email
-      - marketId
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
     ShopperUpdate:
       properties:
         email:
@@ -1135,33 +1165,3 @@ components:
           type: string
         nameLast:
           type: string
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
-    ShopperId:
-      properties:
-        customerId:
-          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
-          type: string
-        shopperId:
-          type: string
-      required:
-      - shopperId
