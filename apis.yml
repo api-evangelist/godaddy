@@ -414,6 +414,12 @@ apis:
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/countries
 common:
+  - type: Plans
+    url: plans/godaddy-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/godaddy-rate-limits.yml
+  - type: FinOps
+    url: finops/godaddy-finops.yml
   - type: CapabilityMap
     url: capabilities/godaddy-capability-edges.yml
     name: GoDaddy Business Capability Map
