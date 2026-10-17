@@ -877,32 +877,6 @@ paths:
         required: true
 components:
   schemas:
-    Shopper:
-      properties:
-        customerId:
-          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
-          type: string
-        email:
-          format: email
-          type: string
-        externalId:
-          type: integer
-        marketId:
-          default: en-US
-          format: bcp-47
-          type: string
-        nameFirst:
-          type: string
-        nameLast:
-          type: string
-        shopperId:
-          type: string
-      required:
-      - shopperId
-      - nameFirst
-      - nameLast
-      - email
-      - marketId
     SubaccountCreate:
       properties:
         email:
@@ -984,41 +958,6 @@ components:
       - password
       - nameFirst
       - nameLast
-    Secret:
-      properties:
-        secret:
-          description: The secret value used to set a subaccount's password
-          type: string
-          example: P@55w0rd+
-    PasswordError:
-      properties:
-        type:
-          description: Response type, always 'error'
-          type: string
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-          enum:
-          - PW_BLACK_LIST
-          - PW_TOO_SHORT
-          - PW_TOO_LONG
-          - PW_MISSING_UC
-          - PW_MISSING_NUM
-          - PW_RECENTLY_USED
-          - PW_NOT_UNIQUE
-        message:
-          description: Human-readable, English description of the error
-          type: string
-    ShopperStatus:
-      properties:
-        billingState:
-          type: string
-          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
-          enum:
-          - ABANDONED
-          - INACTIVE
-          - ACTIVE
     Error:
       properties:
         code:
@@ -1035,6 +974,15 @@ components:
           type: string
       required:
       - code
+    ShopperStatus:
+      properties:
+        billingState:
+          type: string
+          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
+          enum:
+          - ABANDONED
+          - INACTIVE
+          - ACTIVE
     ErrorLimit:
       properties:
         code:
@@ -1065,6 +1013,58 @@ components:
           type: string
       required:
       - shopperId
+    PasswordError:
+      properties:
+        type:
+          description: Response type, always 'error'
+          type: string
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+          enum:
+          - PW_BLACK_LIST
+          - PW_TOO_SHORT
+          - PW_TOO_LONG
+          - PW_MISSING_UC
+          - PW_MISSING_NUM
+          - PW_RECENTLY_USED
+          - PW_NOT_UNIQUE
+        message:
+          description: Human-readable, English description of the error
+          type: string
+    Secret:
+      properties:
+        secret:
+          description: The secret value used to set a subaccount's password
+          type: string
+          example: P@55w0rd+
+    Shopper:
+      properties:
+        customerId:
+          description: Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record
+          type: string
+        email:
+          format: email
+          type: string
+        externalId:
+          type: integer
+        marketId:
+          default: en-US
+          format: bcp-47
+          type: string
+        nameFirst:
+          type: string
+        nameLast:
+          type: string
+        shopperId:
+          type: string
+      required:
+      - shopperId
+      - nameFirst
+      - nameLast
+      - email
+      - marketId
     ErrorField:
       properties:
         code:

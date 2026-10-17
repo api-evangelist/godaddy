@@ -96,46 +96,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DomainContactsCreateV2:
-      additionalProperties: false
-      type: object
-      properties:
-        admin:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        adminId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain admin contact. This can be specified instead of the `admin` property.
-
-            '
-          type: string
-        billing:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        billingId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain billing contact. This can be specified instead of the `billing` property.
-
-            '
-          type: string
-        registrant:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        registrantId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain registrant contact. This can be specified instead of the `registrant` property.
-
-            '
-          type: string
-        tech:
-          $ref: '#/components/schemas/ContactDomainCreate'
-        techId:
-          description: 'Unique identifier of the contact that the user wants to use for the domain tech contact. This can be specified instead of the `tech` property.
-
-            '
-          type: string
-    DomainContactsUpdateV2:
-      additionalProperties: false
-      properties:
-        identityDocumentId:
-          type: string
-          description: Unique identifier of the identify document that the user wants to associate with the domain whose registrant contact is being updated. This is required only if user is trying to update registrant contact and the owning registry has a requirement for an approved identity document
-        contacts:
-          $ref: '#/components/schemas/DomainContactsCreateV2'
     Error:
       properties:
         code:
@@ -431,55 +391,6 @@ components:
       - state
       - postalCode
       - country
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
     ContactDomainCreate:
       additionalProperties: false
       properties:
@@ -530,3 +441,92 @@ components:
       - email
       - phone
       - addressMailing
+    DomainContactsCreateV2:
+      additionalProperties: false
+      type: object
+      properties:
+        admin:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        adminId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain admin contact. This can be specified instead of the `admin` property.
+
+            '
+          type: string
+        billing:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        billingId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain billing contact. This can be specified instead of the `billing` property.
+
+            '
+          type: string
+        registrant:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        registrantId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain registrant contact. This can be specified instead of the `registrant` property.
+
+            '
+          type: string
+        tech:
+          $ref: '#/components/schemas/ContactDomainCreate'
+        techId:
+          description: 'Unique identifier of the contact that the user wants to use for the domain tech contact. This can be specified instead of the `tech` property.
+
+            '
+          type: string
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    DomainContactsUpdateV2:
+      additionalProperties: false
+      properties:
+        identityDocumentId:
+          type: string
+          description: Unique identifier of the identify document that the user wants to associate with the domain whose registrant contact is being updated. This is required only if user is trying to update registrant contact and the owning registry has a requirement for an approved identity document
+        contacts:
+          $ref: '#/components/schemas/DomainContactsCreateV2'
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code

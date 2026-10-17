@@ -384,27 +384,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    JsonSchema:
-      properties:
-        id:
-          type: string
-        models:
-          items:
-            $ref: '#/components/schemas/JsonSchema'
-          type: object
-        properties:
-          items:
-            $ref: '#/components/schemas/JsonProperty'
-          type: object
-        required:
-          items:
-            type: string
-          type: array
-      required:
-      - id
-      - properties
-      - required
-      - models
     Error:
       properties:
         code:
@@ -449,33 +428,26 @@ components:
       - type
       - $ref
       - required
-    ErrorField:
+    ErrorLimit:
       properties:
         code:
           description: Short identifier for the error, suitable for indicating the specific error within client code
           format: constant
           type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
         message:
-          description: Human-readable, English description of the problem with the contents of the field
+          description: Human-readable, English description of the error
           type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
       required:
-      - path
+      - retryAfterSec
       - code
     JsonDataType:
       properties:
@@ -488,6 +460,27 @@ components:
       required:
       - type
       - $ref
+    JsonSchema:
+      properties:
+        id:
+          type: string
+        models:
+          items:
+            $ref: '#/components/schemas/JsonSchema'
+          type: object
+        properties:
+          items:
+            $ref: '#/components/schemas/JsonProperty'
+          type: object
+        required:
+          items:
+            type: string
+          type: array
+      required:
+      - id
+      - properties
+      - required
+      - models
     DomainNotification:
       properties:
         notificationId:
@@ -585,24 +578,31 @@ components:
       - resourceType
       - status
       - addedAt
-    ErrorLimit:
+    ErrorField:
       properties:
         code:
           description: Short identifier for the error, suitable for indicating the specific error within client code
           format: constant
           type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
         message:
-          description: Human-readable, English description of the error
+          description: Human-readable, English description of the problem with the contents of the field
           type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
       required:
-      - retryAfterSec
+      - path
       - code

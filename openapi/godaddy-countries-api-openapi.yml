@@ -101,43 +101,6 @@ paths:
       summary: Retrieves country and summary state information for provided countryKey
 components:
   schemas:
-    Country:
-      properties:
-        callingCode:
-          description: The calling code prefix used for phone numbers in this country
-          type: string
-        countryKey:
-          description: The ISO country-code
-          format: iso-country-code
-          type: string
-        label:
-          description: The localized name of the country
-          type: string
-        states:
-          description: List of states/provinces in this country
-          items:
-            $ref: '#/components/schemas/State'
-          type: array
-    State:
-      properties:
-        label:
-          description: The localized name of the state, province, or territory
-          type: string
-        stateKey:
-          description: The state code
-          type: string
-    CountrySummary:
-      properties:
-        callingCode:
-          description: The calling code prefix used for phone numbers in this country
-          type: string
-        countryKey:
-          description: The ISO country-code
-          format: iso-country-code
-          type: string
-        label:
-          description: The localized name of the country
-          type: string
     Error:
       properties:
         code:
@@ -162,26 +125,6 @@ components:
             type: string
           type: array
       required:
-      - code
-    ArrayOfCountrySummary:
-      type: array
-      items:
-        $ref: '#/components/schemas/CountrySummary'
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: JSONPath referring to the field within the submitted data containing an error
-          format: json-path
-          type: string
-      required:
-      - path
       - code
     ErrorLimit:
       properties:
@@ -213,6 +156,63 @@ components:
       required:
       - retryAfterSec
       - code
+    State:
+      properties:
+        label:
+          description: The localized name of the state, province, or territory
+          type: string
+        stateKey:
+          description: The state code
+          type: string
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: JSONPath referring to the field within the submitted data containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    CountrySummary:
+      properties:
+        callingCode:
+          description: The calling code prefix used for phone numbers in this country
+          type: string
+        countryKey:
+          description: The ISO country-code
+          format: iso-country-code
+          type: string
+        label:
+          description: The localized name of the country
+          type: string
+    ArrayOfCountrySummary:
+      type: array
+      items:
+        $ref: '#/components/schemas/CountrySummary'
+    Country:
+      properties:
+        callingCode:
+          description: The calling code prefix used for phone numbers in this country
+          type: string
+        countryKey:
+          description: The ISO country-code
+          format: iso-country-code
+          type: string
+        label:
+          description: The localized name of the country
+          type: string
+        states:
+          description: List of states/provinces in this country
+          items:
+            $ref: '#/components/schemas/State'
+          type: array
     ArrayOfCountry:
       type: array
       items:

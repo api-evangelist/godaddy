@@ -360,23 +360,44 @@ paths:
       summary: Return the abuse ticket data for a given ticket id
 components:
   schemas:
-    AbuseTicketCreateBase:
-      required:
-      - source
+    Error:
       properties:
-        info:
-          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
           type: string
-        infoUrl:
-          description: Reporter URL if housing additional information that may assist the abuse investigator
-          format: url
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
           type: string
-        source:
-          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
+        stack:
+          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
+          items:
+            type: string
+          type: array
+      required:
+      - code
+    Pagination:
+      properties:
+        first:
+          description: Optional link to first list of results
           type: string
-        target:
-          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+        last:
+          description: Optional link to last list of results
           type: string
+        next:
+          description: Optional link to next list of results
+          type: string
+        previous:
+          description: Optional link to previous list of results
+          type: string
+        total:
+          description: Number of records available
+          type: integer
     AbuseTicketLegacy:
       description: The associated fields returned, given a unique abuse ticket id
       properties:
@@ -430,20 +451,6 @@ components:
       - source
       - createdAt
       - closedAt
-    AbuseTicket:
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketLegacy'
-      - type: object
-        properties:
-          closeReason:
-            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
-            enum:
-            - ACTIONED
-            - FALSE_POSITIVE
-            - FORWARDED_COMPLAINT
-            - RECLASSIFIED
-            - NOT_REGISTERED_HOSTED_HERE
-            type: string
     AbuseTicketCreate:
       required:
       - type
@@ -478,47 +485,14 @@ components:
             - OTHER
             - NOT_APPLICABLE
             type: string
-    Error:
+    AbuseTicketId:
+      description: The primary key of a newly created abuse ticket
       properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        stack:
-          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
-          items:
-            type: string
-          type: array
-      required:
-      - code
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to the field on the object referenced by `path` containing an error
-          format: json-path
+        u_number:
+          description: Abuse ticket ID
           type: string
       required:
-      - path
-      - code
+      - u_number
     AbuseTicketCreateLegacy:
       required:
       - type
@@ -546,6 +520,23 @@ components:
             - PHISHING
             - SPAM
             type: string
+    AbuseTicketCreateBase:
+      required:
+      - source
+      properties:
+        info:
+          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
+          type: string
+        infoUrl:
+          description: Reporter URL if housing additional information that may assist the abuse investigator
+          format: url
+          type: string
+        source:
+          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
+          type: string
+        target:
+          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+          type: string
     AbuseTicketList:
       properties:
         pagination:
@@ -557,28 +548,37 @@ components:
           type: array
       required:
       - ticketIds
-    Pagination:
+    ErrorField:
       properties:
-        first:
-          description: Optional link to first list of results
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
           type: string
-        last:
-          description: Optional link to last list of results
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
           type: string
-        next:
-          description: Optional link to next list of results
+        path:
+          description: 1) JSONPath referring to the field within the data containing an error<br/>or<br/>2) JSONPath referring to an object containing an error
+          format: json-path
           type: string
-        previous:
-          description: Optional link to previous list of results
-          type: string
-        total:
-          description: Number of records available
-          type: integer
-    AbuseTicketId:
-      description: The primary key of a newly created abuse ticket
-      properties:
-        u_number:
-          description: Abuse ticket ID
+        pathRelated:
+          description: JSONPath referring to the field on the object referenced by `path` containing an error
+          format: json-path
           type: string
       required:
-      - u_number
+      - path
+      - code
+    AbuseTicket:
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketLegacy'
+      - type: object
+        properties:
+          closeReason:
+            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
+            enum:
+            - ACTIONED
+            - FALSE_POSITIVE
+            - FORWARDED_COMPLAINT
+            - RECLASSIFIED
+            - NOT_REGISTERED_HOSTED_HERE
+            type: string

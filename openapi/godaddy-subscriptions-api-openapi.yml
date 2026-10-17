@@ -795,46 +795,22 @@ paths:
         required: true
 components:
   schemas:
-    SubscriptionProduct:
+    Error:
       properties:
-        label:
-          description: A human readable description of the Product that is subscribed
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
           type: string
-        namespace:
-          description: Grouping of related Subscriptions
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
           type: string
-        pfid:
-          description: Unique identifier of the Product that is subscribed
-          type: integer
-        productGroupKey:
-          description: Primary key of a grouping of related Subscriptions
-          type: string
-        renewalPeriod:
-          description: The number of `renewalPeriodUnits` that will be added by the `renewalPfid`
-          type: integer
-        renewalPeriodUnit:
-          description: The unit of time that `renewalPeriod` is measured in
-          enum:
-          - MONTH
-          - QUARTER
-          - SEMI_ANNUAL
-          - YEAR
-          type: string
-        renewalPfid:
-          description: Unique identifier of the renewal Product
-          type: integer
-        supportBillOn:
-          description: Whether the product supports the `billOn` option on the renewal endpoint
-          type: boolean
       required:
-      - pfid
-      - label
-      - renewalPfid
-      - renewalPeriod
-      - renewalPeriodUnit
-      - productGroupKey
-      - supportBillOn
-      - namespace
+      - code
     Pagination:
       properties:
         first:
@@ -852,6 +828,74 @@ components:
         total:
           description: Number of records available
           type: integer
+    ProductGroup:
+      properties:
+        productGroupKey:
+          description: Primary key of a grouping of related Subscriptions
+          type: string
+        subscriptionCount:
+          description: The number of Subscriptions that the shopper owns in this group
+          type: integer
+      required:
+      - productGroupKey
+      - subscriptionCount
+    SubscriptionAddon:
+      properties:
+        commitment:
+          description: The financial commitment the customer has in the product
+          enum:
+          - PAID
+          - FREE
+          - TRIAL
+          type: string
+        pfid:
+          description: Unique identifier of the add-in product
+          type: integer
+        quantity:
+          type: integer
+      required:
+      - pfid
+      - commitment
+      - quantity
+    SubscriptionUpdate:
+      properties:
+        paymentProfileId:
+          description: Unique identifier of the payment profile you want to be used for automatic renewal
+          type: integer
+        renewAuto:
+          description: Whether or not you want the Subscription renew automatically
+          type: boolean
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
+    SubscriptionRelations:
+      properties:
+        children:
+          description: A set of related Subscriptions that will be canceled automatically if this Subscription is canceled
+          items:
+            type: string
+          type: array
+        parent:
+          description: Unique identifier of this Subscription's parent
+          type: string
     SubscriptionBilling:
       properties:
         commitment:
@@ -884,6 +928,47 @@ components:
       - renewAt
       - status
       - commitment
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Human-readable, English description of the problem with the contents of the field
+          type: string
+        path:
+          description: '<ul>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
+
+            <strong style=''margin-left: 12px;''>OR</strong>
+
+            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
+
+            </ul>'
+          format: json-path
+          type: string
+        pathRelated:
+          description: JSONPath referring to a field containing an error, which is referenced by `path`
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    SubscriptionList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+          description: Pagination information
+        subscriptions:
+          description: A collection of subscriptions
+          items:
+            $ref: '#/components/schemas/Subscription'
+          type: array
+      required:
+      - subscriptions
+      - pagination
     Subscription:
       properties:
         addons:
@@ -950,128 +1035,43 @@ components:
       - upgradeable
       - priceLocked
       - renewAuto
-    SubscriptionRelations:
+    SubscriptionProduct:
       properties:
-        children:
-          description: A set of related Subscriptions that will be canceled automatically if this Subscription is canceled
-          items:
-            type: string
-          type: array
-        parent:
-          description: Unique identifier of this Subscription's parent
+        label:
+          description: A human readable description of the Product that is subscribed
           type: string
-    SubscriptionUpdate:
-      properties:
-        paymentProfileId:
-          description: Unique identifier of the payment profile you want to be used for automatic renewal
+        namespace:
+          description: Grouping of related Subscriptions
+          type: string
+        pfid:
+          description: Unique identifier of the Product that is subscribed
           type: integer
-        renewAuto:
-          description: Whether or not you want the Subscription renew automatically
-          type: boolean
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
-    SubscriptionList:
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-          description: Pagination information
-        subscriptions:
-          description: A collection of subscriptions
-          items:
-            $ref: '#/components/schemas/Subscription'
-          type: array
-      required:
-      - subscriptions
-      - pagination
-    ProductGroup:
-      properties:
         productGroupKey:
           description: Primary key of a grouping of related Subscriptions
           type: string
-        subscriptionCount:
-          description: The number of Subscriptions that the shopper owns in this group
+        renewalPeriod:
+          description: The number of `renewalPeriodUnits` that will be added by the `renewalPfid`
           type: integer
-      required:
-      - productGroupKey
-      - subscriptionCount
-    SubscriptionAddon:
-      properties:
-        commitment:
-          description: The financial commitment the customer has in the product
+        renewalPeriodUnit:
+          description: The unit of time that `renewalPeriod` is measured in
           enum:
-          - PAID
-          - FREE
-          - TRIAL
+          - MONTH
+          - QUARTER
+          - SEMI_ANNUAL
+          - YEAR
           type: string
-        pfid:
-          description: Unique identifier of the add-in product
+        renewalPfid:
+          description: Unique identifier of the renewal Product
           type: integer
-        quantity:
-          type: integer
+        supportBillOn:
+          description: Whether the product supports the `billOn` option on the renewal endpoint
+          type: boolean
       required:
       - pfid
-      - commitment
-      - quantity
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Human-readable, English description of the problem with the contents of the field
-          type: string
-        path:
-          description: '<ul>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field containing an error</li>
-
-            <strong style=''margin-left: 12px;''>OR</strong>
-
-            <li style=''margin-left: 12px;''>JSONPath referring to a field that refers to an object containing an error, with more detail in `pathRelated`</li>
-
-            </ul>'
-          format: json-path
-          type: string
-        pathRelated:
-          description: JSONPath referring to a field containing an error, which is referenced by `path`
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
+      - label
+      - renewalPfid
+      - renewalPeriod
+      - renewalPeriodUnit
+      - productGroupKey
+      - supportBillOn
+      - namespace
