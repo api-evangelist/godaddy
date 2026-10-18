@@ -5,11 +5,15 @@ checked:
 - https://ccadb.my.salesforce-sites.com/ccadb/AllCAAIdentifiersReportCSV
 - https://ccadb.my.salesforce-sites.com/ccadb/AllCertificateRecordsCSVFormatv4
 - https://ccadb.my.salesforce-sites.com/mozilla/CAInformationReportCSVFormat
+- https://data.iana.org/rdap/dns.json
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://github.com/marketplace?type=actions
 - https://kantarainitiative.org/trust-status-list/
 - https://msb.fincen.gov/
 - https://www.access-dvs-register.service.gov.uk/register/download-register
+- https://www.iana.org/assignments/registrar-ids/registrar-ids.xml
+- https://www.icann.org/en/contracted-parties/accredited-registrars/list-of-accredited-registrars
+- https://www.icann.org/resources/registries/gtlds/v2/gtlds.json
 - https://zapier.com/api/v4/apps/
 - stripe/integrations/stripe-integration-edges.yml
 - wordpress/integrations/wordpress-integration-edges.yml
@@ -199,6 +203,65 @@ edges:
       lapsed: false
       included_roots: 4
   detected_by: sweep-pki-encryption.py
+  first_seen: '2026-10-18'
+- partner_name: ICANN (accredited registrar)
+  partner: null
+  partner_match: register
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.icann.org/en/contracted-parties/accredited-registrars/list-of-accredited-registrars
+  category: ICANN-accredited domain registrar
+  contract_reference:
+    register: ICANN Accredited Registrars (icann.org list-of-accredited-registrars)
+    standard: ICANN Registrar Accreditation Agreement
+    spec_file: null
+    role: icann-accredited-registrar
+    registered_name: GoDaddy.com, LLC
+    register_id: IANA 146
+    matched_domain: godaddy.com
+    matched_by: domain+name-among-holders
+    domain_source: url
+    country: United States of America
+    accreditations_in_family: 3
+    other_iana_ids:
+    - 1659
+    - 3786
+    signal_note: 'participation only: an ICANN accreditation is a licence to sell names, not a conformance result
+      (no certified_products); the number of accreditations a family holds (drop-catch shells) is breadth, context
+      only, never counted'
+    detected_by: sweep-domains-dns.py
+    detected: '2026-10-18'
+  detected_by: sweep-domains-dns.py
+  first_seen: '2026-10-18'
+- partner_name: RDAP (IANA bootstrap / registrar ids)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: compatible
+  shape: rdap
+  degree: declared-unqualified
+  evidence_kind: iana-bootstrap
+  direction: partner-built
+  evidence: https://www.iana.org/assignments/registrar-ids/registrar-ids.xml
+  note: IANA lists an RDAP service run on this provider's domain; a published endpoint, not a conformance test.
+    REPORT ONLY (compatible edges are never in depth or position)
+  contract_reference:
+    register: IANA RDAP bootstrap (data.iana.org/rdap/dns.json) + IANA Registrar IDs
+    spec_file: null
+    role: rdap-registrar
+    registered_name: GoDaddy.com, LLC
+    register_id: '146'
+    matched_domain: godaddy.com
+    matched_by: domain+name-among-holders
+    rdap_base_url: https://rdap.godaddy.com/v1/
+    tlds: []
+    signal_note: report only; TLD and accreditation counts are context, never counted
+    detected_by: sweep-domains-dns.py
+    detected: '2026-10-18'
+  detected_by: sweep-domains-dns.py
   first_seen: '2026-10-18'
 source:
 - https://github.com/marketplace?type=actions
