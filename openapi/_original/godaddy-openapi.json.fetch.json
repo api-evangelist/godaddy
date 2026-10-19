@@ -1,0 +1,12 @@
+{
+ "url": "https://developer.godaddy.com/openapi/domains-v3.json",
+ "final": "https://developer.godaddy.com/openapi/domains-v3.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 151610,
+ "sha256": "ab53d7bf4194b2ca987cea687634db9c1bc92464f26bf1203db88150bbe43373",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

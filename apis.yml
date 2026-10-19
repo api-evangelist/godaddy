@@ -413,6 +413,83 @@ apis:
     url: https://developer.godaddy.com/doc/endpoint/agreements
   - type: Documentation
     url: https://developer.godaddy.com/doc/endpoint/countries
+- aid: godaddy:godaddy-discovery-api
+  name: GoDaddy Discovery API
+  description: >-
+    Indicative, non-committing operations for finding and checking domains. Use suggestDomains for natural-language
+    queries and getDomainAvailability for specific domain verification. Both return indicative pricing;
+    locked pricing is established only at quote time. The check-availability controller carries no persistent
+    identity.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-discovery-api-openapi.yml
+- aid: godaddy:godaddy-domain-management-api
+  name: GoDaddy Domain Management API
+  description: >-
+    Non-commercial async mutations on owned domain instances: contacts, nameservers, privacy, auto-renew,
+    and transfer-lock. All sub-resources of /domain-names/{domain-name}. All mutations return a DomainOperation
+    for polling.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Domain Management
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-domain-management-api-openapi.yml
+- aid: godaddy:godaddy-operations-api
+  name: GoDaddy Operations API
+  description: >-
+    Abstract operation polling. Poll GET /operations/{operationId} for any domain mutation until it reaches
+    COMPLETED or FAILED. Operation IDs are unique across Registration, Renewal, and Transfer — clients
+    that prefer typed polling can use the concrete resource endpoints instead.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-operations-api-openapi.yml
+- aid: godaddy:godaddy-records-api
+  name: GoDaddy Records API
+  description: >-
+    CRUD operations on DNS records within the GoDaddy-managed zone. Sub-collection of /zones/{zone}. Changes
+    are applied synchronously.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Records
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-records-api-openapi.yml
+- aid: godaddy:godaddy-registration-quotes-api
+  name: GoDaddy Registration Quotes API
+  description: >-
+    Quote a domain registration. Returns a locked price, resolved settings, required agreements, and a
+    single-use quoteToken. Free and read-only.
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Registration Quotes
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-registration-quotes-api-openapi.yml
+- aid: godaddy:godaddy-registrations-api
+  name: GoDaddy Registrations API
+  description: >-
+    Top-level registration entity collection. Execute a domain registration by POSTing with a quoteToken,
+    domain, period, and consent. Returns a Registration entity with links to the concrete poll URL (GET
+    /registrations/{registrationId}) and the abstract operation (GET /operations/{operationId}).
+  humanURL: https://developer.godaddy.com/doc/endpoint/domains
+  baseURL: https://api.godaddy.com
+  tags:
+  - Registrations
+  properties:
+  - type: OpenAPI
+    url: openapi/godaddy-registrations-api-openapi.yml
 common:
   - type: Plans
     url: plans/godaddy-plans-pricing.yml

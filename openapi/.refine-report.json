@@ -7,6 +7,7 @@
     "_original/godaddy-certificates-openapi.json",
     "_original/godaddy-countries-openapi.json",
     "_original/godaddy-domains-openapi.json",
+    "_original/godaddy-openapi.json",
     "_original/godaddy-orders-openapi.json",
     "_original/godaddy-shoppers-openapi.json",
     "_original/godaddy-subscriptions-openapi.json"
@@ -22,6 +23,12 @@
     "godaddy-contacts-api-openapi.yml",
     "godaddy-domains-api-openapi.yml",
     "godaddy-notifications-api-openapi.yml",
+    "godaddy-discovery-api-openapi.yml",
+    "godaddy-domain-management-api-openapi.yml",
+    "godaddy-operations-api-openapi.yml",
+    "godaddy-records-api-openapi.yml",
+    "godaddy-registration-quotes-api-openapi.yml",
+    "godaddy-registrations-api-openapi.yml",
     "godaddy-orders-api-openapi.yml",
     "godaddy-shoppers-api-openapi.yml",
     "godaddy-subscriptions-api-openapi.yml"
@@ -39,7 +46,7 @@
     "godaddy-domains-openapi.json: info.version missing"
   ],
   "notes": [
-    "sourced from openapi/_original/ (9 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sourced from openapi/_original/ (10 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "godaddy-abuse-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
     "godaddy-abuse-openapi.json: tagged paths GET /v1/abuse/tickets -> Abuse",
     "godaddy-abuse-openapi.json: tagged paths POST /v1/abuse/tickets -> Abuse",
@@ -115,6 +122,7 @@
     "godaddy-domains-openapi.json: tagged paths POST /v1/domains/{domain}/transfer -> Domains",
     "godaddy-domains-openapi.json: tagged paths POST /v1/domains/{domain}/verifyRegistrantEmail -> Domains",
     "godaddy-domains-openapi.json: declared missing tag: Contacts",
+    "godaddy-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "godaddy-orders-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
     "godaddy-orders-openapi.json: tagged paths GET /v1/orders -> Orders",
     "godaddy-orders-openapi.json: tagged paths GET /v1/orders/{orderId} -> Orders",
@@ -134,7 +142,8 @@
     "godaddy-subscriptions-openapi.json: tagged paths GET /v1/subscriptions/{subscriptionId} -> Subscriptions",
     "godaddy-subscriptions-openapi.json: tagged paths PATCH /v1/subscriptions/{subscriptionId} -> Subscriptions",
     "godaddy-subscriptions-openapi.json: declared missing tag: Subscriptions",
-    "apis.yml register: already-registered"
+    "tag 'Domains' spans 2 source specs (godaddy-domains-openapi.json, godaddy-openapi.json): per-path servers applied",
+    "apis.yml register: written (+6 apis, 19 total)"
   ],
   "skipped": [
     "godaddy-abuse-api-openapi.yml: previously refined output, superseded by openapi/_original/",

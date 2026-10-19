@@ -4,7 +4,28 @@ info:
   version: 2.0.0
   description: 'GoDaddy Abuse API Terms of Use:
 
-    GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience.'
+    GoDaddy’s Abuse API is provided to simplify and standardize the abuse reporting experience. To help us streamline the review of abuse reports, you acknowledge and agree that your use of GoDaddy’s Abuse API is subject to the following quality metrics and terms of use.
+
+
+    GoDaddy may, in its sole and absolute discretion, change or modify these terms, and such changes or modifications shall be effective immediately upon notice to you. Your use of GoDaddy’s Abuse API after such changes or modifications shall constitute your acceptance of these terms as last revised. If you do not agree to be bound by these terms as last revised, do not use (or continue to use) our Abuse API.
+
+
+    As an Abuse API user, you must only submit abuse reports via the API portal and cease all email submissions, including but not limited, to phishing@godaddy.com, netabuse@godaddy.com, malware@godaddy.com, or spam@godaddy.com, etc. Any additional or duplicate submission outside of the API portal will be deprioritized for review. Submissions related to trademark, copyright or content issues may still be sent to trademarkclaims@godaddy.com, coyprightclaims@godaddy.com, and contentcomplaints@godaddy.com, respectively. Our Front of Site also describes other scenarios not covered by the API.
+
+
+    When you submit abuse reports via GoDaddy’s Abuse API, you must ensure that you accurately categorize the abuse type of each report to match our definitions in the API documentations provided to you. Any submission that fails to match our definitions or is miscategorized will be marked as a false positive. Examples include, but are not limited to, submissions of trademark complaints marked as phishing or malware, or submissions of copyright complaints marked as phishing or malware, etc.
+
+
+    If, at any time, the false positive rate of submissions exceeds 40% of your total submissions, as determined by GoDaddy, GoDaddy may in its sole discretion deprioritize any subsequent reports submitted by you and/or your organization.
+
+
+    You acknowledge and agree that submitting every URL for a single domain is not necessary and will not expedite the review process. If your submissions exceed five (5) URLs for a single domain, your report will be marked as a duplicate submission taking into account that the final outcome of such submissions would yield the same result as the original report. GoDaddy may in its sole discretion deprioritize reports submitted by you and/or your organization in the event more than 20% of your submissions are classified as duplicate submissions.
+
+
+    You further acknowledge and agree that our Customer Support lines are not intended to address abuse reporting matters or your use of GoDaddy’s Abuse API. Contacting Customer Support will not expedite the review process and may result in abuse reports being deprioritized, to be determined in our sole discretion.
+
+
+    Should you have any questions about GoDaddy’s Abuse API or any of the terms and conditions set forth above, please contact abuseapisupport@godaddy.com.'
 servers:
 - url: https://api.ote-godaddy.com
 tags:
@@ -360,44 +381,6 @@ paths:
       summary: Return the abuse ticket data for a given ticket id
 components:
   schemas:
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        stack:
-          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
-          items:
-            type: string
-          type: array
-      required:
-      - code
-    Pagination:
-      properties:
-        first:
-          description: Optional link to first list of results
-          type: string
-        last:
-          description: Optional link to last list of results
-          type: string
-        next:
-          description: Optional link to next list of results
-          type: string
-        previous:
-          description: Optional link to previous list of results
-          type: string
-        total:
-          description: Number of records available
-          type: integer
     AbuseTicketLegacy:
       description: The associated fields returned, given a unique abuse ticket id
       properties:
@@ -451,6 +434,50 @@ components:
       - source
       - createdAt
       - closedAt
+    AbuseTicketCreateBase:
+      required:
+      - source
+      properties:
+        info:
+          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
+          type: string
+        infoUrl:
+          description: Reporter URL if housing additional information that may assist the abuse investigator
+          format: url
+          type: string
+        source:
+          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
+          type: string
+        target:
+          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
+          type: string
+    AbuseTicketCreateLegacy:
+      required:
+      - type
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketCreateBase'
+      - type: object
+        properties:
+          intentional:
+            default: false
+            description: Do you believe this is intentional abuse by the domain holder?
+            type: boolean
+          proxy:
+            description: 'The Proxy information required to view the abuse being reported. ie: Specific IP used, or country of IP viewing from'
+            type: string
+          type:
+            description: The type of abuse being reported.
+            enum:
+            - A_RECORD
+            - CHILD_ABUSE
+            - CONTENT
+            - FRAUD_WIRE
+            - IP_BLOCK
+            - MALWARE
+            - NETWORK_ABUSE
+            - PHISHING
+            - SPAM
+            type: string
     AbuseTicketCreate:
       required:
       - type
@@ -485,6 +512,20 @@ components:
             - OTHER
             - NOT_APPLICABLE
             type: string
+    AbuseTicket:
+      allOf:
+      - $ref: '#/components/schemas/AbuseTicketLegacy'
+      - type: object
+        properties:
+          closeReason:
+            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
+            enum:
+            - ACTIONED
+            - FALSE_POSITIVE
+            - FORWARDED_COMPLAINT
+            - RECLASSIFIED
+            - NOT_REGISTERED_HOSTED_HERE
+            type: string
     AbuseTicketId:
       description: The primary key of a newly created abuse ticket
       properties:
@@ -493,61 +534,6 @@ components:
           type: string
       required:
       - u_number
-    AbuseTicketCreateLegacy:
-      required:
-      - type
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketCreateBase'
-      - type: object
-        properties:
-          intentional:
-            default: false
-            description: Do you believe this is intentional abuse by the domain holder?
-            type: boolean
-          proxy:
-            description: 'The Proxy information required to view the abuse being reported. ie: Specific IP used, or country of IP viewing from'
-            type: string
-          type:
-            description: The type of abuse being reported.
-            enum:
-            - A_RECORD
-            - CHILD_ABUSE
-            - CONTENT
-            - FRAUD_WIRE
-            - IP_BLOCK
-            - MALWARE
-            - NETWORK_ABUSE
-            - PHISHING
-            - SPAM
-            type: string
-    AbuseTicketCreateBase:
-      required:
-      - source
-      properties:
-        info:
-          description: 'Additional information that may assist the abuse investigator. ie: server logs or email headers/body for SPAM'
-          type: string
-        infoUrl:
-          description: Reporter URL if housing additional information that may assist the abuse investigator
-          format: url
-          type: string
-        source:
-          description: 'The URL or IP where live abuse content is located at. ie: https://www.example.com/bad_stuff/bad.php'
-          type: string
-        target:
-          description: 'The brand/company the abuse is targeting. ie: brand name/bank name'
-          type: string
-    AbuseTicketList:
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        ticketIds:
-          description: A list of abuse ticket ids originated by this reporter.
-          items:
-            type: string
-          type: array
-      required:
-      - ticketIds
     ErrorField:
       properties:
         code:
@@ -568,17 +554,52 @@ components:
       required:
       - path
       - code
-    AbuseTicket:
-      allOf:
-      - $ref: '#/components/schemas/AbuseTicketLegacy'
-      - type: object
-        properties:
-          closeReason:
-            description: 'The reason that the ticket was closed.<br/><br/>RECLASSIFIED: False Positive - Reclassified to different abuse type.<br/>NOT_REGISTERED_HOSTED_HERE: Not Registered or Hosted with GoDaddy brand(s).<br/>FORWARDED_COMPLAINT: Forwarded Complaint to proper channel.<br/>FALSE_POSITIVE: Not Actionable by DCU.<br/>ACTIONED: Domain or Content Actioned'
-            enum:
-            - ACTIONED
-            - FALSE_POSITIVE
-            - FORWARDED_COMPLAINT
-            - RECLASSIFIED
-            - NOT_REGISTERED_HOSTED_HERE
+    Pagination:
+      properties:
+        first:
+          description: Optional link to first list of results
+          type: string
+        last:
+          description: Optional link to last list of results
+          type: string
+        next:
+          description: Optional link to next list of results
+          type: string
+        previous:
+          description: Optional link to previous list of results
+          type: string
+        total:
+          description: Number of records available
+          type: integer
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        stack:
+          description: 'Stack trace indicating where the error occurred.<br/> NOTE: This attribute <strong>MAY</strong> be included for Development and Test environments. However, it <strong>MUST NOT</strong> be exposed from OTE nor Production systems.'
+          items:
             type: string
+          type: array
+      required:
+      - code
+    AbuseTicketList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        ticketIds:
+          description: A list of abuse ticket ids originated by this reporter.
+          items:
+            type: string
+          type: array
+      required:
+      - ticketIds

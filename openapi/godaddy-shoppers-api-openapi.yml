@@ -877,6 +877,27 @@ paths:
         required: true
 components:
   schemas:
+    ErrorLimit:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+        retryAfterSec:
+          description: Number of seconds to wait before attempting a similar request
+          format: integer-positive
+          type: integer
+      required:
+      - retryAfterSec
+      - code
     SubaccountCreate:
       properties:
         email:
@@ -958,52 +979,6 @@ components:
       - password
       - nameFirst
       - nameLast
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-      required:
-      - code
-    ShopperStatus:
-      properties:
-        billingState:
-          type: string
-          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
-          enum:
-          - ABANDONED
-          - INACTIVE
-          - ACTIVE
-    ErrorLimit:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Human-readable, English description of the error
-          type: string
-        retryAfterSec:
-          description: Number of seconds to wait before attempting a similar request
-          format: integer-positive
-          type: integer
-      required:
-      - retryAfterSec
-      - code
     ShopperId:
       properties:
         customerId:
@@ -1013,32 +988,6 @@ components:
           type: string
       required:
       - shopperId
-    PasswordError:
-      properties:
-        type:
-          description: Response type, always 'error'
-          type: string
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-          enum:
-          - PW_BLACK_LIST
-          - PW_TOO_SHORT
-          - PW_TOO_LONG
-          - PW_MISSING_UC
-          - PW_MISSING_NUM
-          - PW_RECENTLY_USED
-          - PW_NOT_UNIQUE
-        message:
-          description: Human-readable, English description of the error
-          type: string
-    Secret:
-      properties:
-        secret:
-          description: The secret value used to set a subaccount's password
-          type: string
-          example: P@55w0rd+
     Shopper:
       properties:
         customerId:
@@ -1065,6 +1014,26 @@ components:
       - nameLast
       - email
       - marketId
+    PasswordError:
+      properties:
+        type:
+          description: Response type, always 'error'
+          type: string
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+          enum:
+          - PW_BLACK_LIST
+          - PW_TOO_SHORT
+          - PW_TOO_LONG
+          - PW_MISSING_UC
+          - PW_MISSING_NUM
+          - PW_RECENTLY_USED
+          - PW_NOT_UNIQUE
+        message:
+          description: Human-readable, English description of the error
+          type: string
     ErrorField:
       properties:
         code:
@@ -1092,6 +1061,37 @@ components:
           type: string
       required:
       - path
+      - code
+    ShopperStatus:
+      properties:
+        billingState:
+          type: string
+          description: 'Indicates the billing state of the Shopper.<br />ABANDONED: The shopper has not been billed in at least 10 years and has no active subscriptions.<br />INACTIVE: The shopper has been billed within the last 10 years but has no active subscriptions.<br />ACTIVE: The shopper has at least one active subscription.'
+          enum:
+          - ABANDONED
+          - INACTIVE
+          - ACTIVE
+    Secret:
+      properties:
+        secret:
+          description: The secret value used to set a subaccount's password
+          type: string
+          example: P@55w0rd+
+    Error:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
+          items:
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Human-readable, English description of the error
+          type: string
+      required:
       - code
     ShopperUpdate:
       properties:

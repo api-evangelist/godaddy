@@ -169,6 +169,13 @@ paths:
           $ref: '#/components/responses/500'
 components:
   parameters:
+    certificateId:
+      description: Certificate id to lookup
+      in: path
+      name: certificateId
+      required: true
+      schema:
+        type: string
     limit:
       name: limit
       required: false
@@ -178,6 +185,13 @@ components:
         type: integer
         format: integer-positive
         pattern: ^[0-9]+$
+    customerId:
+      name: customerId
+      description: An identifier for a customer
+      in: path
+      required: true
+      schema:
+        type: string
     offset:
       name: offset
       required: false
@@ -195,21 +209,175 @@ components:
       schema:
         type: string
         format: domain
-    customerId:
-      name: customerId
-      description: An identifier for a customer
-      in: path
-      required: true
-      schema:
-        type: string
-    certificateId:
-      description: Certificate id to lookup
-      in: path
-      name: certificateId
-      required: true
-      schema:
-        type: string
   schemas:
+    JurisdictionOfIncorporation:
+      properties:
+        city:
+          type: string
+        country:
+          format: iso-country-code
+          type: string
+        county:
+          type: string
+        state:
+          type: string
+      required:
+      - country
+    CertificateDetailV2:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request. Only present if no errors returned
+          type: string
+        commonName:
+          description: Common name of certificate
+          format: domain
+          type: string
+        period:
+          description: Validity period of order. Specified in years
+          type: integer
+        type:
+          description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CODE_SIGNING
+          - OV_DRIVER_SIGNING
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        status:
+          description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\\n  * `UNUSED` - Certificate in an error state\n"
+          enum:
+          - PENDING_ISSUANCE
+          - ISSUED
+          - REVOKED
+          - CANCELED
+          - DENIED
+          - PENDING_REVOCATION
+          - PENDING_REKEY
+          - UNUSED
+          - EXPIRED
+          type: string
+        createdAt:
+          description: The date the certificate was ordered.
+          format: iso-datetime
+          type: string
+        completedAt:
+          description: The date the certificate request completed processing.
+          format: iso-datetime
+          type: string
+        validEndAt:
+          description: The end date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        validStartAt:
+          description: The start date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        revokedAt:
+          description: The revocation date of certificate (if revoked).
+          format: iso-datetime
+          type: string
+        renewalAvailable:
+          description: Only returned when a renewal is available.
+          type: boolean
+        serialNumber:
+          description: Serial number of certificate (if issued or revoked)
+          type: string
+        serialNumberHex:
+          description: Hexadecmial format for Serial number of certificate(if issued or revoked)
+          type: string
+        slotSize:
+          description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        subjectAlternativeNames:
+          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
+          items:
+            format: domain
+            type: string
+          type: array
+          uniqueItems: true
+        contact:
+          $ref: '#/components/schemas/CertificateContact'
+        organization:
+          $ref: '#/components/schemas/CertificateOrganization'
+        csr:
+          description: Certificate signing request (if present) in PEM format
+          type: string
+        rootType:
+          description: "Root type: \n  * `GODADDY_SHA_1` - GoDaddy (Secure Hash Algorithm 1) SHA-1 root type\n  * `GODADDY_SHA_2` - GoDaddy (Secure Hash Algorithm 2) SHA-2 root type\n  * `STARFIELD_SHA_1` - Starfield SHA-1 root type\n  * `STARFIELD_SHA_2` - Starfield SHA-2 root type\n"
+          enum:
+          - GODADDY_SHA_1
+          - GODADDY_SHA_2
+          - STARFIELD_SHA_1
+          - STARFIELD_SHA_2
+          type: string
+        deniedReason:
+          description: Only present if certificate order has been denied
+          type: string
+        progress:
+          description: Percentage of completion for certificate vetting
+          type: integer
+      required:
+      - certificateId
+      - commonName
+      - period
+      - type
+      - status
+      - createdAt
+      - contact
+    CertificateSummariesV2:
+      properties:
+        certificates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateSummaryV2'
+          description: List of certificates for a specified customer.
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - certificates
+      - pagination
+    CertificateOrganization:
+      properties:
+        address:
+          $ref: '#/components/schemas/CertificateAddress'
+          description: Organization presence address
+        assumedName:
+          description: Only for EVSSL. The DBA(does business as) name for the organization.
+          type: string
+        jurisdictionOfIncorporation:
+          $ref: '#/components/schemas/JurisdictionOfIncorporation'
+          description: Jurisdiction of Incorporation
+        name:
+          description: Name of organization that owns common name
+          type: string
+        phone:
+          description: Phone number for organization
+          type: string
+        registrationAgent:
+          description: Only for EVSSL.
+          type: string
+        registrationNumber:
+          description: Only for EVSSL.
+          type: string
+      required:
+      - name
+      - phone
+      - address
     Pagination:
       type: object
       properties:
@@ -228,18 +396,251 @@ components:
         total:
           type: integer
           description: Number of records available
-    CertificateSummariesV2:
+    Error:
       properties:
-        certificates:
-          type: array
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        fields:
+          description: List of the specific fields, and the errors found with their contents
           items:
-            $ref: '#/components/schemas/CertificateSummaryV2'
-          description: List of certificates for a specified customer.
-        pagination:
-          $ref: '#/components/schemas/Pagination'
+            $ref: '#/components/schemas/ErrorField'
+          type: array
+        message:
+          description: Description of the error
+          type: string
       required:
-      - certificates
-      - pagination
+      - code
+    DomainVerificationDetail:
+      allOf:
+      - $ref: '#/components/schemas/DomainVerificationSummary'
+      - type: object
+        properties:
+          certificateAuthorityAuthorization:
+            description: 'Contains information about the last Certificate Authority Authorization (CAA) Lookup details for the specified domain.
+
+
+              In order for a domain to be eligible to be included in the certificate, the entire domain hierarchy must be scanned for DNS CAA records, as outlined by RFC 6844.
+
+
+              The absence of any CAA records found in the domain hierarchy indicates that the domain may be included in the certificate. Alternatively, if CAA records are found when scanning the domain hierarchy, the domain may be included in the certificate as long as `godaddy.com` or `starfieldtech.com` is found in the DNS record value. However, if CAA records are found, yet `godaddy.com` or `starfieldtech.com` is not found in any CAA record''s value, then we must drop the domain from the certificate request.
+
+
+              In the case where there are repeated DNS errors when scanning the domain hierarchy for CAA records, thus ending in an unsuccessful scan, then the domain can still be included in the certificate provided the primary domain is not setup with DNSSEC. Conversely, if DNSSEC is found to be setup on the primary domain when scanning following repeated CAA failures, the domain must be dropped from the certificate request. Finally, if DNS errors persist to the point where a successful DNSSEC query could not be obtained, then the domain must be dropped from the certificate request.
+
+              '
+            type: object
+            properties:
+              status:
+                description: 'Returns the status of the CAA Lookup for the specified domain:
+
+                  * `PENDING` - The CAA lookup has not yet been attempted for the specified domain.
+
+                  * `REMOVED_DNS_ERROR` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNS errors then prevented the system from determining if DNSSEC was enabled for the specified domain, and it had to be removed from the certificate request.
+
+                  * `REMOVED_DNSSEC_ENABLED` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNSSEC was determined to be enabled for the specified domain, and it had to be removed from the certificate request.
+
+                  * `REMOVED_NOT_FOUND_CA` - CAA records were found during the CAA lookup for the speicified domain, but `godaddy.com` or `starfieldtech.com` was not listed as a value, thereby not allowing us to issue a certificate with this domain. The specified domain was removed from the certificate request.
+
+                  * `REMOVED_UNKNOWN_CRITICAL_TAG` - A CAA record was found during the CAA lookup with its Critical bit set, as outlined by RFC 6844, yet the Tag of the CAA record was not understood (as outlined by RFC 6844). The specified domain was removed from the certificate request.
+
+                  * `SUCCESS_CAA` - The CAA lookup was successful for the specified domain, and the domain can remain in the certificate request.
+
+                  * `SUCCESS_DNSSEC` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. The system detemined that DNSSEC was not enabled for the specified domain, so the domain is allowed to remain in the certificate request.
+
+                  '
+                enum:
+                - PENDING
+                - REMOVED_DNS_ERROR
+                - REMOVED_DNSSEC_ENABLED
+                - REMOVED_NOT_FOUND_CA
+                - REMOVED_UNKNOWN_CRITICAL_TAG
+                - SUCCESS_CAA
+                - SUCCESS_DNSSEC
+                type: string
+              queryPaths:
+                description: Details all the individual DNS paths that were scanned for CAA records for this domain, as detailed by RFC 6844. This element not only contains the parts determined from parsing the domain, but also any CNAME or DNAME targets specified by any of those individual parts.
+                type: array
+                items:
+                  type: string
+              recommendations:
+                description: Returns a list of fix recommendations if the query was unsuccessful, or if the domain was dropped from the certificate request, so that a subsequent certificate request with the specified domain will successfully pass its CAA scan.
+                type: array
+                items:
+                  description: '* `ADD_CA_TO_CAA` - The system found a CAA record in the domain hierarchy, but it did not find our CA in the record''s values. Add `godaddy.com` or `starfieldtech.com` to the CAA record''s values.
+
+                    * `CREATE_TARGET_DOMAIN_CAA` - Create a CAA record on the specified domain with `godaddy.com` or `starfieldtech.com` as the value. If the system finds a CAA record in the specified domain, it will stop scanning the domain hierarchy, thereby preventing potentially problematic parent domain paths from being scanned.
+
+                    * `DISABLE_DNSSEC` - Disable DNSSEC on the domain if CAA lookups fail and a DNSSEC scan is being used as the method for determining if the specified domain can remain in the certificate request.
+
+                    * `FIX_CRITICAL_TAG` - When setting the critical flag in a CAA record, you must ensure you''re using a well-known tag, per RFC 6844.
+
+                    * `VALIDATE_SOA` - Make sure all queryPaths for the specified domain have an SOA record pointing to a valid publicly-accessible nameserver and respond in a timely fashion.
+
+                    '
+                  enum:
+                  - ADD_CA_TO_CAA
+                  - CREATE_TARGET_DOMAIN_CAA
+                  - DISABLE_DNSSEC
+                  - FIX_CRITICAL_TAG
+                  - VALIDATE_SOA
+                  type: string
+              completedAt:
+                description: The date the certificate request completed processing.
+                format: iso-datetime
+                type: string
+    CertificateContact:
+      properties:
+        email:
+          description: Email address of requestor contact
+          type: string
+        jobTitle:
+          description: Only used for EVSSL. Job title of requestor contact
+          type: string
+        nameFirst:
+          description: First name of requestor contact
+          type: string
+        nameLast:
+          description: Last name of requestor contact
+          type: string
+        nameMiddle:
+          description: Middle initial of requestor contact
+          type: string
+        phone:
+          description: Phone number for requestor contact
+          type: string
+        suffix:
+          description: Suffix of requestor contact
+          type: string
+      required:
+      - nameFirst
+      - nameLast
+      - email
+      - phone
+    ErrorField:
+      properties:
+        code:
+          description: Short identifier for the error, suitable for indicating the specific error within client code
+          format: constant
+          type: string
+        message:
+          description: Description of the problem with the contents of the field
+          type: string
+        path:
+          description: JSONPath referring to the field within the submitted data containing an error
+          format: json-path
+          type: string
+      required:
+      - path
+      - code
+    CertificateSummaryV2:
+      properties:
+        certificateId:
+          description: The unique identifier of the certificate request.
+          type: string
+        commonName:
+          description: Common name for the certificate request.
+          format: domain
+          type: string
+        period:
+          description: Validity period of order. Specified in years.
+          type: integer
+        type:
+          description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
+          enum:
+          - DV_SSL
+          - DV_WILDCARD_SSL
+          - EV_SSL
+          - OV_CODE_SIGNING
+          - OV_DRIVER_SIGNING
+          - OV_SSL
+          - OV_WILDCARD_SSL
+          - UCC_DV_SSL
+          - UCC_EV_SSL
+          - UCC_OV_SSL
+          type: string
+        status:
+          description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\n  * `UNUSED` - Certificate in an error state\n"
+          enum:
+          - ISSUED
+          - CANCELED
+          - DENIED
+          - EXPIRED
+          - PENDING_ISSUANCE
+          - PENDING_REKEY
+          - PENDING_REVOCATION
+          - REVOKED
+          - UNUSED
+          type: string
+        createdAt:
+          description: Date that the certificate request was received.
+          format: iso-datetime
+          type: string
+        completedAt:
+          description: The date the certificate request completed processing (if issued or revoked).
+          format: iso-datetime
+          type: string
+        validEndAt:
+          description: The end date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        validStartAt:
+          description: The start date of the certificate's validity (if issued or revoked).
+          format: iso-datetime
+          type: string
+        revokedAt:
+          description: The revocation date of certificate (if revoked).
+          format: iso-datetime
+          type: string
+        renewalAvailable:
+          description: Only returned when a renewal is available.
+          type: boolean
+        serialNumber:
+          description: Serial number of certificate (if issued or revoked).
+          type: string
+        slotSize:
+          description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
+          enum:
+          - FIVE
+          - TEN
+          - FIFTEEN
+          - TWENTY
+          - THIRTY
+          - FOURTY
+          - FIFTY
+          - ONE_HUNDRED
+          type: string
+        subjectAlternativeNames:
+          description: Subject Alternative names (if UCC). Collection of subjectAlternativeNames to be included in certificate.
+          format: domain
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+      required:
+      - certificateId
+      - commonName
+      - period
+      - type
+      - createdAt
+      - status
+    ExternalAccountBinding:
+      properties:
+        directoryUrl:
+          description: ACME directory resource URL.
+          format: url
+          type: string
+        keyId:
+          description: EAB key identifier for the ACME account.
+          type: string
+        hmacKey:
+          description: EAB HMAC key for the ACME account
+          type: string
+      required:
+      - directoryUrl
+      - keyId
+      - hmacKey
     ErrorLimit:
       x-error-model: true
       additionalProperties: false
@@ -322,22 +723,6 @@ components:
       - modifiedAt
       - type
       - usage
-    ErrorField:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        message:
-          description: Description of the problem with the contents of the field
-          type: string
-        path:
-          description: JSONPath referring to the field within the submitted data containing an error
-          format: json-path
-          type: string
-      required:
-      - path
-      - code
     CertificateAddress:
       properties:
         address1:
@@ -603,404 +988,19 @@ components:
       required:
       - address1
       - country
-    JurisdictionOfIncorporation:
-      properties:
-        city:
-          type: string
-        country:
-          format: iso-country-code
-          type: string
-        county:
-          type: string
-        state:
-          type: string
-      required:
-      - country
-    Error:
-      properties:
-        code:
-          description: Short identifier for the error, suitable for indicating the specific error within client code
-          format: constant
-          type: string
-        fields:
-          description: List of the specific fields, and the errors found with their contents
-          items:
-            $ref: '#/components/schemas/ErrorField'
-          type: array
-        message:
-          description: Description of the error
-          type: string
-      required:
-      - code
-    CertificateOrganization:
-      properties:
-        address:
-          $ref: '#/components/schemas/CertificateAddress'
-          description: Organization presence address
-        assumedName:
-          description: Only for EVSSL. The DBA(does business as) name for the organization.
-          type: string
-        jurisdictionOfIncorporation:
-          $ref: '#/components/schemas/JurisdictionOfIncorporation'
-          description: Jurisdiction of Incorporation
-        name:
-          description: Name of organization that owns common name
-          type: string
-        phone:
-          description: Phone number for organization
-          type: string
-        registrationAgent:
-          description: Only for EVSSL.
-          type: string
-        registrationNumber:
-          description: Only for EVSSL.
-          type: string
-      required:
-      - name
-      - phone
-      - address
-    CertificateContact:
-      properties:
-        email:
-          description: Email address of requestor contact
-          type: string
-        jobTitle:
-          description: Only used for EVSSL. Job title of requestor contact
-          type: string
-        nameFirst:
-          description: First name of requestor contact
-          type: string
-        nameLast:
-          description: Last name of requestor contact
-          type: string
-        nameMiddle:
-          description: Middle initial of requestor contact
-          type: string
-        phone:
-          description: Phone number for requestor contact
-          type: string
-        suffix:
-          description: Suffix of requestor contact
-          type: string
-      required:
-      - nameFirst
-      - nameLast
-      - email
-      - phone
-    ExternalAccountBinding:
-      properties:
-        directoryUrl:
-          description: ACME directory resource URL.
-          format: url
-          type: string
-        keyId:
-          description: EAB key identifier for the ACME account.
-          type: string
-        hmacKey:
-          description: EAB HMAC key for the ACME account
-          type: string
-      required:
-      - directoryUrl
-      - keyId
-      - hmacKey
-    CertificateDetailV2:
-      properties:
-        certificateId:
-          description: The unique identifier of the certificate request. Only present if no errors returned
-          type: string
-        commonName:
-          description: Common name of certificate
-          format: domain
-          type: string
-        period:
-          description: Validity period of order. Specified in years
-          type: integer
-        type:
-          description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
-          enum:
-          - DV_SSL
-          - DV_WILDCARD_SSL
-          - EV_SSL
-          - OV_CODE_SIGNING
-          - OV_DRIVER_SIGNING
-          - OV_SSL
-          - OV_WILDCARD_SSL
-          - UCC_DV_SSL
-          - UCC_EV_SSL
-          - UCC_OV_SSL
-          type: string
-        status:
-          description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\\n  * `UNUSED` - Certificate in an error state\n"
-          enum:
-          - PENDING_ISSUANCE
-          - ISSUED
-          - REVOKED
-          - CANCELED
-          - DENIED
-          - PENDING_REVOCATION
-          - PENDING_REKEY
-          - UNUSED
-          - EXPIRED
-          type: string
-        createdAt:
-          description: The date the certificate was ordered.
-          format: iso-datetime
-          type: string
-        completedAt:
-          description: The date the certificate request completed processing.
-          format: iso-datetime
-          type: string
-        validEndAt:
-          description: The end date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-        validStartAt:
-          description: The start date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-        revokedAt:
-          description: The revocation date of certificate (if revoked).
-          format: iso-datetime
-          type: string
-        renewalAvailable:
-          description: Only returned when a renewal is available.
-          type: boolean
-        serialNumber:
-          description: Serial number of certificate (if issued or revoked)
-          type: string
-        serialNumberHex:
-          description: Hexadecmial format for Serial number of certificate(if issued or revoked)
-          type: string
-        slotSize:
-          description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
-          enum:
-          - FIVE
-          - TEN
-          - FIFTEEN
-          - TWENTY
-          - THIRTY
-          - FOURTY
-          - FIFTY
-          - ONE_HUNDRED
-          type: string
-        subjectAlternativeNames:
-          description: Subject Alternative names. Collection of subjectAlternativeNames to be included in certificate.
-          items:
-            format: domain
-            type: string
-          type: array
-          uniqueItems: true
-        contact:
-          $ref: '#/components/schemas/CertificateContact'
-        organization:
-          $ref: '#/components/schemas/CertificateOrganization'
-        csr:
-          description: Certificate signing request (if present) in PEM format
-          type: string
-        rootType:
-          description: "Root type: \n  * `GODADDY_SHA_1` - GoDaddy (Secure Hash Algorithm 1) SHA-1 root type\n  * `GODADDY_SHA_2` - GoDaddy (Secure Hash Algorithm 2) SHA-2 root type\n  * `STARFIELD_SHA_1` - Starfield SHA-1 root type\n  * `STARFIELD_SHA_2` - Starfield SHA-2 root type\n"
-          enum:
-          - GODADDY_SHA_1
-          - GODADDY_SHA_2
-          - STARFIELD_SHA_1
-          - STARFIELD_SHA_2
-          type: string
-        deniedReason:
-          description: Only present if certificate order has been denied
-          type: string
-        progress:
-          description: Percentage of completion for certificate vetting
-          type: integer
-      required:
-      - certificateId
-      - commonName
-      - period
-      - type
-      - status
-      - createdAt
-      - contact
-    CertificateSummaryV2:
-      properties:
-        certificateId:
-          description: The unique identifier of the certificate request.
-          type: string
-        commonName:
-          description: Common name for the certificate request.
-          format: domain
-          type: string
-        period:
-          description: Validity period of order. Specified in years.
-          type: integer
-        type:
-          description: "Certificate type: \n  * `DV_SSL` - (Domain Validated Secure Sockets Layer) SSL certificate validated using domain name only\n  * `DV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using domain name only\n  * `EV_SSL` - (Extended Validation) SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `OV_CODE_SIGNING` - Code signing SSL certificate used by software developers to digitally sign apps. Validated using organization information\n  * `OV_DRIVER_SIGNING` - Driver signing SSL certificate request used by software developers to digitally sign secure code for Windows hardware drivers. Validated using organization information\n  * `OV_SSL` - SSL certificate validated using organization information and domain name\n  * `OV_WILDCARD_SSL` - SSL certificate containing subdomains which is validated using organization information and domain name\n  * `UCC_DV_SSL` - (Unified Communication Certificate) Multi domain SSL certificate validated using domain name only\n  * `UCC_EV_SSL` - Multi domain SSL certificate validated using organization information, domain name, business legal status, and other factors\n  * `UCC_OV_SSL` - Multi domain SSL certificate validated using organization information and domain name\n"
-          enum:
-          - DV_SSL
-          - DV_WILDCARD_SSL
-          - EV_SSL
-          - OV_CODE_SIGNING
-          - OV_DRIVER_SIGNING
-          - OV_SSL
-          - OV_WILDCARD_SSL
-          - UCC_DV_SSL
-          - UCC_EV_SSL
-          - UCC_OV_SSL
-          type: string
-        status:
-          description: "Certificate status (if issued or revoked): \n  * `CANCELED` - Certificate request was canceled by customer\n  * `DENIED` - Certificate request was denied by customer\n  * `EXPIRED` - Issued certificate has exceeded the valid end date\n  * `ISSUED` - Certificate has been issued and is within validity period\n  * `PENDING_ISSUANCE` - Certificate request has completed domain verification and is in the process of being issued\n  * `PENDING_REKEY` - Previously issued certificate was rekeyed by customer and is in the process of being reissued\n  * `PENDING_REVOCATION` - Previously issued certificate is in the process of being revoked\n  * `REVOKED` - Issued certificate has been revoked\n  * `UNUSED` - Certificate in an error state\n"
-          enum:
-          - ISSUED
-          - CANCELED
-          - DENIED
-          - EXPIRED
-          - PENDING_ISSUANCE
-          - PENDING_REKEY
-          - PENDING_REVOCATION
-          - REVOKED
-          - UNUSED
-          type: string
-        createdAt:
-          description: Date that the certificate request was received.
-          format: iso-datetime
-          type: string
-        completedAt:
-          description: The date the certificate request completed processing (if issued or revoked).
-          format: iso-datetime
-          type: string
-        validEndAt:
-          description: The end date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-        validStartAt:
-          description: The start date of the certificate's validity (if issued or revoked).
-          format: iso-datetime
-          type: string
-        revokedAt:
-          description: The revocation date of certificate (if revoked).
-          format: iso-datetime
-          type: string
-        renewalAvailable:
-          description: Only returned when a renewal is available.
-          type: boolean
-        serialNumber:
-          description: Serial number of certificate (if issued or revoked).
-          type: string
-        slotSize:
-          description: "Number of subject alternative names (SAN) to be included in certificate (if UCC): \n  * `FIVE` - Five slot UCC request\n  * `TEN` - Ten slot UCC request\n  * `FIFTEEN` - Fifteen slot UCC request\n  * `TWENTY` - Twenty slot UCC request\n  * `THIRTY` - Thirty slot UCC request\n  * `FOURTY` - Fourty slot UCC request\n  * `FIFTY` - Fifty slot UCC request\n  * `ONE_HUNDRED` - One hundred slot UCC request\n"
-          enum:
-          - FIVE
-          - TEN
-          - FIFTEEN
-          - TWENTY
-          - THIRTY
-          - FOURTY
-          - FIFTY
-          - ONE_HUNDRED
-          type: string
-        subjectAlternativeNames:
-          description: Subject Alternative names (if UCC). Collection of subjectAlternativeNames to be included in certificate.
-          format: domain
-          items:
-            type: string
-          type: array
-          uniqueItems: true
-      required:
-      - certificateId
-      - commonName
-      - period
-      - type
-      - createdAt
-      - status
-    DomainVerificationDetail:
-      allOf:
-      - $ref: '#/components/schemas/DomainVerificationSummary'
-      - type: object
-        properties:
-          certificateAuthorityAuthorization:
-            description: 'Contains information about the last Certificate Authority Authorization (CAA) Lookup details for the specified domain.
-
-
-              In order for a domain to be eligible to be included in the certificate, the entire domain hierarchy must be scanned for DNS CAA records, as outlined by RFC 6844.
-
-
-              The absence of any CAA records found in the domain hierarchy indicates that the domain may be included in the certificate. Alternatively, if CAA records are found when scanning the domain hierarchy, the domain may be included in the certificate as long as `godaddy.com` or `starfieldtech.com` is found in the DNS record value. However, if CAA records are found, yet `godaddy.com` or `starfieldtech.com` is not found in any CAA record''s value, then we must drop the domain from the certificate request.
-
-
-              In the case where there are repeated DNS errors when scanning the domain hierarchy for CAA records, thus ending in an unsuccessful scan, then the domain can still be included in the certificate provided the primary domain is not setup with DNSSEC. Conversely, if DNSSEC is found to be setup on the primary domain when scanning following repeated CAA failures, the domain must be dropped from the certificate request. Finally, if DNS errors persist to the point where a successful DNSSEC query could not be obtained, then the domain must be dropped from the certificate request.
-
-              '
-            type: object
-            properties:
-              status:
-                description: 'Returns the status of the CAA Lookup for the specified domain:
-
-                  * `PENDING` - The CAA lookup has not yet been attempted for the specified domain.
-
-                  * `REMOVED_DNS_ERROR` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNS errors then prevented the system from determining if DNSSEC was enabled for the specified domain, and it had to be removed from the certificate request.
-
-                  * `REMOVED_DNSSEC_ENABLED` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. DNSSEC was determined to be enabled for the specified domain, and it had to be removed from the certificate request.
-
-                  * `REMOVED_NOT_FOUND_CA` - CAA records were found during the CAA lookup for the speicified domain, but `godaddy.com` or `starfieldtech.com` was not listed as a value, thereby not allowing us to issue a certificate with this domain. The specified domain was removed from the certificate request.
-
-                  * `REMOVED_UNKNOWN_CRITICAL_TAG` - A CAA record was found during the CAA lookup with its Critical bit set, as outlined by RFC 6844, yet the Tag of the CAA record was not understood (as outlined by RFC 6844). The specified domain was removed from the certificate request.
-
-                  * `SUCCESS_CAA` - The CAA lookup was successful for the specified domain, and the domain can remain in the certificate request.
-
-                  * `SUCCESS_DNSSEC` - Repeated errors occurred while scanning for CAA records, thereby resulting in a DNSSEC scan. The system detemined that DNSSEC was not enabled for the specified domain, so the domain is allowed to remain in the certificate request.
-
-                  '
-                enum:
-                - PENDING
-                - REMOVED_DNS_ERROR
-                - REMOVED_DNSSEC_ENABLED
-                - REMOVED_NOT_FOUND_CA
-                - REMOVED_UNKNOWN_CRITICAL_TAG
-                - SUCCESS_CAA
-                - SUCCESS_DNSSEC
-                type: string
-              queryPaths:
-                description: Details all the individual DNS paths that were scanned for CAA records for this domain, as detailed by RFC 6844. This element not only contains the parts determined from parsing the domain, but also any CNAME or DNAME targets specified by any of those individual parts.
-                type: array
-                items:
-                  type: string
-              recommendations:
-                description: Returns a list of fix recommendations if the query was unsuccessful, or if the domain was dropped from the certificate request, so that a subsequent certificate request with the specified domain will successfully pass its CAA scan.
-                type: array
-                items:
-                  description: '* `ADD_CA_TO_CAA` - The system found a CAA record in the domain hierarchy, but it did not find our CA in the record''s values. Add `godaddy.com` or `starfieldtech.com` to the CAA record''s values.
-
-                    * `CREATE_TARGET_DOMAIN_CAA` - Create a CAA record on the specified domain with `godaddy.com` or `starfieldtech.com` as the value. If the system finds a CAA record in the specified domain, it will stop scanning the domain hierarchy, thereby preventing potentially problematic parent domain paths from being scanned.
-
-                    * `DISABLE_DNSSEC` - Disable DNSSEC on the domain if CAA lookups fail and a DNSSEC scan is being used as the method for determining if the specified domain can remain in the certificate request.
-
-                    * `FIX_CRITICAL_TAG` - When setting the critical flag in a CAA record, you must ensure you''re using a well-known tag, per RFC 6844.
-
-                    * `VALIDATE_SOA` - Make sure all queryPaths for the specified domain have an SOA record pointing to a valid publicly-accessible nameserver and respond in a timely fashion.
-
-                    '
-                  enum:
-                  - ADD_CA_TO_CAA
-                  - CREATE_TARGET_DOMAIN_CAA
-                  - DISABLE_DNSSEC
-                  - FIX_CRITICAL_TAG
-                  - VALIDATE_SOA
-                  type: string
-              completedAt:
-                description: The date the certificate request completed processing.
-                format: iso-datetime
-                type: string
   responses:
-    '500':
-      description: Internal server error
+    '403':
+      description: Authenticated user is not allowed access
       x-error-codes:
-      - INTERNAL_SERVER_ERROR
+      - ACCESS_DENIED
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    '404':
-      description: Resource not found
+    '401':
+      description: Authentication info not sent or is invalid
       x-error-codes:
-      - NOT_FOUND
+      - UNAUTHORIZED
       content:
         application/json:
           schema:
@@ -1013,26 +1013,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorLimit'
-    '401':
-      description: Authentication info not sent or is invalid
-      x-error-codes:
-      - UNAUTHORIZED
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: Authenticated user is not allowed access
-      x-error-codes:
-      - ACCESS_DENIED
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     '422':
       description: Application-specific request error
       x-error-codes:
       - INVALID_INPUT
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '404':
+      description: Resource not found
+      x-error-codes:
+      - NOT_FOUND
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: Internal server error
+      x-error-codes:
+      - INTERNAL_SERVER_ERROR
       content:
         application/json:
           schema:
