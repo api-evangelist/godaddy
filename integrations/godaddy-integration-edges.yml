@@ -19,6 +19,10 @@ checked:
 - stripe/integrations/stripe-integration-edges.yml
 - wordpress/integrations/wordpress-integration-edges.yml
 - zoom/integrations/zoom-integration-edges.yml
+- https://manrs.org/netops/participants/
+- https://www.peeringdb.com/api/fac
+- https://www.peeringdb.com/api/ix
+- https://www.peeringdb.com/api/net
 marketplace_apps: []
 edges:
 - partner_name: GitHub Marketplace (actions)
@@ -282,5 +286,38 @@ edges:
     builder: Pipedream repo (component)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: PeeringDB (interconnection register)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.peeringdb.com/net/430
+  category: network interconnection register
+  contract_reference:
+    register: PeeringDB (peeringdb.com/api net, ix, fac, org)
+    standard: null
+    spec_file: null
+    role: peeringdb-network
+    registered_name: GoDaddy
+    register_id: https://www.peeringdb.com/net/430
+    matched_domain: godaddy.com
+    matched_by: domain+name-among-holders
+    asns:
+    - 26496
+    - 34440
+    - 44273
+    info_types:
+    - Content
+    ix_presence: 4
+    exchanges_operated: []
+    facilities_operated: 0
+    signal_note: 'participation only: PeeringDB is self-registered by network operators; ASNs, IX presence and facility
+      counts are context, never counted'
+    detected_by: sweep-network-edge.py
+    detected: '2026-10-20'
+  detected_by: sweep-network-edge.py
+  first_seen: '2026-10-20'
 source:
 - https://github.com/marketplace?type=actions
