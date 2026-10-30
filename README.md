@@ -1,4 +1,4 @@
-# GoDaddy (godaddy)
+# GoDaddy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,233 +66,156 @@
 
 GoDaddy is a domain registrar and web hosting company offering REST APIs for domain registration, DNS management, certificates, shopper accounts, subscriptions, aftermarket auctions, and abuse reporting.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/apis.yml)
+**Areas:** Aftermarket · Certificates · DNS · Domains · Hosting · Registrar
 
-## Scope
+## GoDaddy on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for GoDaddy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/godaddy/](https://apis.io/providers/godaddy/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (13)
 
-- Aftermarket
-- Certificates
-- DNS
-- Domains
-- Hosting
-- Registrar
+- [GoDaddy Actions API](https://apis.io/apis/godaddy/godaddy-actions-api/) — The Actions API from GoDaddy — 2 operation(s) for actions.
+- [GoDaddy Contacts API](https://apis.io/apis/godaddy/godaddy-contacts-api/) — The Contacts API from GoDaddy — 1 operation(s) for contacts.
+- [GoDaddy Domains API](https://apis.io/apis/godaddy/godaddy-domains-api/) — The Domains API from GoDaddy — 24 operation(s) for domains.
+- [GoDaddy Expiry Auctions: Registrar Partners API](https://apis.io/apis/godaddy/godaddy-expiry-auctions-registrar-partners-api/) — API for auction-related actions exclusive to whitelisted partners.
+- [GoDaddy Notifications API](https://apis.io/apis/godaddy/godaddy-notifications-api/) — The Notifications API from GoDaddy — 4 operation(s) for notifications.
+- [GoDaddy Abuse API](https://apis.io/apis/godaddy/godaddy-abuse-api/) — The Abuse API from GoDaddy — 4 operation(s) for abuse.
+- [GoDaddy Agreements API](https://apis.io/apis/godaddy/godaddy-agreements-api/) — The Agreements API from GoDaddy — 1 operation(s) for agreements.
+- [GoDaddy Certificates API](https://apis.io/apis/godaddy/godaddy-certificates-api/) — The Certificates API from GoDaddy — 21 operation(s) for certificates.
+- [GoDaddy Countries API](https://apis.io/apis/godaddy/godaddy-countries-api/) — The Countries API from GoDaddy — 2 operation(s) for countries.
+- [GoDaddy Customers API](https://apis.io/apis/godaddy/godaddy-customers-api/) — The Customers API from GoDaddy — 5 operation(s) for customers.
+- [GoDaddy Orders API](https://apis.io/apis/godaddy/godaddy-orders-api/) — The Orders API from GoDaddy — 2 operation(s) for orders.
+- [GoDaddy Shoppers API](https://apis.io/apis/godaddy/godaddy-shoppers-api/) — The Shoppers API from GoDaddy — 4 operation(s) for shoppers.
+- [GoDaddy Subscriptions API](https://apis.io/apis/godaddy/godaddy-subscriptions-api/) — The Subscriptions API from GoDaddy — 3 operation(s) for subscriptions.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-16
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### GoDaddy Domains API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Purchase, renew, transfer, and manage domains, DNS records, contacts, and privacy settings programmatically.
+- [Godaddy Agentic Access](https://apis.io/agentic-access/godaddy/godaddy-agentic-access/)
 
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/domains](https://developer.godaddy.com/doc/endpoint/domains)
-- **Base URL:** `https://api.godaddy.com`
+#### JSON Structure (1)
 
-#### Tags
+Data models expressed in JSON Structure.
 
-- Domains
-- DNS
-- Registrar
+- [Godaddy Structure](https://apis.io/json-structure/godaddy/godaddy-structure/)
 
-#### Properties
+#### Vocabulary (1)
 
-- [Documentation](https://developer.godaddy.com/doc/endpoint/domains)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-domains-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+The provider's domain terms, defined.
 
-### GoDaddy Certificates API
+- [GoDaddy Domain Vocabulary](https://apis.io/vocabularies/godaddy/godaddy-vocabulary/)
 
-Issue, validate, renew, and manage SSL/TLS certificates for domains.
+#### Collections (16)
 
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/certificates](https://developer.godaddy.com/doc/endpoint/certificates)
-- **Base URL:** `https://api.godaddy.com`
+Postman and Open Collection request collections.
 
-#### Tags
+- [Abuse API](https://apis.io/collections/godaddy/open-godaddy-abuse/)
+- [Abuse Actions API](https://apis.io/collections/godaddy/open-godaddy-actions-api/)
+- [Aftermarket API](https://apis.io/collections/godaddy/open-godaddy-aftermarket/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-agreements/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-certificates/)
+- [Abuse Actions Contacts API](https://apis.io/collections/godaddy/open-godaddy-contacts-api/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-countries/)
+- [Domains API](https://apis.io/collections/godaddy/open-godaddy-domains/)
+- [Abuse Actions Domains API](https://apis.io/collections/godaddy/open-godaddy-domains-api/)
+- [Abuse Actions Expiry Auctions: Registrar Partners API](https://apis.io/collections/godaddy/open-godaddy-expiry-auctions-registrar-partners-api/)
+- [Abuse Actions Notifications API](https://apis.io/collections/godaddy/open-godaddy-notifications-api/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-orders/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-shoppers/)
+- [API Collection](https://apis.io/collections/godaddy/open-godaddy-subscriptions/)
+- [Abuse Actions v1 API](https://apis.io/collections/godaddy/open-godaddy-v1-api/)
+- [Abuse Actions v2 API](https://apis.io/collections/godaddy/open-godaddy-v2-api/)
 
-- Certificates
-- SSL
+#### Security (1)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://developer.godaddy.com/doc/endpoint/certificates)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-certificates-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Godaddy Domain Security](https://apis.io/security/godaddy/godaddy-domain-security/)
 
-### GoDaddy Shoppers API
+#### Plans and pricing (1)
 
-Create, retrieve, update, and delete shopper accounts and subaccounts.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/shoppers](https://developer.godaddy.com/doc/endpoint/shoppers)
-- **Base URL:** `https://api.godaddy.com`
+- [Godaddy Plans Pricing](https://apis.io/plans/godaddy/godaddy-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Shoppers
-- Accounts
+Published request limits.
 
-#### Properties
+- [Godaddy Rate Limits](https://apis.io/rate-limits/godaddy/godaddy-rate-limits/)
 
-- [Documentation](https://developer.godaddy.com/doc/endpoint/shoppers)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-shoppers-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### FinOps (1)
 
-### GoDaddy Subscriptions API
+What the API costs to run, by operation.
 
-Manage subscription products including listing, canceling, and updating subscription billing settings.
+- [Godaddy Finops](https://apis.io/finops/godaddy/godaddy-finops/)
 
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/subscriptions](https://developer.godaddy.com/doc/endpoint/subscriptions)
-- **Base URL:** `https://api.godaddy.com`
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Subscriptions
-- Billing
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/subscriptions)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-subscriptions-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GoDaddy Orders API
-
-Retrieve order history, line items, and order details for shopper purchases.
-
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/orders](https://developer.godaddy.com/doc/endpoint/orders)
-- **Base URL:** `https://api.godaddy.com`
-
-#### Tags
-
-- Orders
-- Billing
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/orders)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-orders-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GoDaddy Aftermarket API
-
-List, manage, and remove domains for sale on the GoDaddy aftermarket auction platform.
-
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/aftermarket](https://developer.godaddy.com/doc/endpoint/aftermarket)
-- **Base URL:** `https://api.godaddy.com`
-
-#### Tags
-
-- Aftermarket
-- Auctions
-- Domains
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/aftermarket)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-aftermarket-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GoDaddy Abuse API
-
-Submit and track abuse reports related to domains and hosted content.
-
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/abuse](https://developer.godaddy.com/doc/endpoint/abuse)
-- **Base URL:** `https://api.godaddy.com`
-
-#### Tags
-
-- Abuse
-- Trust and Safety
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/abuse)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-abuse-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GoDaddy Agreements API
-
-Retrieve legal agreements required for purchasing or registering products.
-
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/agreements](https://developer.godaddy.com/doc/endpoint/agreements)
-- **Base URL:** `https://api.godaddy.com`
-
-#### Tags
-
-- Agreements
-- Legal
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/agreements)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-agreements-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GoDaddy Countries API
-
-Retrieve supported countries, states, and markets used across GoDaddy APIs.
-
-- **Human URL:** [https://developer.godaddy.com/doc/endpoint/countries](https://developer.godaddy.com/doc/endpoint/countries)
-- **Base URL:** `https://api.godaddy.com`
-
-#### Tags
-
-- Countries
-- Reference Data
-
-#### Properties
-
-- [Documentation](https://developer.godaddy.com/doc/endpoint/countries)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/godaddy/refs/heads/main/openapi/godaddy-countries-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/godaddy-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/godaddy-aftermarket.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/godaddy-aftermarket.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/godaddy)
-- [LinkedIn](https://www.linkedin.com/company/godaddy)
 - [Website](https://www.godaddy.com/)
 - [Documentation](https://developer.godaddy.com/doc)
-- [Getting Started](https://developer.godaddy.com/getstarted)
-- [Terms of Service](https://www.godaddy.com/legal/agreements/developer-api-terms)
+- [Getting started](https://developer.godaddy.com/getstarted)
 - [Support](https://developer.godaddy.com/support)
-- [L L Ms Txt](https://developer.godaddy.com/llms.txt)
+- [Blog](https://www.godaddy.com/resources/feed)
+- [Terms of service](https://www.godaddy.com/legal/agreements/developer-api-terms)
+- [GitHub](https://github.com/godaddy)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 28.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 40.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 15.8 |
+
+**Agent readiness 22.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 9.8** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/godaddy/](https://apis.io/providers/godaddy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for GoDaddy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/godaddy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
